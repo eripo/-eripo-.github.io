@@ -1,0 +1,17 @@
+.scroll {
+    margin: auto;
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 300px;
+  }
+  .box {
+    display: inline-block;
+    height: 200px;
+    width: 200px;
+  }
+  .green {
+    background-color: #3cb371;
+  }
+  .orange {
+    background-color: #ffbf7f;
+  }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+   <head>
+      <meta charset = "utf-8">
+      <title>jQuery : Drag Scroll | 独学 Webプログラミング! - YWORK</title>
+      <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+      <style>
+         #idAnswer{
+            width: 300px;
+            padding: 10px;
+            border: 2px;
+            border: solid;
+            white-space: nowrap;   /*テキストの折り返し禁止*/
+         }
+      </style>
+   </head>
+
+   <body>
+        
+      <div id="idAnswer">
+         <p>
+            こんにちは。
+            このサイト名はYWORKと言います。<br>
+            読み方はワイワークです。<br>
+            現在は独学者向けのWebプログラミングのヒントや解決に繋がる情報を発信しています。<br>
+            Web系はもとより、それ以外の他言語も公開を目指しますので気長に末永くよろしくお願い致します。
+         </p>
+      </div>
+
+      <script type="text/javascript">
+         document.open();
+         /*jquery*/
+         (function(){
+            $.fn.dragScroll = function(){
+               let target = this;
+               $(this).mousedown(function (event){
+                  $(this)
+                  .data('down', true)
+                  .data('x', event.clientX)
+                  .data('y', event.clientY)
+                  .data('scrollLeft', this.scrollLeft)
+                  .data('scrollTop', this.scrollTop);
+                  return false;
+               }).css({
+                  'overflow': 'hidden', // 現在スクロールバー非表示。表示の場合'scroll'を設定して下さい
+                  'cursor': 'auto'
+               });
+               // ウィンドウから外れてもイベント実行
+               $(document).mousemove(function (event){
+                  if ($(target).data('down') == true){
+                  // スクロール
+                  target.scrollLeft($(target).data('scrollLeft') + $(target).data('x') - event.clientX);
+                  target.scrollTop($(target).data('scrollTop') + $(target).data('y') - event.clientY);
+                  return false; // 文字列選択を抑止
+                  }
+               }).mouseup(function (event){
+                  $(target).data('down', false);
+               });
+               return this;
+            }
+         })(jQuery);
+         $(document).ready(function () {$('#idAnswer').dragScroll();});//Your Settings ID or Class
+         document.close();
+      </script>
+   </body>
+</html>
+
