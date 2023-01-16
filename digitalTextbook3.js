@@ -62,16 +62,19 @@ $(function() {
 
 
 	// モード切り替え
-	$('#pen-mode').click(function(e) {
+	$('#pen-mode').click(function(e) {	//ペンモードに切り替えるボタンが押されたとき発動
 		penFlag = 1;
 		console.log(penFlag);
 		
 		console.log("かきくけこ");
 
+		console.log($canvas);
+
 		// クリック時
 		// penFlagが1ならペンモードに、penFlagが0なら描かれない
 		$('canvas').pointerdown(function(e) {
 			// console.log(penFlag);
+			
 			if(penFlag===0){
 				flag = false;
 

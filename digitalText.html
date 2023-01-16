@@ -1,0 +1,77 @@
+<!-- デジタル教科書 -->
+<!-- 各端末のディスプレイサイズに合わせて変わるようにしたい -->
+<!-- スライド1枚目のみcanvasで、書き込み可能。モード切替ボタン -->
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+
+    <!-- <link rel="stylesheet" href="digitalTextbook.css"> -->
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="digitalTextbook3.js"></script>
+
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="css/slick.css"/>
+ 	<link rel="stylesheet" type="text/css" href="css/slick-theme.css"/>
+	<link rel="stylesheet" type="text/css" href="css/common.css"/>
+	
+
+	<!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css"> -->
+	
+	
+</head>
+
+<body>
+	<div class="slide-wrap">
+	<ul class="slider">
+		<li><canvas
+			id="draw-area1"
+			width="900px"
+			height="600px"
+			style="border: 1px solid #000000;"
+			class="slide-content">
+		</canvas>
+		</li>
+
+		<li><canvas
+			id="draw-area2"
+			width="900px"
+			height="600px"
+			style="border: 1px solid #000000;"
+			class="slide-content">
+		</canvas>
+		</li>
+		<li><img alt="画像2" src="Textbook_page3.png" /></li>
+
+
+		<!-- <canvas width="1035px" height="730px"> -->
+		
+		<!-- <span><img alt="画像1" src="Textbook_page1.png" /></span> -->
+		
+
+		<!-- <span><img alt="画像2" src="Textbook_page2.png" /></span> -->
+		<!-- <span><img alt="画像3" src="Textbook_page3.png" /></span> -->
+		
+	</ul>
+	</div>
+
+	<div>
+		<button id="pen-mode">ペン</button>
+		<button id="turn-mode">ページめくり</button>
+		<button id="clear">全消し</button>
+	</div>
+	
+	<!-- JS -->
+
+ 	<script type="text/javascript" src="js/slick.min.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<!-- <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick.min.js"></script>
+=======
+  	<script type="text/javascript" src="js/slick.min.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+<!-- 	<script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.0/slick/slick.min.js"></script>
+>>>>>>> refs/remotes/origin/main
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> -->
+</body>
