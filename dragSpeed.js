@@ -6,6 +6,13 @@
 
 /*******************************/
 
+/* 変数リスト */
+// v_x   x方向の速さ
+// v_y   y方向の速さ
+// v     xy合成成分の速さ
+
+
+
 
 // 関数を実行し、クリックした座標をコンソールに出力
 // 参考：https://note.com/amanemi/n/nfbf0c99e82a1
@@ -30,8 +37,8 @@ var str = "";
 str += "v_x" + "," + "v_y" + "," + "v" + "\n";
 
 // 関数：速さを求める
-function spcount() {
-  if (point == false) { //pointに値が入ってなかったら、速さ(0,0)
+function speedCount() {
+  if (point == false) { // pointに値が入ってなかったら、速さ(0,0)
     vpoint = Array(0, 0);
   } else {
     if (dpoint0 == false) {
@@ -40,44 +47,59 @@ function spcount() {
 
     v_x = point[0] - dpoint0[0];
     v_y = point[1] - dpoint0[1];
-    v = Math.sqrt(v_x**2 + v_y**2); //普通の速さ
+    // 普通の速さ
+    v = Math.sqrt(v_x**2 + v_y**2);
     vpoint = Array(v_x, v_y);
-    $("#box").text(vpoint[0] + ":" + vpoint[1]);  //ボックス内に(x方向の速さ：y方向の速さ)
+    // ボックス内に(x方向の速さ：y方向の速さ)
+    $("#box").text(vpoint[0] + ":" + vpoint[1]);
     str += vpoint[0] + "," + vpoint[1] + "," + v + "\n";
     dpoint0 = point;
   }
-  // 100ミリ秒ごとにspcount関数を実行する。
-  setTimeout(function() {
-    spcount();
-  }, 100);
+
+  // 100ミリ秒ごとにspeedCount関数を実行する。
+  setTimeout(
+    function() {
+      speedCount();
+    }, 100
+  );
+}
+
+function downroad() {
+  // csvファイルへの書き出し
+  var blob = new Blob([str],{type:"text/csv"}); //配列に上記の文字列(str)を設定
+  var link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = "test.csv";
+  link.click();
 }
 
 
-// spcount実行部
+// speedCount実行部
 $(function() {
-  spcount();
+  speedCount();
 });
 
 
 // ドラッグしてるかどうかを判定し、ドラッグ中であればその動きに合わせて四角を動かす関数
 // 参考：https://note.com/amanemi/n/nf7fb79e5e578
 $(function() {
-  $(document).on("mousedown touchstart", "#box", function() { //マウスダウンでid=boxにclass=moveを付与
+  // マウスダウン　でid=boxにclass=moveを付与
+  $(document).on("mousedown touchstart", "#box", function() {
     $("#box").addClass("move");
+
+    str += "MouseDown\n";
   });
-  $(document).on("mouseup mouseleave touchend", function() { //マウスアップでid=boxにclass=moveを取り外ず
+
+  // マウスアップ　でid=boxのclass=moveを取り外す
+  $(document).on("mouseup mouseleave touchend", function() {
     $("#box").removeClass("move");
     point = false;  //nullやNaN,undefinedなどが入ってたらfalse。
 
-    // csvファイルへの書き出し
-    var blob =new Blob([str],{type:"text/csv"}); //配列に上記の文字列(str)を設定
-    var link =document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download ="test.csv";
-    link.click();
-
+    str += "MouseLeave\n";
 
   });
+
+  // ドラッグ操作中
   $(document).on("mousemove touchmove", function(e) {
     if ($("#box").hasClass("move")) {
       var point0 = getCursor(e);  //クリックした点の座標(x,y)

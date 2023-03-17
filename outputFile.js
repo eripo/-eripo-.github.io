@@ -30,28 +30,3 @@ link.href = URL.createObjectURL(blob);
 link.download ="test.csv";
 link.click();
 
-
-
-/* WScriptはブラウザで実行できるものではない！ */
-// // Excel内をパース
-// var CSVStr = "";
-// var r = 0;
-// var vpoint = Array(0, 0);
-// while(r<30) {
-//     var ary = new Array;
-//     var c = 0;
-//         vpoint[0] = r;
-//         vpoint[1] = r+1;
-//         var str = vpoint[0] + ":" + vpoint[1];
-//         console.log(vpoint[0] + ":" + vpoint[1] + "\n");
-//         ary.push(str);
-//     CSVStr += ary.join(",") + "\n";
-//     r++;
-// }
-
-// // ファイルに書き込み
-// var fs = WScript.CreateObject("Scripting.FileSystemObject");
-// fs.CreateTextFile("table.csv");
-// var file = fs.OpenTextFile("table.csv", 2, true,0);
-// file.Write(CSVStr);
-// file.Close();
