@@ -1,5 +1,9 @@
 /* digitalTextbook CSS */
 
+#myCanvas {
+    background-color: aliceblue;
+}
+
 .swiper {
 	/* width: 572px;
 	height: 404px;

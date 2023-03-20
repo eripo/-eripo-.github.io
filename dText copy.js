@@ -1,15 +1,11 @@
-// 2023年3月18日～
-
 document.addEventListener('DOMContentLoaded', function() {
 
-
+	/* canvas関係 */
 	const canvas = document.getElementById("myCanvas");
 	const context = canvas.getContext("2d");
 
-	
-
 	context.rect(0, 0, canvas.width, canvas.height);
-	context.fillStyle = "#fff";
+	context.fillStyle = "#fff";	// 白
 	context.fill();
 
 	// 描画線の設定
@@ -36,13 +32,35 @@ document.addEventListener('DOMContentLoaded', function() {
 		canvas.removeEventListener("mousemove", onPaint, false);
 	})
 
-
 	const onPaint = function() {
 		context.lineTo(mouse.x, mouse.y);
 		context.stroke();
 	}
 
+	
+
+	/* スライダー関係 */
+	const swiper = new Swiper('.swiper', {
+	  
+		// If we need pagination
+		pagination: {
+		  el: '.swiper-pagination',
+		},
+	  
+		// Navigation arrows
+		navigation: {
+		  nextEl: '.swiper-button-next',
+		  prevEl: '.swiper-button-prev',
+		},
+	  
+		// And if we need scrollbar
+		scrollbar: {
+		  el: '.swiper-scrollbar',
+		},
+	});
 
 
-});
+	
 
+	
+})
