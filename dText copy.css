@@ -1,7 +1,7 @@
 /* digitalTextbook CSS */
 
 #myCanvas {
-    background-color: aliceblue;
+    background-image: url(Textbook_page1.png);
 }
 
 .swiper {
@@ -40,7 +40,7 @@
   
   .swiper-slide:nth-child(3n + 1) {
 	/*1、4、7、3n+1枚目の背景色 */
-	background-color: #de4439;
+	/* background-color: #de4439; */
 	background-image: url(Textbook_page1.png);
   }
   
