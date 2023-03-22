@@ -64,7 +64,7 @@ function speedCount() {
   );
 }
 
-function downroad() {
+function download() {
   // csvファイルへの書き出し
   var blob = new Blob([str],{type:"text/csv"}); //配列に上記の文字列(str)を設定
   var link = document.createElement('a');
@@ -116,6 +116,19 @@ $(function() {
       point = point0; //今回の座標を記録
     }
   });
+
+  $('#btn_dl').on('click', function() {
+    download();
+  });
+
+  $('#btn_pen').on('click', function() {
+    str += "Mode: pen\n";
+  });
+
+  $('#btn_page').on('click', function() {
+    str += "Mode: page\n";
+  });
+
 });
 
 
