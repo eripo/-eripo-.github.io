@@ -3,7 +3,7 @@
 // ページの読み込みが完了したらコールバック関数が呼ばれる
 // ※コールバック: 第2引数の無名関数(=関数名が省略された関数)
 window.addEventListener('load', () => {
-	flag = 1;	//flag=1のときペン、flag=0のときページめくり
+	flag = 0;	//flag=1のときペン、flag=0のときページめくり
 	
 		// var w = $('.wrapper').width();
 		// var h = $('.wrapper').height();
@@ -47,11 +47,7 @@ window.addEventListener('load', () => {
 			// ctx2.drawImage(background2,0,0,w2, h2 * w2 / w2);
 		}
 
-	if(flag === 1) {
-		
-		
-
-	
+	if(flag === 1) {	
 
 		// 直前のマウスのcanvas上のx座標とy座標を記録する
 		const lastPosition = { x: null, y: null };
