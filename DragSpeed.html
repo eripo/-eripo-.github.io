@@ -1,26 +1,24 @@
-<!-- ドラッグ速度を求めるプログラム　下記を含む -->
-    <!-- ドラッグしてるかどうかを判定し、ドラッグ中であればその動きに合わせて四角を動かす関数 -->
-    <!-- クリックした座標を求める関数 -->
-
-<head>
-    <!-- プラグイン系 -->
-    <script src="js/jquery-3.6.1.min.js"></script>
-
-    <!-- 自分のやつ -->
-    <link rel="stylesheet" type="text/css" href="dragSpeed.css"/>
-    <script type="text/javascript" src="dragSpeed.js"></script>
-</head>
-
-<!-- ボタン押すとcsvダウンロード -->
-<body>
-    
-    
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>jQueryでドラッグ可能な四角形</title>
+    <style>
+      #box {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        position: absolute;
+        top: 100px;
+        left: 100px;
+        cursor: move;
+      }
+    </style>
+  </head>
+  <body>
     <div id="box"></div>
-    <div class="btn">
-        <!-- <input type="button" value="ダウンロード" onclick=downroad();> -->
-        <button id="btn_dl">ダウンロード</button>
-        <button id="btn_pen">ペン</button>
-        <button id="btn_page">ページめくり</button>
-    </div>
-</body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="dragSpeed copy.js"></script>
+  </body>
+</html>
 
