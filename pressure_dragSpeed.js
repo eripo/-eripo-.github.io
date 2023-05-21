@@ -6,7 +6,10 @@
 
 
 // 要素を取得する
-var box = $('#box');
+var canvas = $('#canvas');
+// canvas要素を取得する
+const drawArea = document.getElementById('canvas');
+const context = drawArea.getContext('2d');
 
 // ドラッグの開始時の座標を格納する変数
 var startX;
@@ -48,8 +51,10 @@ function speedCount() {
     vpoint = Array(v_x, v_y);
 
     // ボックス内に(x方向の速度：y方向の速度)
-    $("#box").text(vpoint[0] + ":" + vpoint[1]);
-    str += vpoint[0] + "," + vpoint[1] + "," + v + "," + mode + "\n";
+    // $("#canvas").text(vpoint[0] + ":" + vpoint[1]);
+    if(count != 0) {
+      str += vpoint[0] + "," + vpoint[1] + "," + v + "," + mode + "\n";
+    }
 
     if(count === 1) {
       str0 += "," + vpoint[0] + "," + vpoint[1] + "," + v + "," + mode + "\n";
@@ -118,7 +123,8 @@ var dragging = false;
 
 // ドラッグの開始処理
 function startDrag(event) {
-  $("#box").addClass("move");
+  event.preventDefault();
+  $("#canvas").addClass("move");
 
   // str += "MouseDown\n";
 
@@ -146,9 +152,9 @@ function startDrag(event) {
   console.log("圧力："+ pressure);
 
   // ドラッグ中に発生するmousemoveイベントを設定する
-  $(document).on('touchmove mousemove', drag);
+  $(canvas).on('touchmove mousemove', drag);
   // ドラッグが終了した際にmouseupイベントを監視する
-  $(document).on('touchend mouseup', stopDrag);
+  $(canvas).on('touchend mouseup', stopDrag);
 
   // デフォルトのドラッグ処理をキャンセルする
   return false;
@@ -162,41 +168,33 @@ function drag(event) {
   }
 
   // 速度計算のための座標取得等
-  if ($("#box").hasClass("move")) {
+  if ($("#canvas").hasClass("move")) {
     var point0 = getCursor(event);  //クリックした点の座標(x,y)
     if (point === false) {  //pointに値が入ってなかったら、クリックしたときの座標（初期値）を入れる。
       point = point0;
     }
-    var dpoint = Array(point[0] - point0[0], point[1] - point0[1]); //前回の座標との差分
-    var x = $("#box").css("left").replace("px", "") - dpoint[0];
-    var y = $("#box").css("top").replace("px", "") - dpoint[1];
-    $("#box").css({
-      left: x,
-      top: y
-    });
+
+    var touch = event.touches[0];
+    context.beginPath();
+    context.moveTo(point0[0] - this.offsetLeft, point0[1] - this.offsetLeft);
+    // console.log("moveto((" + point0[0] + ", " + point0[1] + ", point:" +  point[0] + ", " + point[1])
+    context.lineTo(point[0] - this.offsetLeft, point[1] - this.offsetTop);
+    // console.log("lineto((" + touch.pageX + ", offsetLeft:" +  this.offsetLeft + ", pageY:" + touch.pageY + ", offsetTop" + this.offsetTop)
+    context.stroke();
+
+    // var dpoint = Array(point[0] - point0[0], point[1] - point0[1]); //前回の座標との差分
+    // var x = $("#canvas").css("left").replace("px", "") - dpoint[0];
+    // var y = $("#canvas").css("top").replace("px", "") - dpoint[1];
+    // $("#canvas").css({
+    //   left: x,
+    //   top: y
+    // });
     point = point0; //今回の座標を記録
   }
-
-
-  // マウスの現在位置と開始位置から、移動量を計算する
-  // var moveX = event.clientX - startX;
-  // var moveY = event.clientY - startY;
-
-  // startX = event.touches[0].clientX;
-  // startY = event.touches[0].clientY;
-  // var pressure = event.touches[0].force;
-  // // タッチデバイスの場合はforce、マウスの場合はundefinedになる
-  // var pressure = event.force;
-
-  // str += pressure + ",";
-  // if (pressure === undefined) {
-  //   // マウスの場合はbuttonsプロパティを使用する
-  //   pressure = "マウス使用";
-  // }
   
 
   // 要素の位置を移動する
-  /* box.css({
+  /* canvas.css({
     left: "+=" + moveX,
     top: "+=" + moveY
   }); */
@@ -211,10 +209,12 @@ function drag(event) {
 
 // ドラッグ終了時の処理
 function stopDrag(event) {
+  event.preventDefault();
   count = 0;
 
-  $("#box").removeClass("move");
+  $("#canvas").removeClass("move");
   point = false;  //nullやNaN,undefinedなどが入ってたらfalse。
+  dpoint0 = false;
 
   // str += "MouseLeave\n";
 
@@ -222,13 +222,13 @@ function stopDrag(event) {
   dragging = false;
 
   // ドラッグ中に発生するmousemoveイベントを解除する
-  $(document).off('touchmove mousemove', drag);
+  $(canvas).off('touchmove mousemove', drag);
   // mouseupイベントを解除する
-  $(document).off('touchend mouseup', stopDrag);
+  $(canvas).off('touchend mouseup', stopDrag);
 }
 
 // mousedownイベントを監視し、ドラッグ開始時の処理を呼び出す
-box.on('touchstart mousedown', startDrag);
+canvas.on('touchstart mousedown', startDrag);
 
 
 
