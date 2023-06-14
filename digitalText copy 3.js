@@ -1,10 +1,10 @@
 /***********************  
  * 最終更新日：2023/06/13
  ***********************
- * ※保存版 
+ * ※変更可 
  ***********************
  * デジタル教科書
- * ページめくり＆書き込みが同時に行われる。
+ * モード切替ボタンでモード変更。
  *********************** 
  * 
  * startX0: タッチスタート時の座標
@@ -20,6 +20,7 @@ $(document).ready(function() {
   const ctx = canvas.getContext('2d');
 
   let isDrawing = false;
+  let mode = 0;
   let startX0 = 0;
   let startY0 = 0;
   let startX = 0;
@@ -44,7 +45,7 @@ $(document).ready(function() {
     endX = touch.clientX;
     endY = touch.clientY;
 
-    if (isDrawing) {
+    if (isDrawing && mode===1) {
       const page = pages[currentPage - 1];
 
       const previousX = startX;
@@ -71,11 +72,14 @@ $(document).ready(function() {
     isDrawing = false;
 
     console.log("end-start: " + (endX-startX0));
-    if (endX - startX0 < -50) {
-      nextPage();
-    } else if (endX - startX0 > 50) {
-      prevPage();
+    if(mode===0) {
+      if (endX - startX0 < -50) {
+        nextPage();
+      } else if (endX - startX0 > 50) {
+        prevPage();
+      }
     }
+    
   });
 
 
@@ -87,7 +91,6 @@ $(document).ready(function() {
       drawPage(currentPage);
     }
   }
-
   function prevPage() {
     if (currentPage > 1) {
       currentPage--;
@@ -97,15 +100,38 @@ $(document).ready(function() {
     }
   }
 
-
+  // ページ切替用ボタン
   const prevButton = $('#prevPage');
   const nextButton = $('#nextPage');
   let currentPage = 1;
   const totalPages = 10;
-
-  // ページめくりボタン
+  
   prevButton.on('click', prevPage);
   nextButton.on('click', nextPage);
+
+
+
+
+
+  // モード切替用ボタン
+  const penButton = $('#pen-button');
+  const pageButton = $('#page-button');
+  penButton.on('click', changePen);
+  pageButton.on('click', changePage);
+
+  function changePen() {
+    mode = 1;
+    // ボタン色変更
+    penButton.css('background-color', '#d0d0d0');
+    pageButton.css('background-color', '#fff');
+  }
+  function changePage() {
+    mode = 0;
+    // ボタン色変更
+    pageButton.css('background-color', '#d0d0d0');
+    penButton.css('background-color', '#fff');
+  }
+  
 
   const pages = [
   	{ background: '#ff00ff', drawings: [] }, // ページ1のデータ
