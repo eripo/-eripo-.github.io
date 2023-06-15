@@ -1,7 +1,7 @@
 /***********************  
  * 最終更新日：2023/06/15
  ***********************
- * ※変更可 拡大・縮小機能試すも、うまくいかず、copy 4で再挑戦。
+ * ※変更可 
  ***********************
  * デジタル教科書
  * モード切替ボタンでモード変更。
@@ -35,11 +35,11 @@ $(document).ready(function() {
   const tempCtx = tempCanvas.getContext('2d');
 
   const backgroundImageUrl = '/img/Textbook_page1.png';
-  const originalImage = new Image();
-  originalImage.src = backgroundImageUrl;
+  const backgroundImage = new Image();
+  backgroundImage.src = backgroundImageUrl;
 
   // 背景画像が読み込まれた後に描画を開始する
-  originalImage.onload = function() {
+  backgroundImage.onload = function() {
     drawPage(currentPage);
   };
 
@@ -189,6 +189,13 @@ $(document).ready(function() {
   });
 
   function updateCanvas() {
+    // clearCanvas();
+    // ctx.save();
+    // ctx.scale(scale, scale);
+    // ctx.drawImage(pages[0], 0, 0);
+    // ctx.restore();
+    // drawPage(currentPage);
+
     const originalWidth = canvas.width;
     const originalHeight = canvas.height;
 
@@ -199,14 +206,19 @@ $(document).ready(function() {
     tempCanvas.height = scaledHeight;
 
     tempCtx.clearRect(0, 0, scaledWidth, scaledHeight);
-    tempCtx.drawImage(originalImage, 0, 0, originalWidth, originalHeight, 0, 0, scaledWidth, scaledHeight);
+    tempCtx.drawImage(canvas, 0, 0, originalWidth, originalHeight, 0, 0, scaledWidth, scaledHeight);
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, originalWidth, originalHeight);
+    ctx.drawImage(backgroundImage, 0, 0);
     ctx.drawImage(tempCanvas, 0, 0);
+
+    drawPage(currentPage);
   }
 
 
   const pages = [
+    // { background: '#ff00ff', drawings: [] }, // ページ1のデータ
+    // { background: '#ffff00', drawings: [] }, // ページ2のデータ
   	{ background: '/img/Textbook_page1.png', drawings: [] }, // ページ1のデータ
     { background: '/img/Textbook_page2.png', drawings: [] }, // ページ2のデータ
     // 他のページのデータも同様に追加
@@ -223,31 +235,21 @@ $(document).ready(function() {
 
   function drawPage(pageIndex) {
     const page = pages[pageIndex - 1];
-
+  
     // 背景画像を読み込む
     const backgroundImage = new Image();
     backgroundImage.src = page.background;
-
+  
     backgroundImage.onload = function() {
-      // 背景画像の縮小後の幅と高さを計算する
-      const scaledWidth = canvas.width * scale;
-      const scaledHeight = canvas.height * scale;
-
-      // 背景画像をキャンバスに描画する
+      // 画像が読み込まれた後に描画を行う
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(backgroundImage, 0, 0, scaledWidth, scaledHeight);
-
-      // ページに保存されている描画データを再描画する
-      for (const drawing of page.drawings) {
-        draw(drawing.startX, drawing.startY, drawing.endX, drawing.endY);
+      ctx.drawImage(backgroundImage, 0, 0);
+  
+      // ページの描画内容を反映する（必要な処理を追加）
+      for (let i = 0; i < page.drawings.length; i++) {
+        const drawing = page.drawings[i];
+        // 描画処理の実装
       }
-      // for (let i = 0; i < page.drawings.length; i++) {
-      //   const drawing = page.drawings[i];
-      //   ctx.beginPath();
-      //   ctx.moveTo(drawing.previousX, drawing.previousY);
-      //   ctx.lineTo(drawing.currentX, drawing.currentY);
-      //   ctx.stroke();
-      // }
     };
   }
 });
