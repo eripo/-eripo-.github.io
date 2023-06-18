@@ -1,10 +1,15 @@
 /***********************  
- * 最終更新日：2023/06/15
+ * 最終更新日：2023/06/18
  ***********************
- * ※変更可 拡大・縮小機能試すも、うまくいかず、copy 4で再挑戦。
+ * ※保存版（書き込み、）
  ***********************
  * デジタル教科書
+ * 
+ ** 機能 **
+ * 書き込み
+ * ページめくり 
  * モード切替ボタンでモード変更。
+ * 書き込みの座標ずれ無し。
  *********************** 
  * 
  * startX0: タッチスタート時の座標
@@ -13,11 +18,31 @@
  * 
  * ページめくり幅（endX-startX0）：50
  * 書き込みは、startXからendXの線分を描いていくことで書いている 
+ ***********************
+ * 問題点・未実装
+ * ・拡大・縮小不可（ボタンのみ有）
+ * ・データ取得機能（速度など）未実装
 ************************/
 
 $(document).ready(function() {
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
+
+  const drawingCanvas = document.createElement('canvas');
+  const drawingCtx = drawingCanvas.getContext('2d');
+
+  // 要素の位置座標を取得
+  var clientRect = canvas.getBoundingClientRect() ;
+
+  // ページの左端から、canvasの左端までの距離
+  var elemGapX = window.pageXOffset + clientRect.left ;
+
+  // ページの上端から、canvasの上端までの距離
+  var elemGapY = window.pageYOffset + clientRect.top ;
+
+  console.log('画面左上端の座標: (' + window.pageXOffset + ', ' + window.pageYOffset + ')');
+  console.log('canvas要素の左上端の座標: (' + clientRect.left + ', ' + clientRect.top + ')');
+
 
   let scale = 1; // 現在の拡大率
 
@@ -35,11 +60,11 @@ $(document).ready(function() {
   const tempCtx = tempCanvas.getContext('2d');
 
   const backgroundImageUrl = '/img/Textbook_page1.png';
-  const originalImage = new Image();
-  originalImage.src = backgroundImageUrl;
+  const backgroundImage = new Image();
+  backgroundImage.src = backgroundImageUrl;
 
   // 背景画像が読み込まれた後に描画を開始する
-  originalImage.onload = function() {
+  backgroundImage.onload = function() {
     drawPage(currentPage);
   };
 
@@ -51,13 +76,13 @@ $(document).ready(function() {
     if (event.type === 'mousedown') {
       startX0 = event.clientX;
       startY0 = event.clientY;
-      startX = event.clientX;
+      startX = event.clientX - elemGapX;
       startY = event.clientY;
     } else if (event.type === 'touchstart') {
       const touch = event.touches[0];
       startX0 = touch.clientX;
       startY0 = touch.clientY;
-      startX = touch.clientX;
+      startX = touch.clientX - elemGapX;
       startY = touch.clientY;
     }
     
@@ -83,14 +108,18 @@ $(document).ready(function() {
 
       const previousX = startX / scale;
       const previousY = startY / scale;
-      const currentX = endX / scale;
-      const currentY = endY / scale;
+      const currentX = (endX / scale) - elemGapX;
+      const currentY = (endY / scale) - elemGapY;
 
       page.drawings.push({ previousX, previousY, currentX, currentY });
 
       ctx.beginPath();
       ctx.moveTo(previousX, previousY);
       ctx.lineTo(currentX, currentY);
+      console.log("start: " + startX + ", " + startY);
+      console.log("gap: " + elemGapX + ", " + elemGapY);
+      console.log("previous: " + previousX + ", " + previousY);
+      console.log("current: " + currentX + ", " + currentY);
       ctx.stroke();
 
       startX = currentX;
@@ -191,22 +220,41 @@ $(document).ready(function() {
   function updateCanvas() {
     const originalWidth = canvas.width;
     const originalHeight = canvas.height;
-
+  
     const scaledWidth = originalWidth * scale;
     const scaledHeight = originalHeight * scale;
-
+  
     tempCanvas.width = scaledWidth;
     tempCanvas.height = scaledHeight;
-
+  
     tempCtx.clearRect(0, 0, scaledWidth, scaledHeight);
-    tempCtx.drawImage(originalImage, 0, 0, originalWidth, originalHeight, 0, 0, scaledWidth, scaledHeight);
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    tempCtx.drawImage(canvas, 0, 0, originalWidth, originalHeight, 0, 0, scaledWidth, scaledHeight);
+  
+    ctx.clearRect(0, 0, originalWidth, originalHeight);
+    ctx.drawImage(backgroundImage, 0, 0);
     ctx.drawImage(tempCanvas, 0, 0);
+  
+    // // 描画データを反映する
+    // const page = pages[currentPage - 1];
+    // for (let i = 0; i < page.drawings.length; i++) {
+    //   const drawing = page.drawings[i];
+    //   const previousX = drawing.previousX * scale;
+    // const previousY = drawing.previousY * scale;
+    // const currentX = drawing.currentX * scale;
+    // const currentY = drawing.currentY * scale;
+  
+    //   // ctx.beginPath();
+    //   // ctx.moveTo(previousX, previousY);
+    //   // ctx.lineTo(currentX, currentY);
+    //   // ctx.stroke();
+    // }
   }
+  
 
 
   const pages = [
+    // { background: '#ff00ff', drawings: [] }, // ページ1のデータ
+    // { background: '#ffff00', drawings: [] }, // ページ2のデータ
   	{ background: '/img/Textbook_page1.png', drawings: [] }, // ページ1のデータ
     { background: '/img/Textbook_page2.png', drawings: [] }, // ページ2のデータ
     // 他のページのデータも同様に追加
@@ -223,11 +271,11 @@ $(document).ready(function() {
 
   function drawPage(pageIndex) {
     const page = pages[pageIndex - 1];
-
+  
     // 背景画像を読み込む
     const backgroundImage = new Image();
     backgroundImage.src = page.background;
-
+  
     backgroundImage.onload = function() {
       // 背景画像の縮小後の幅と高さを計算する
       const scaledWidth = canvas.width * scale;
@@ -237,17 +285,19 @@ $(document).ready(function() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(backgroundImage, 0, 0, scaledWidth, scaledHeight);
 
-      // ページに保存されている描画データを再描画する
-      for (const drawing of page.drawings) {
-        draw(drawing.startX, drawing.startY, drawing.endX, drawing.endY);
+      // ページの描画内容を反映する
+      for (let i = 0; i < page.drawings.length; i++) {
+        const drawing = page.drawings[i];
+        const previousX = drawing.previousX * scale;
+        const previousY = drawing.previousY * scale;
+        const currentX = drawing.currentX * scale;
+        const currentY = drawing.currentY * scale;
+      
+        ctx.beginPath();
+        ctx.moveTo(previousX, previousY);
+        ctx.lineTo(currentX, currentY);
+        ctx.stroke();
       }
-      // for (let i = 0; i < page.drawings.length; i++) {
-      //   const drawing = page.drawings[i];
-      //   ctx.beginPath();
-      //   ctx.moveTo(drawing.previousX, drawing.previousY);
-      //   ctx.lineTo(drawing.currentX, drawing.currentY);
-      //   ctx.stroke();
-      // }
     };
   }
 });
