@@ -173,7 +173,7 @@ $(document).ready(function() {
   const prevButton = $('#prevPage');
   const nextButton = $('#nextPage');
   let currentPage = 1;
-  const totalPages = 10;
+  const totalPages = 2;
   
   prevButton.on('click', prevPage);
   nextButton.on('click', nextPage);

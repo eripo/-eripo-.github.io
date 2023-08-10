@@ -1,9 +1,9 @@
 /***********************  
- * 最終更新日：2023/06/18
+ * 最終更新日：2023/06/19
  ***********************
  * ※変更可（データ取得機能実装済み。ただし、座標情報が正確か未確認）
  ***********************
- * デジタル教科書
+ * 自動判別機能つきデジタル教科書
  * 
  ** 機能 **
  * 書き込み
@@ -11,6 +11,7 @@
  * モード切替ボタンでモード変更。
  * 書き込みの座標ずれ無し。
  * データ取得機能（速度など）。ただし、座標情報が正確か確認する必要あり。
+ * 
  *********************** 
  * 
  * startX0: タッチスタート時の座標
@@ -23,6 +24,8 @@
  * 問題点・未実装
  * ・拡大・縮小不可（ボタンのみ有）
  * ・データ取得機能（速度など）座標情報が正確か確認する必要あり。
+ * ・自動判別機能　←　これをやる
+ * ・座標ずれあり
 ************************/
 
 $(document).ready(function() {
@@ -125,12 +128,12 @@ $(document).ready(function() {
     event.preventDefault();
 
     if (event.type === 'mousemove') {
-      endX = event.clientX;
-      endY = event.clientY;
+      endX = event.clientX - elemGapX;
+      endY = event.clientY - elemGapY;
     } else if (event.type === 'touchmove') {
       const touch = event.touches[0];
-      endX = touch.clientX;
-      endY = touch.clientY;
+      endX = touch.clientX - elemGapX;
+      endY = touch.clientY - elemGapY;
     }
     // console.log("X座標："+ startX +"Y座標"+ startY);
 
@@ -224,13 +227,26 @@ $(document).ready(function() {
     console.log("count:" + count);
     console.log("座標: " + currentX + ", " + currentY);
     count++;
+
+
+    judgeMode();
   
     // 100ミリ秒後に再度関数を実行
     setTimeout(speedCount, 100);
   }
   
 
-  
+  function judgeMode() {
+    $.ajax({
+        url: 'cgi-bin/ForDigitalText.py',
+        type: 'post',
+        data: {data:vel}
+    }).done(function(data){
+        console.log(data);
+    }).fail(function(){
+        console.log('failed');
+    });
+  }
   
 
 
