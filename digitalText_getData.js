@@ -1,5 +1,5 @@
 /***********************  
- * 最終更新日：2023/08/13
+ * 最終更新日：2023/08/14
  ***********************
  * ※変更不可
  ***********************
@@ -10,7 +10,7 @@
  * ページめくり 
  * モード切替ボタンでモード変更。
  * 書き込みの座標ずれ無し。
- * データ取得機能（座標、速度、インターバルタイム）
+ * データ取得機能（座標、速度、加速度、インターバルタイム）
  *********************** 
  * 
  * startX0: タッチスタート時の座標
@@ -22,6 +22,7 @@
  * velX: 速さ
  * subPrevX: 前回座標保存用
  * positionPrevX: 前回座標
+ * preVelX: 前回速度
  * 
  * ページめくり幅（currentX-startX0）：30
  * 書き込みは、previousXからcurrentXの線分を描いていくことで書いている 
@@ -52,10 +53,10 @@ $(document).ready(function() {
 
   let scale = 1; // 現在の拡大率
   var str = "";
-  str += "v_x" + "," + "v_y" + "," + "v" + "," + "pos_x" + "," + "pos_y" + "," + "Mode" + "\n";  // 速度X成分、速度Y成分、合成速度、筆圧
+  str += "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "Mode" + "\n";  // 速度X成分、速度Y成分、合成速度、筆圧
 
   var str0 = "";
-  str0 += "pressure0" + "," + "interval" + "," + "v0_x" + "," + "v0_y" + "," + "v0" + "," + "pos_x" + "," + "pos_y" + "," + "Mode" + "\n";  // 初速度X成分、初速度Y成分、合成初速度、初筆圧
+  str0 += "pressure0" + "," + "interval" + "," + "v0_x" + "," + "v0_y" + "," + "v0" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "Mode" + "\n";  // 初速度X成分、初速度Y成分、合成初速度、初筆圧
 
 
   let count = 0;
@@ -240,14 +241,15 @@ $(document).ready(function() {
     // 普通の速さ
     vel = Math.sqrt(velX**2 + velY**2);
 
+
     // ボックス内に(x方向の速度：y方向の速度)
     // $("#canvas").text(vpoint[0] + ":" + vpoint[1]);
     if(count != 0) {
-      str += velX + "," + velY + "," + vel + "," + currentX + "," + currentY + "," + mode + "\n";
+      str += velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + mode + "\n";
     }
 
     if(count === 1) {
-      str0 += "," + velX + "," + velY + "," + vel + "," + currentX + "," + currentY + "," + mode + "\n";
+      str0 += "," + velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + mode + "\n";
     }
     // dpoint0 = point;
 
@@ -259,6 +261,10 @@ $(document).ready(function() {
 
     positionPrevX = currentX;
     positionPrevY = currentY;
+
+    preVelX = velX;
+    preVelY = velY;
+    preVel = vel;
     
     count++;
 
