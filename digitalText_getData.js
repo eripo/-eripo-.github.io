@@ -64,14 +64,16 @@ $(document).ready(function() {
   var isDrag = false;
 
   let mode = "page";
-  let startX0 = 0;
-  let startY0 = 0;
-  let startX = 0;
-  let startY = 0;
+  let startX0;
+  let startY0;
+  // let startX = 0;
+  // let startY = 0;
   let startTime = 0;
   // let currentX = 0;
   // let currentY = 0;
 
+  let subPrevX;
+  let subPrevY;
   let previousX;
   let previousY;
   let currentX;
