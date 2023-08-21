@@ -53,10 +53,10 @@ $(document).ready(function() {
 
   let scale = 1; // 現在の拡大率
   var str = "";
-  str += "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "Mode" + "\n";  // 速度X成分、速度Y成分、合成速度、筆圧
+  str += "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "msec" + "," + "Mode" + "\n";  // 速度X成分、速度Y成分、合成速度、筆圧
 
   var str0 = "";
-  str0 += "pressure0" + "," + "interval" + "," + "v0_x" + "," + "v0_y" + "," + "v0" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "Mode" + "\n";  // 初速度X成分、初速度Y成分、合成初速度、初筆圧
+  str0 += "pressure0" + "," + "interval" + "," + "v0_x" + "," + "v0_y" + "," + "v0" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "msec" + "," + "Mode" + "\n";  // 初速度X成分、初速度Y成分、合成初速度、初筆圧
 
 
   let count = 0;
@@ -97,6 +97,7 @@ $(document).ready(function() {
   $(canvas).on('mousedown touchstart', function(event) {
     // 次回ドラッグ開始時（インターバル終了）
     endTime = performance.now();
+    previousTime = endTime;
     console.log("intervalTime：" + (endTime-startTime) + "\nstart：" + startTime + "\nend：" + endTime)
 
     event.preventDefault();
@@ -243,15 +244,21 @@ $(document).ready(function() {
     // 普通の速さ
     vel = Math.sqrt(velX**2 + velY**2);
 
+    
+    nowTime = performance.now();
+    msec = nowTime - previousTime;
+
+    previousTime = nowTime;
+    console.log("msec: " + msec);
 
     // ボックス内に(x方向の速度：y方向の速度)
     // $("#canvas").text(vpoint[0] + ":" + vpoint[1]);
     if(count != 0) {
-      str += velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + mode + "," + Date.now() +"\n";
+      str += velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
     }
 
     if(count === 1) {
-      str0 += "," + velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + mode + "\n";
+      str0 += "," + velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + msec + "," + mode + "\n";
     }
     // dpoint0 = point;
 

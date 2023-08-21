@@ -53,10 +53,10 @@ $(document).ready(function() {
 
   let scale = 1; // 現在の拡大率
   var str = "";
-  str += "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "Mode" + "\n";  // 速度X成分、速度Y成分、合成速度、筆圧
+  str += "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "Mode" + "," + "NowTime" + "\n";  // 速度X成分、速度Y成分、合成速度、筆圧
 
   var str0 = "";
-  str0 += "pressure0" + "," + "interval" + "," + "v0_x" + "," + "v0_y" + "," + "v0" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "Mode" + "\n";  // 初速度X成分、初速度Y成分、合成初速度、初筆圧
+  str0 += "pressure0" + "," + "interval" + "," + "v0_x" + "," + "v0_y" + "," + "v0" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "Mode" + "," + "NowTime" + "\n";  // 初速度X成分、初速度Y成分、合成初速度、初筆圧
 
 
   let count = 0;
