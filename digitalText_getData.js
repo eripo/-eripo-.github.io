@@ -47,8 +47,8 @@ $(document).ready(function() {
   // ページの上端から、canvasの上端までの距離
   var elemGapY = window.pageYOffset + clientRect.top ;
 
-  console.log('画面左上端の座標: (' + window.pageXOffset + ', ' + window.pageYOffset + ')');
-  console.log('canvas要素の左上端の座標: (' + clientRect.left + ', ' + clientRect.top + ')');
+  // console.log('画面左上端の座標: (' + window.pageXOffset + ', ' + window.pageYOffset + ')');
+  // console.log('canvas要素の左上端の座標: (' + clientRect.left + ', ' + clientRect.top + ')');
 
 
   let scale = 1; // 現在の拡大率
@@ -127,7 +127,7 @@ $(document).ready(function() {
     currentX = startX0;
     currentY = startY0;
 
-    //1個前の座標（100ミリ秒ごと） 
+    //1個前の座標（50ミリ秒ごと） 
     positionPrevX = startX0;
     positionPrevY = startY0;
 
@@ -161,12 +161,12 @@ $(document).ready(function() {
     currentX = (currentX / scale);
     currentY = (currentY / scale);
 
-    // ドラッグ始点の座標
-    console.log("start0\nX座標："+ startX0 +"\nY座標："+ startY0);
-    // 1個前の座標
-    console.log("previous\nX座標："+ previousX +"\nY座標："+ previousY);
-    // 現在の座標
-    console.log("current\nX座標："+ currentX +"\nY座標："+ currentY);
+    // // ドラッグ始点の座標
+    // console.log("start0\nX座標："+ startX0 +"\nY座標："+ startY0);
+    // // 1個前の座標
+    // console.log("previous\nX座標："+ previousX +"\nY座標："+ previousY);
+    // // 現在の座標
+    // console.log("current\nX座標："+ currentX +"\nY座標："+ currentY);
 
 
     if (isDrawing && mode==="pen") {
@@ -247,7 +247,7 @@ $(document).ready(function() {
     // ボックス内に(x方向の速度：y方向の速度)
     // $("#canvas").text(vpoint[0] + ":" + vpoint[1]);
     if(count != 0) {
-      str += velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + mode + "\n";
+      str += velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + mode + "," + Date.now() +"\n";
     }
 
     if(count === 1) {
@@ -271,14 +271,14 @@ $(document).ready(function() {
     count++;
 
 
-    var start = Date.now();
-    var now = performance.now();
-    console.log("時間1：" + start);
-    console.log("時間2：" + now);
+    // var start = Date.now();
+    // var now = performance.now();
+    // console.log("時間1：" + start);
+    // console.log("時間2：" + now);
   
 
-    // 100ミリ秒後に再度関数を実行
-    setTimeout(speedCount, 100);
+    // 50ミリ秒後に再度関数を実行
+    setTimeout(speedCount, 10);
 
   }
   
@@ -293,7 +293,7 @@ $(document).ready(function() {
   const nextButton = $('#nextPage');
   // ページ数によって変更
   let currentPage = 1;
-  const totalPages = 2;
+  const totalPages = 4;
   prevButton.on('click', prevPage);
   nextButton.on('click', nextPage);
 
@@ -397,6 +397,8 @@ $(document).ready(function() {
     // { background: '#ffff00', drawings: [] }, // ページ2のデータ
   	{ background: '/img/Textbook_page1.png', drawings: [] }, // ページ1のデータ
     { background: '/img/Textbook_page2.png', drawings: [] }, // ページ2のデータ
+    { background: '/img/Textbook_page3.png', drawings: [] }, // ページ3のデータ
+    { background: '/img/Textbook_page4.png', drawings: [] }, // ページ4データ
     // 他のページのデータも同様に追加
   ];
 
