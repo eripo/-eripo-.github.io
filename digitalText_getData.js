@@ -249,20 +249,13 @@ $(document).ready(function() {
     msec = nowTime - previousTime;
 
     previousTime = nowTime;
-    console.log("msec: " + msec);
+    // console.log("msec: " + msec);
 
-    // ボックス内に(x方向の速度：y方向の速度)
-    // $("#canvas").text(vpoint[0] + ":" + vpoint[1]);
     if(count != 0) {
       str += velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
     }
-
-    if(count === 0) {
-      console.log("Test0: " + currentX + ", " + currentY + ", " + velX + ", " + velY);
-    }
     if(count === 1) {
-      console.log("Test1: " + currentX + ", " + currentY + ", " + velX + ", " + velY);
-      str0 += "," + velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + msec + "," + mode + "\n";
+      str0 += "," + velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode + "\n";
     }
     // dpoint0 = point;
 
@@ -289,7 +282,7 @@ $(document).ready(function() {
   
 
     // 50ミリ秒後に再度関数を実行
-    setTimeout(speedCount, 1000);
+    setTimeout(speedCount, 10);
 
   }
   
