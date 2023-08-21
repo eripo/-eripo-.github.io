@@ -132,7 +132,7 @@ $(document).ready(function() {
     positionPrevX = startX0;
     positionPrevY = startY0;
 
-    // console.log("start0: (" + startX0 + ", " + startY0 + ")");
+    console.log("Start0: (" + startX0 + ", " + startY0 + ")");
     // console.log("start: (" + startX + ", " + startY + ")");
 
     
@@ -257,7 +257,11 @@ $(document).ready(function() {
       str += velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
     }
 
+    if(count === 0) {
+      console.log("Test0: " + currentX + ", " + currentY + ", " + velX + ", " + velY);
+    }
     if(count === 1) {
+      console.log("Test1: " + currentX + ", " + currentY + ", " + velX + ", " + velY);
       str0 += "," + velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + msec + "," + mode + "\n";
     }
     // dpoint0 = point;
@@ -285,7 +289,7 @@ $(document).ready(function() {
   
 
     // 50ミリ秒後に再度関数を実行
-    setTimeout(speedCount, 10);
+    setTimeout(speedCount, 1000);
 
   }
   
