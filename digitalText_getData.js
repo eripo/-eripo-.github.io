@@ -1,5 +1,5 @@
 /***********************  
- * 最終更新日：2023/08/14
+ * 最終更新日：2023/08/21
  ***********************
  * ※変更不可
  ***********************
@@ -10,7 +10,7 @@
  * ページめくり 
  * モード切替ボタンでモード変更。
  * 書き込みの座標ずれ無し。
- * データ取得機能（座標、速度、加速度、インターバルタイム）
+ * データ取得機能（座標、速度、加速度、インターバルタイム、速度取得間隔）
  *********************** 
  * 
  * startX0: タッチスタート時の座標
@@ -251,11 +251,12 @@ $(document).ready(function() {
     previousTime = nowTime;
     // console.log("msec: " + msec);
 
-    if(count != 0) {
+    if(count > 1) {
       str += velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
     }
     if(count === 1) {
       str0 += "," + velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode + "\n";
+      str += velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
     }
     // dpoint0 = point;
 
