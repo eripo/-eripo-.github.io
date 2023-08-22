@@ -1,7 +1,7 @@
 /***********************  
  * 最終更新日：2023/08/21
  ***********************
- * ※変更不可
+ * ※変更可
  ***********************
  * デジタル教科書
  * 
@@ -255,6 +255,24 @@ $(document).ready(function() {
       str += velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
     }
     if(count === 1) {
+        
+        var jsData = "AIKATSU";
+        $(function(){
+          console.log("11111111111111111111111111111111")
+        
+          $.ajax({
+              url: 'cgi-bin/ForDigitalText.py',
+              type: 'post',
+              data: {data:jsData}
+          }).done(function(data){
+              console.log(data);
+              // console.log("****************************")
+          }).fail(function(){
+              console.log('failed');
+              // console.log("0000000000000000000000000000")
+          });
+      });
+
       str0 += "," + velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode + "\n";
     }
     // dpoint0 = point;
