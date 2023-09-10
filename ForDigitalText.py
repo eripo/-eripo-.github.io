@@ -1,6 +1,11 @@
+#############################################
+# 学習データとテストデータを入れると
+# 機械学習し、正解率を求めるプログラム
+#############################################
+
 # k-近傍法
 
-# import numpy as np
+import numpy as np
 # from keras.datasets import mnist
 # import time
 # import matplotlib.pyplot as plt
@@ -10,6 +15,7 @@
 # import argparse
 import pandas as pd
 # import japanize_matplotlib
+import pickle
 
 
 import csv
@@ -19,46 +25,104 @@ from sklearn.metrics import accuracy_score
 
 
 # 学習用データ #
-df = pd.read_csv( 'Data\original_learn_20230821_P_E.csv' )
+df = pd.read_csv( 'Data/learn0_20230822_F_E_502.csv' )
 print(df)
+
 # 説明変数leran_data(特徴量3つ)と目的変数leran_label(判別結果)に分ける
-learn_data = df.drop('Mode', axis=1)
+## 説明変数 適宜不要な列を削除する。削除する列を配列で指定する。################################
+
+# learn用 ##############################
+# # 速度、速度/msec
+# learn_data = df.drop(['aX', 'aY', 'a', 'pos_x', 'pos_y', 'msec', 'aX/msec', 'aY/msec', 'a/msec', 'Mode'], axis=1)
+# # 速度
+# learn_data = df.drop(['aX', 'aY', 'a', 'pos_x', 'pos_y', 'msec', 'v_x/msec', 'v_y/msec', 'v/msec', 'aX/msec', 'aY/msec', 'a/msec', 'Mode'], axis=1)
+# # 速度/msec
+# learn_data = df.drop(['v_x', 'v_y', 'v', 'aX', 'aY', 'a', 'pos_x', 'pos_y', 'msec', 'aX/msec', 'aY/msec', 'a/msec', 'Mode'], axis=1)
+# # 加速度、加速度/msec 
+# learn_data = df.drop(['v_x', 'v_y', 'v', 'pos_x', 'pos_y', 'msec', 'v_x/msec', 'v_y/msec', 'v/msec', 'Mode'], axis=1)
+# # 加速度
+# learn_data = df.drop(['v_x', 'v_y', 'v', 'pos_x', 'pos_y', 'msec', 'aX/msec', 'aY/msec', 'a/msec', 'v_x/msec', 'v_y/msec', 'v/msec', 'Mode'], axis=1)
+# # 加速度/msec 
+# learn_data = df.drop(['v_x', 'v_y', 'v', 'aX', 'aY', 'a', 'pos_x', 'pos_y', 'msec', 'v_x/msec', 'v_y/msec', 'v/msec', 'Mode'], axis=1)
+
+# learn0用 #############################
+# # 筆圧、速度[px/ms]、加速度
+# learn_data = df.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'Mode'], axis=1)
+# # 速度[px/ms]、加速度
+# learn_data = df.drop(['pressure0', 'interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'Mode'], axis=1)
+# 筆圧、速度[px/ms]
+learn_data = df.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'aX', 'aY', 'a', 'Mode'], axis=1)
+# # 筆圧、加速度
+# learn_data = df.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'v_x', 'v_y', 'v', 'Mode'], axis=1)
+# # 筆圧
+# learn_data = df.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'v_x', 'v_y', 'v', 'aX', 'aY', 'a', 'Mode'], axis=1)
+# # 速度[px/ms]
+# learn_data = df.drop(['pressure0', 'interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'aX', 'aY', 'a', 'Mode'], axis=1)
+# # 加速度
+# learn_data = df.drop(['pressure0', 'interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'v_x', 'v_y', 'v', 'Mode'], axis=1)
+###########################################################################################
 learn_label = df['Mode']
 
-# print(learn_data)
-# print(learn_label)
+print(learn_data)
+print(learn_label)
 
+
+
+print("てすとてすと")
 
 # テストデータ
-df2 = pd.read_csv( 'Data\original_learn_20230821_F_E.csv' )
+df2 = pd.read_csv( 'Data/test0_20230822_F_E_487.csv' )
 print(df2)
 # 説明変数leran_data(特徴量3つ)と目的変数leran_label(判別結果)に分ける
-test_data = df2.drop('Mode', axis=1)
+## 説明変数 適宜不要な列を削除する。削除する列を配列で指定する。################################
+
+# test用 ##############################
+# # test用   速度、加速度、速度/msec、加速度/msec 
+# test_data = df2.drop(['pos_x', 'pos_y', 'msec', 'Mode'], axis=1)
+
+# test0用 #############################
+# # 筆圧、速度[px/ms]、加速度
+# test_data = df2.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'Mode'], axis=1)
+# # 速度[px/ms]、加速度
+# test_data = df2.drop(['pressure0', 'interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'Mode'], axis=1)
+# 筆圧、速度[px/ms]
+test_data = df2.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'aX', 'aY', 'a', 'Mode'], axis=1)
+# # 筆圧、加速度
+# test_data = df2.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'v_x', 'v_y', 'v', 'Mode'], axis=1)
+# # 筆圧
+# test_data = df2.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'v_x', 'v_y', 'v', 'aX', 'aY', 'a', 'Mode'], axis=1)
+# # 速度[px/ms]
+# test_data = df2.drop(['pressure0', 'interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'aX', 'aY', 'a', 'Mode'], axis=1)
+# # 加速度
+# test_data = df2.drop(['pressure0', 'interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'v_x', 'v_y', 'v', 'Mode'], axis=1)
+###########################################################################################
 test_label = df2['Mode']
 
-# print(test_data)
-# print(test_label)
+print(test_data)
+print(test_label)
 
 
  
 # アルゴリズムを指定。K最近傍法を採用
 model = KNeighborsClassifier(n_neighbors=1)
- 
+
 # 学習用のデータと結果を学習する,fit()
 model.fit(learn_data, learn_label)
- 
+
+# 学習モデルの保存
+with open('model.pickle', mode='wb') as f:
+    pickle.dump(model, f, protocol=2)
+
+
 # テストデータによる予測,predict()
 # test_data = [[-63, -21, 66]]
 result_label = model.predict(test_data)
- 
+
+
 # テスト結果を評価する,accuracy_score()
 print("学習用データ：", learn_data)
 print("予測対象：\n", test_data, ", \n予測結果→", result_label)
 print("正解率＝", accuracy_score(test_label, result_label))
-
-
-
-
 
 
 

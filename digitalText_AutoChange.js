@@ -1,9 +1,9 @@
 /***********************  
- * 最終更新日：2023/08/21
+ * 最終更新日：2023/09/09
  ***********************
  * ※変更可
  ***********************
- * デジタル教科書
+ * 判別機能つきデジタル教科書
  * 
  ** 機能 **
  * 書き込み
@@ -19,6 +19,7 @@
  * currentX: ドラッグ中の現在の座標（その区間における終点）
  * startTime: インターバルタイム開始時（前回ドラッグ終了時）
  * endTime: インターバルタイム終了時（次回ドラッグ開始時）
+ * gapX: 前回座標との差
  * velX: 速さ
  * subPrevX: 前回座標保存用
  * positionPrevX: 前回座標
@@ -53,10 +54,10 @@ $(document).ready(function() {
 
   let scale = 1; // 現在の拡大率
   var str = "";
-  str += "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "msec" + "," + "Mode" + "\n";  // 速度X成分、速度Y成分、合成速度、筆圧
+  str += "gapX" + "," + "gapY" + "," + "gap" + "," + "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "msec" + "," + "Mode" + "\n";  // 速度X成分、速度Y成分、合成速度、筆圧
 
   var str0 = "";
-  str0 += "pressure0" + "," + "interval" + "," + "v0_x" + "," + "v0_y" + "," + "v0" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "msec" + "," + "Mode" + "\n";  // 初速度X成分、初速度Y成分、合成初速度、初筆圧
+  str0 += "pressure0" + "," + "interval" + "," + "gapX" + "," + "gapY" + "," + "gap" + "," + "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "msec" + "," + "Mode" + "\n";  // 初速度X成分、初速度Y成分、合成初速度、初筆圧
 
 
   let count = 0;
@@ -78,6 +79,7 @@ $(document).ready(function() {
   let previousY;
   let currentX;
   let currentY;
+  let pressure;
 
   // 一時的なキャンバスを作成
   const tempCanvas = document.createElement('canvas');
@@ -98,7 +100,7 @@ $(document).ready(function() {
     // 次回ドラッグ開始時（インターバル終了）
     endTime = performance.now();
     previousTime = endTime;
-    console.log("intervalTime：" + (endTime-startTime) + "\nstart：" + startTime + "\nend：" + endTime)
+    // console.log("intervalTime：" + (endTime-startTime) + "\nstart：" + startTime + "\nend：" + endTime)
 
     event.preventDefault();
     isDrag = true;
@@ -108,31 +110,37 @@ $(document).ready(function() {
       startY0 = event.clientY - elemGapY;
       // startX = event.clientX - elemGapX;
       // startY = event.clientY - elemGapY;
-      var pressure = 1;
+      pressure = 1;
     } else if (event.type === 'touchstart') {
       const touch = event.touches[0];
       startX0 = touch.clientX - elemGapX;
       startY0 = touch.clientY - elemGapY;
       // startX = touch.clientX - elemGapX;
       // startY = touch.clientY - elemGapY;
-      var pressure = touch.force;
+      pressure = touch.force;
     }
     
     isDrawing = true;
-    velX = startX0;
-    velY = startY0;
+    gapX = startX0;
+    gapY = startY0;
     subPrevX = startX0;
     subPrevY = startY0;
     previousX = startX0;
     previousY = startY0;
     currentX = startX0;
     currentY = startY0;
+    preVelX = 0;
+    preVelY = 0;
+    preVel = 0;
+    accelerationX = 0;
+    accelerationY = 0;
+    acceleration = 0;
 
     //1個前の座標（50ミリ秒ごと） 
     positionPrevX = startX0;
     positionPrevY = startY0;
 
-    console.log("Start0: (" + startX0 + ", " + startY0 + ")");
+    console.log("ドラッグ始点座標: (" + startX0 + ", " + startY0 + ")");
     // console.log("start: (" + startX + ", " + startY + ")");
 
     
@@ -162,12 +170,12 @@ $(document).ready(function() {
     currentX = (currentX / scale);
     currentY = (currentY / scale);
 
-    // // ドラッグ始点の座標
-    // console.log("start0\nX座標："+ startX0 +"\nY座標："+ startY0);
-    // // 1個前の座標
-    // console.log("previous\nX座標："+ previousX +"\nY座標："+ previousY);
-    // // 現在の座標
-    // console.log("current\nX座標："+ currentX +"\nY座標："+ currentY);
+    // ドラッグ始点の座標
+    console.log("各座標\nstart0\nX座標："+ startX0 +"\nY座標："+ startY0);
+    // 1個前の座標
+    console.log("previous\nX座標："+ previousX +"\nY座標："+ previousY);
+    // 現在の座標
+    console.log("current\nX座標："+ currentX +"\nY座標："+ currentY);
 
 
     if (isDrawing && mode==="pen") {
@@ -228,8 +236,8 @@ $(document).ready(function() {
   function speedCount() {
     // 速度を計算する処理を記述
     // if (vel == false) { // pointに値が入ってなかったら、速さ(0,0)
-    //   velX = 0;
-    //   velY = 0;
+    //   gapX = 0;
+    //   gapY = 0;
     // } else {
     //   if (dpoint0 == false) {
     //     dpoint0 = point;
@@ -238,12 +246,11 @@ $(document).ready(function() {
       return;
     }
 
-    velX = currentX - positionPrevX;
-    velY = currentY - positionPrevY;
-    // console.log("velX,velY: " + velX + ", " + velY + "," + currentX + previousX);
+    gapX = currentX - positionPrevX;
+    gapY = currentY - positionPrevY;
+    // console.log("gapX,gapY: " + gapX + ", " + gapY + "," + currentX + previousX);
     // 普通の速さ
-    vel = Math.sqrt(velX**2 + velY**2);
-
+    gap = Math.sqrt(gapX**2 + gapY**2);
     
     nowTime = performance.now();
     msec = nowTime - previousTime;
@@ -251,40 +258,57 @@ $(document).ready(function() {
     previousTime = nowTime;
     // console.log("msec: " + msec);
 
-    if(count != 0) {
-      str += velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
+    velX = gapX / msec;
+    velY = gapY / msec;
+    vel = gap / msec;
+
+    accelerationX = (velX - preVelX) / msec;
+    accelerationY = (velY - preVelY) / msec;
+    acceleration = (vel - preVel) / msec;
+
+    console.log("print\n" + gapX + ", " + gapY + "," + currentX + ", " + positionPrevX + "," + currentY + ", " + positionPrevY);
+    if(count > 1) {
+      str += gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
     }
     if(count === 1) {
-        
-        var jsData = "AIKATSU";
+
         $(function(){
-          console.log("11111111111111111111111111111111")
+          console.log("11111111111111111111111111111111\n" + pressure)
         
           $.ajax({
-              url: 'cgi-bin/ForDigitalText.py',
-              type: 'post',
-              data: {data:jsData}
+              url: 'cgi-bin/open_model.py',
+              type: 'get',
+              data: {
+                test1: pressure,
+                test2: velX,
+                test3: velY,
+                test4: vel
+              }
           }).done(function(data){
-              console.log(data);
-              // console.log("****************************")
+              console.log("result" + data);
           }).fail(function(){
               console.log('failed');
-              // console.log("0000000000000000000000000000")
           });
       });
 
-      str0 += "," + velX + "," + velY + "," + vel + "," + (velX - preVelX) + "," + (velY - preVelY) + "," + (vel - preVel) + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode + "\n";
+      str0 += "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode + "\n";
+      str += gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
     }
     // dpoint0 = point;
 
-
-    console.log("count:" + count + "\nvel：" + velX + ", " + velY);
-    
     console.log("count-previous: " + positionPrevX + ", " + positionPrevY);
-    console.log("count-current: " + currentX + ", " + currentY);
+
+    // console.log("count:" + count + "\ngap：" + gapX + ", " + gapY);
+    
+    // console.log("count-previous: " + positionPrevX + ", " + positionPrevY);
+    // console.log("count-current: " + currentX + ", " + currentY);
 
     positionPrevX = currentX;
     positionPrevY = currentY;
+
+    preGapX = gapX;
+    preGapY = gapY;
+    preGap = gap;
 
     preVelX = velX;
     preVelY = velY;
