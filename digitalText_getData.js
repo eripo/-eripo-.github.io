@@ -169,12 +169,12 @@ $(document).ready(function() {
     currentX = (currentX / scale);
     currentY = (currentY / scale);
 
-    // ドラッグ始点の座標
-    console.log("各座標\nstart0\nX座標："+ startX0 +"\nY座標："+ startY0);
-    // 1個前の座標
-    console.log("previous\nX座標："+ previousX +"\nY座標："+ previousY);
-    // 現在の座標
-    console.log("current\nX座標："+ currentX +"\nY座標："+ currentY);
+    // // ドラッグ始点の座標
+    // console.log("各座標\nstart0\nX座標："+ startX0 +"\nY座標："+ startY0);
+    // // 1個前の座標
+    // console.log("previous\nX座標："+ previousX +"\nY座標："+ previousY);
+    // // 現在の座標
+    // console.log("current\nX座標："+ currentX +"\nY座標："+ currentY);
 
 
     if (isDrawing && mode==="pen") {
@@ -283,6 +283,7 @@ $(document).ready(function() {
     
     // console.log("count-previous: " + positionPrevX + ", " + positionPrevY);
     // console.log("count-current: " + currentX + ", " + currentY);
+    console.log("acceleration: " + acceleration + ", " + accelerationX + ", " + accelerationY);
 
     positionPrevX = currentX;
     positionPrevY = currentY;
