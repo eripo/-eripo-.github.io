@@ -10,7 +10,11 @@
  * ページめくり 
  * モード切替ボタンでモード変更。
  * 書き込みの座標ずれ無し。
- * データ取得機能（座標、速度、加速度、インターバルタイム、速度取得間隔）
+ * データ取得機能
+ * ・test0
+ *    - 圧力，前回ドラッグからの経過時間(インターバルタイム)，前回座標との差，速度[px/ms]，加速度[px/ms2]，座標，前回サンプル点からの経過時間(データ取得間隔)，ドラッグ時間，モード
+ * ・test
+ *    - 前回座標との差，速度[px/ms]，加速度[px/ms2]，座標，前回サンプル点からの経過時間(データ取得間隔)，モード
  *********************** 
  * 
  * startX0: タッチスタート時の座標
@@ -57,7 +61,7 @@ $(document).ready(function() {
   str += "gapX" + "," + "gapY" + "," + "gap" + "," + "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "msec" + "," + "Mode" + "\n";  // 速度X成分、速度Y成分、合成速度、筆圧
 
   var str0 = "";
-  str0 += "pressure0" + "," + "interval" + "," + "gapX" + "," + "gapY" + "," + "gap" + "," + "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "msec" + "," + "Mode" + "\n";  // 初速度X成分、初速度Y成分、合成初速度、初筆圧
+  str0 += "pressure0" + "," + "intervalTime" + "," + "gapX" + "," + "gapY" + "," + "gap" + "," + "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "msec" + "," + "dragTime" + "," + "Mode" + "\n";  // 初速度X成分、初速度Y成分、合成初速度、初筆圧
 
 
   let count = 0;
@@ -92,7 +96,6 @@ $(document).ready(function() {
   backgroundImage.onload = function() {
     drawPage(currentPage);
   };
-
 
 
   $(canvas).on('mousedown touchstart', function(event) {
@@ -202,6 +205,9 @@ $(document).ready(function() {
   $(canvas).on('mouseup touchend', function(event) {
     // 前回ドラッグ終了時（インターバル開始）
     startTime = performance.now();
+
+    // ドラッグ時間を出力
+    str0 += "," + (startTime - endTime) + "," + mode + "\n";
     
 
     event.preventDefault();
@@ -270,7 +276,7 @@ $(document).ready(function() {
       str += gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
     }
     if(count === 1) {
-      str0 += "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode + "\n";
+      str0 += "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime);
       // str += gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
       str += gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
       // str += gapX + "," + gapY + "," + gap + "," + (gapX - preGapX) + "," + (gapY - preGapY) + "," + (gap - preGap) + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
