@@ -84,6 +84,7 @@ $(document).ready(function() {
   let currentX;
   let currentY;
   let pressure;
+  let pressure0;
 
   // 一時的なキャンバスを作成
   const tempCanvas = document.createElement('canvas');
@@ -113,14 +114,14 @@ $(document).ready(function() {
       startY0 = event.clientY - elemGapY;
       // startX = event.clientX - elemGapX;
       // startY = event.clientY - elemGapY;
-      pressure = 1;
+      pressure0 = 1;
     } else if (event.type === 'touchstart') {
       const touch = event.touches[0];
       startX0 = touch.clientX - elemGapX;
       startY0 = touch.clientY - elemGapY;
       // startX = touch.clientX - elemGapX;
       // startY = touch.clientY - elemGapY;
-      pressure = touch.force;
+      pressure0 = touch.force;
       console.log("Press: " + pressure);
     }
     
@@ -148,7 +149,7 @@ $(document).ready(function() {
     // console.log("start: (" + startX + ", " + startY + ")");
 
     
-    str0 += pressure + "," + (endTime-startTime);
+    str0 += pressure0 + "," + (endTime-startTime);
     // console.log("圧力："+ pressure);
     speedCount();
   });
@@ -283,7 +284,7 @@ $(document).ready(function() {
     if(count === 1) {
       str0 += "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime);
       // str += gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
-      str += pressure + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
+      str += pressure0 + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
       // str += gapX + "," + gapY + "," + gap + "," + (gapX - preGapX) + "," + (gapY - preGapY) + "," + (gap - preGap) + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
     }
     // dpoint0 = point;
