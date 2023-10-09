@@ -327,7 +327,7 @@ $(document).ready(function() {
   const nextButton = $('#nextPage');
   // ページ数によって変更
   let currentPage = 1;
-  const totalPages = 4;
+  const totalPages = 13;
   prevButton.on('click', prevPage);
   nextButton.on('click', nextPage);
 
@@ -429,10 +429,19 @@ $(document).ready(function() {
   const pages = [
     // { background: '#ff00ff', drawings: [] }, // ページ1のデータ
     // { background: '#ffff00', drawings: [] }, // ページ2のデータ
-  	{ background: '/img/Textbook_page1.png', drawings: [] }, // ページ1のデータ
-    { background: '/img/Textbook_page2.png', drawings: [] }, // ページ2のデータ
-    { background: '/img/Textbook_page3.png', drawings: [] }, // ページ3のデータ
-    { background: '/img/Textbook_page4.png', drawings: [] }, // ページ4データ
+  	{ background: '/img/fill.SVG', drawings: [] },
+    { background: '/img/underLine.SVG', drawings: [] },
+    { background: '/img/writing.SVG', drawings: [] },
+    { background: '/img/page1.SVG', drawings: [] },
+    { background: '/img/page2.SVG', drawings: [] },
+    { background: '/img/page3.SVG', drawings: [] },
+    { background: '/img/page4.SVG', drawings: [] },
+    { background: '/img/page5.SVG', drawings: [] },
+    { background: '/img/page6.SVG', drawings: [] },
+    { background: '/img/page7.SVG', drawings: [] },
+    { background: '/img/page8.SVG', drawings: [] },
+    { background: '/img/page9.SVG', drawings: [] },
+    { background: '/img/page10.SVG', drawings: [] },
     // 他のページのデータも同様に追加
   ];
 

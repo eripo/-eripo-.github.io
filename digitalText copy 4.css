@@ -34,7 +34,8 @@ body{
 	height: 40px;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
-	background: #7a0;
+	/* background: #7a0; */
+  background:#d0d0d0;
 }
 .page-left::after{
 	left: 15px;
@@ -57,7 +58,8 @@ body{
 	height: 40px;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
-	background: #7a0;
+	/* background: #7a0; */
+  background:#d0d0d0;
 }
 .page-right::after{
 	left: 6px;
