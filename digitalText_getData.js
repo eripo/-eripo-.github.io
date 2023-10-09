@@ -58,7 +58,7 @@ $(document).ready(function() {
 
   let scale = 1; // 現在の拡大率
   var str = "";
-  str += "gapX" + "," + "gapY" + "," + "gap" + "," + "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "msec" + "," + "Mode" + "\n";  // 速度X成分、速度Y成分、合成速度、筆圧
+  str += "pressure" + "," + "gapX" + "," + "gapY" + "," + "gap" + "," + "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "msec" + "," + "Mode" + "\n";  // 速度X成分、速度Y成分、合成速度、筆圧
 
   var str0 = "";
   str0 += "pressure0" + "," + "intervalTime" + "," + "gapX" + "," + "gapY" + "," + "gap" + "," + "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "msec" + "," + "dragTime" + "," + "Mode" + "\n";  // 初速度X成分、初速度Y成分、合成初速度、初筆圧
@@ -83,6 +83,7 @@ $(document).ready(function() {
   let previousY;
   let currentX;
   let currentY;
+  let pressure;
 
   // 一時的なキャンバスを作成
   const tempCanvas = document.createElement('canvas');
@@ -112,14 +113,15 @@ $(document).ready(function() {
       startY0 = event.clientY - elemGapY;
       // startX = event.clientX - elemGapX;
       // startY = event.clientY - elemGapY;
-      var pressure = 1;
+      pressure = 1;
     } else if (event.type === 'touchstart') {
       const touch = event.touches[0];
       startX0 = touch.clientX - elemGapX;
       startY0 = touch.clientY - elemGapY;
       // startX = touch.clientX - elemGapX;
       // startY = touch.clientY - elemGapY;
-      var pressure = touch.force;
+      pressure = touch.force;
+      console.log("Press: " + pressure);
     }
     
     isDrawing = true;
@@ -162,6 +164,7 @@ $(document).ready(function() {
       const touch = event.touches[0];
       currentX = touch.clientX - elemGapX;
       currentY = touch.clientY - elemGapY;
+      pressure = touch.force;
     }
 
 
@@ -251,6 +254,8 @@ $(document).ready(function() {
       return;
     }
 
+    console.log("NextPress: " + pressure);
+
     gapX = currentX - positionPrevX;
     gapY = currentY - positionPrevY;
     // console.log("gapX,gapY: " + gapX + ", " + gapY + "," + currentX + previousX);
@@ -273,12 +278,12 @@ $(document).ready(function() {
 
     console.log("print\n" + gapX + ", " + gapY + "," + currentX + ", " + positionPrevX + "," + currentY + ", " + positionPrevY);
     if(count > 1) {
-      str += gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
+      str += pressure + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
     }
     if(count === 1) {
       str0 += "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime);
       // str += gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
-      str += gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
+      str += pressure + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
       // str += gapX + "," + gapY + "," + gap + "," + (gapX - preGapX) + "," + (gapY - preGapY) + "," + (gap - preGap) + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
     }
     // dpoint0 = point;
