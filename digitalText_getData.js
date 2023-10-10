@@ -105,6 +105,7 @@ $(document).ready(function() {
     endTime = performance.now();
     previousTime = endTime;
     // console.log("intervalTime：" + (endTime-startTime) + "\nstart：" + startTime + "\nend：" + endTime)
+    console.log("previousTime:\n" + previousTime);
 
     event.preventDefault();
     isDrag = true;
@@ -255,58 +256,61 @@ $(document).ready(function() {
       return;
     }
 
-    console.log("NextPress: " + pressure);
+    if(count != 0){
+      gapX = currentX - positionPrevX;
+      gapY = currentY - positionPrevY;
+      // console.log("gapX,gapY: " + gapX + ", " + gapY + "," + currentX + previousX);
+      // 普通の速さ
+      gap = Math.sqrt(gapX**2 + gapY**2);
+      
+      nowTime = performance.now();
+      msec = nowTime - previousTime;
 
-    gapX = currentX - positionPrevX;
-    gapY = currentY - positionPrevY;
-    // console.log("gapX,gapY: " + gapX + ", " + gapY + "," + currentX + previousX);
-    // 普通の速さ
-    gap = Math.sqrt(gapX**2 + gapY**2);
-    
-    nowTime = performance.now();
-    msec = nowTime - previousTime;
+      previousTime = nowTime;
+      // console.log("msec: " + msec);
 
-    previousTime = nowTime;
-    // console.log("msec: " + msec);
+      velX = gapX / msec;
+      velY = gapY / msec;
+      vel = gap / msec;
 
-    velX = gapX / msec;
-    velY = gapY / msec;
-    vel = gap / msec;
+      accelerationX = (velX - preVelX) / msec;
+      accelerationY = (velY - preVelY) / msec;
+      acceleration = (vel - preVel) / msec;
 
-    accelerationX = (velX - preVelX) / msec;
-    accelerationY = (velY - preVelY) / msec;
-    acceleration = (vel - preVel) / msec;
+      console.log("print\n" + gapX + ", " + gapY + "," + currentX + ", " + positionPrevX + "," + currentY + ", " + positionPrevY);
+      if(count > 1) {
+        str += pressure + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
+      }
+      if(count === 1) {
+        str0 += "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime);
+        // str += gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
+        str += pressure0 + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
+        // str += gapX + "," + gapY + "," + gap + "," + (gapX - preGapX) + "," + (gapY - preGapY) + "," + (gap - preGap) + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
+      }
+      // dpoint0 = point;
 
-    console.log("print\n" + gapX + ", " + gapY + "," + currentX + ", " + positionPrevX + "," + currentY + ", " + positionPrevY);
-    if(count > 1) {
-      str += pressure + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
+      console.log("count-previous: " + positionPrevX + ", " + positionPrevY);
+
+      // console.log("count:" + count + "\ngap：" + gapX + ", " + gapY);
+      
+      // console.log("count-previous: " + positionPrevX + ", " + positionPrevY);
+      // console.log("count-current: " + currentX + ", " + currentY);
+      console.log("acceleration: " + acceleration + ", " + accelerationX + ", " + accelerationY);
+
+      positionPrevX = currentX;
+      positionPrevY = currentY;
+
+      preGapX = gapX;
+      preGapY = gapY;
+      preGap = gap;
+
+      preVelX = velX;
+      preVelY = velY;
+      preVel = vel;
+
     }
-    if(count === 1) {
-      str0 += "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime);
-      // str += gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
-      str += pressure0 + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
-      // str += gapX + "," + gapY + "," + gap + "," + (gapX - preGapX) + "," + (gapY - preGapY) + "," + (gap - preGap) + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
-    }
-    // dpoint0 = point;
-
-    console.log("count-previous: " + positionPrevX + ", " + positionPrevY);
-
-    // console.log("count:" + count + "\ngap：" + gapX + ", " + gapY);
     
-    // console.log("count-previous: " + positionPrevX + ", " + positionPrevY);
-    // console.log("count-current: " + currentX + ", " + currentY);
-    console.log("acceleration: " + acceleration + ", " + accelerationX + ", " + accelerationY);
-
-    positionPrevX = currentX;
-    positionPrevY = currentY;
-
-    preGapX = gapX;
-    preGapY = gapY;
-    preGap = gap;
-
-    preVelX = velX;
-    preVelY = velY;
-    preVel = vel;
+    
     
     count++;
 
