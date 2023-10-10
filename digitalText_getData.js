@@ -1,5 +1,5 @@
 /***********************  
- * 最終更新日：2023/09/09
+ * 最終更新日：2023/10/10
  ***********************
  * ※変更不可
  ***********************
@@ -14,7 +14,7 @@
  * ・test0
  *    - 圧力，前回ドラッグからの経過時間(インターバルタイム)，前回座標との差，速度[px/ms]，加速度[px/ms2]，座標，前回サンプル点からの経過時間(データ取得間隔)，ドラッグ時間，モード
  * ・test
- *    - 前回座標との差，速度[px/ms]，加速度[px/ms2]，座標，前回サンプル点からの経過時間(データ取得間隔)，モード
+ *    - 圧力，前回座標との差，速度[px/ms]，加速度[px/ms2]，座標，前回サンプル点からの経過時間(データ取得間隔)，モード
  *********************** 
  * 
  * startX0: タッチスタート時の座標
@@ -124,7 +124,7 @@ $(document).ready(function() {
       // startY = touch.clientY - elemGapY;
       pressure0 = touch.force;
       pressure = pressure0;
-      console.log("Press: " + pressure);
+      // console.log("Press: " + pressure0);
     }
     
     isDrawing = true;
@@ -180,11 +180,11 @@ $(document).ready(function() {
     currentY = (currentY / scale);
 
     // // ドラッグ始点の座標
-    // console.log("各座標\nstart0\nX座標："+ startX0 +"\nY座標："+ startY0);
+    console.log("各座標\nstart0\nX座標："+ startX0 +"\nY座標："+ startY0);
     // // 1個前の座標
-    // console.log("previous\nX座標："+ previousX +"\nY座標："+ previousY);
+    console.log("previous\nX座標："+ previousX +"\nY座標："+ previousY);
     // // 現在の座標
-    // console.log("current\nX座標："+ currentX +"\nY座標："+ currentY);
+    console.log("current\nX座標："+ currentX +"\nY座標："+ currentY);
 
 
     if (isDrawing && mode==="pen") {
@@ -279,7 +279,7 @@ $(document).ready(function() {
       accelerationY = (velY - preVelY) / msec;
       acceleration = (vel - preVel) / msec;
 
-      console.log("print\n" + gapX + ", " + gapY + "," + currentX + ", " + positionPrevX + "," + currentY + ", " + positionPrevY);
+      console.log("print\n" + msec + "," + pressure + "," + gapX + ", " + gapY + "," + currentX + ", " + positionPrevX + "," + currentY + ", " + positionPrevY);
       if(count > 1) {
         str += pressure + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
       }
@@ -291,13 +291,13 @@ $(document).ready(function() {
       }
       // dpoint0 = point;
 
-      console.log("count-previous: " + positionPrevX + ", " + positionPrevY);
+      // console.log("count-previous: " + positionPrevX + ", " + positionPrevY);
 
       // console.log("count:" + count + "\ngap：" + gapX + ", " + gapY);
       
       // console.log("count-previous: " + positionPrevX + ", " + positionPrevY);
       // console.log("count-current: " + currentX + ", " + currentY);
-      console.log("acceleration: " + acceleration + ", " + accelerationX + ", " + accelerationY);
+      // console.log("acceleration: " + acceleration + ", " + accelerationX + ", " + accelerationY);
 
       positionPrevX = currentX;
       positionPrevY = currentY;
