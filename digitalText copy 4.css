@@ -35,7 +35,7 @@ body{
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	/* background: #7a0; */
-  background:#d0d0d0;
+  background:#fbfbfb;
 }
 .page-left::after{
 	left: 15px;
@@ -59,7 +59,7 @@ body{
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	/* background: #7a0; */
-  background:#d0d0d0;
+  background:#fbfbfb;
 }
 .page-right::after{
 	left: 6px;
@@ -164,6 +164,7 @@ body{
 .dl-btn{
   padding: 0.5em;
   margin: 10px 0;
+  margin-top: 350px;
   display: block;
   /* color: #fff !important; */
   background: #fff;
@@ -191,6 +192,7 @@ body{
   .dl-btn{
     padding: 0.6em 0.6em;
     margin: 10px auto;
+    margin-top: 350px;
     font-size:20px;
     display:inline-block;
   }
