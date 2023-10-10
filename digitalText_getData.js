@@ -123,6 +123,7 @@ $(document).ready(function() {
       // startX = touch.clientX - elemGapX;
       // startY = touch.clientY - elemGapY;
       pressure0 = touch.force;
+      pressure = pressure0;
       console.log("Press: " + pressure);
     }
     
@@ -162,6 +163,7 @@ $(document).ready(function() {
     if (event.type === 'mousemove') {
       currentX = event.clientX - elemGapX;
       currentY = event.clientY - elemGapY;
+      pressure = 1;
     } else if (event.type === 'touchmove') {
       const touch = event.touches[0];
       currentX = touch.clientX - elemGapX;
