@@ -105,7 +105,7 @@ $(document).ready(function() {
     endTime = performance.now();
     previousTime = endTime;
     // console.log("intervalTime：" + (endTime-startTime) + "\nstart：" + startTime + "\nend：" + endTime)
-    console.log("previousTime:\n" + previousTime);
+    // console.log("previousTime:\n" + previousTime);
 
     event.preventDefault();
     isDrag = true;
@@ -147,7 +147,7 @@ $(document).ready(function() {
     positionPrevX = startX0;
     positionPrevY = startY0;
 
-    console.log("ドラッグ始点座標: (" + startX0 + ", " + startY0 + ")");
+    // console.log("ドラッグ始点座標: (" + startX0 + ", " + startY0 + ")");
     // console.log("start: (" + startX + ", " + startY + ")");
 
     
@@ -180,11 +180,11 @@ $(document).ready(function() {
     currentY = (currentY / scale);
 
     // // ドラッグ始点の座標
-    console.log("各座標\nstart0\nX座標："+ startX0 +"\nY座標："+ startY0);
+    // console.log("各座標\nstart0\nX座標："+ startX0 +"\nY座標："+ startY0);
     // // 1個前の座標
-    console.log("previous\nX座標："+ previousX +"\nY座標："+ previousY);
+    // console.log("previous\nX座標："+ previousX +"\nY座標："+ previousY);
     // // 現在の座標
-    console.log("current\nX座標："+ currentX +"\nY座標："+ currentY);
+    // console.log("current\nX座標："+ currentX +"\nY座標："+ currentY);
 
 
     if (isDrawing && mode==="pen") {
@@ -279,7 +279,7 @@ $(document).ready(function() {
       accelerationY = (velY - preVelY) / msec;
       acceleration = (vel - preVel) / msec;
 
-      console.log("print\n" + msec + "," + pressure + "," + gapX + ", " + gapY + "," + currentX + ", " + positionPrevX + "," + currentY + ", " + positionPrevY);
+      // console.log("print\n" + msec + "," + pressure + "," + gapX + ", " + gapY + "," + currentX + ", " + positionPrevX + "," + currentY + ", " + positionPrevY);
       if(count > 1) {
         str += pressure + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
       }
