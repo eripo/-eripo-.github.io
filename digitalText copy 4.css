@@ -199,7 +199,9 @@ body{
   } */
 }
 
-
+.section-btn{
+  padding: 30px;
+}
 
 .zoomIn-btn{
   padding: 0.5em;

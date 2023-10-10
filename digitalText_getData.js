@@ -33,7 +33,7 @@
  * 書き込みは、previousXからcurrentXの線分を描いていくことで書いている 
  ***********************
  * 問題点・未実装
- * ・拡大・縮小不可（ボタンのみ有）
+ * ・拡大・縮小不可（ボタンはコメントアウト中）
 ************************/
 
 $(document).ready(function() {
@@ -233,9 +233,9 @@ $(document).ready(function() {
 
     // console.log("end-start: " + (currentX-startX0));
     if(mode==="page") {
-      if (currentX - startX0 < -30) {
+      if (currentX - startX0 < -1) {
         nextPage();
-      } else if (currentX - startX0 > 30) {
+      } else if (currentX - startX0 > 1) {
         prevPage();
       }
     }
@@ -400,6 +400,10 @@ $(document).ready(function() {
     link2.download = "test0.csv";
     link2.click();
   }
+
+  $('#section-button').on('click', function() {
+    str += "\n";
+  });
 
 
   
