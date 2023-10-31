@@ -1,5 +1,5 @@
 /***********************  
- * 最終更新日：2023/10/10
+ * 最終更新日：2023/10/31
  ***********************
  * ※変更不可
  ***********************
@@ -11,10 +11,14 @@
  * モード切替ボタンでモード変更。
  * 書き込みの座標ずれ無し。
  * データ取得機能
- * ・test0
- *    - 圧力，前回ドラッグからの経過時間(インターバルタイム)，前回座標との差，速度[px/ms]，加速度[px/ms2]，座標，前回サンプル点からの経過時間(データ取得間隔)，ドラッグ時間，モード
- * ・test
- *    - 圧力，前回座標との差，速度[px/ms]，加速度[px/ms2]，座標，前回サンプル点からの経過時間(データ取得間隔)，モード
+ * ・strMid その都度
+ *    - 筆圧，変位X，変位Y，変位，速度X，速度Y，速度，加速度X，加速度Y，加速度，座標X，座標Y，処理時間，モード
+ * ・strInitial 初動
+ *    - 筆圧，経過時間，変位X，変位Y，変位，速度X，速度Y，速度，加速度X，加速度Y，加速度，座標X，座標Y，処理時間，モード
+  * ・strFinal 終了時
+ *    - 速度X最小値，速度X最大値，速度X平均，速度X中央値，速度Y最小値，速度Y最大値，速度Y平均，速度Y中央値，速度最小値，速度最大値，速度平均，速度中央値，
+ *      加速度X最小値，加速度X最大値，加速度X平均，加速度X中央値，加速度Y最小値，加速度Y最大値，加速度Y平均，加速度Y中央値，加速度最小値，加速度最大値，加速度平均，加速度中央値，
+ *      筆圧最小値，筆圧最大値，筆圧平均，筆圧中央値，ドラッグ時間，外接矩形幅X，外接矩形幅Y，モード
  *********************** 
  * 
  * startX0: タッチスタート時の座標
@@ -57,11 +61,27 @@ $(document).ready(function() {
 
 
   let scale = 1; // 現在の拡大率
-  var str = "";
-  str += "pressure" + "," + "gapX" + "," + "gapY" + "," + "gap" + "," + "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "msec" + "," + "Mode" + "\n";  // 速度X成分、速度Y成分、合成速度、筆圧
 
-  var str0 = "";
-  str0 += "pressure0" + "," + "intervalTime" + "," + "gapX" + "," + "gapY" + "," + "gap" + "," + "v_x" + "," + "v_y" + "," + "v" + "," + "aX" + "," + "aY" + "," + "a" + "," + "pos_x" + "," + "pos_y" + "," + "msec" + "," + "dragTime" + "," + "Mode" + "\n";  // 初速度X成分、初速度Y成分、合成初速度、初筆圧
+  // 筆圧，変位X，変位Y，変位，速度X，速度Y，速度，加速度X，加速度Y，加速度，座標X，座標Y，処理時間，モード
+  var strMid = "";
+  strMid += "pressure" + "," + "gapX" + "," + "gapY" + "," + "gap" + "," + "velX" + "," + "velY" + "," + "vel" + "," + "accelerationX" + "," + "accelerationY" + "," + "acceleration" + "," + "posX" + "," + "posY" + "," + "msec" + "," + "Mode" + "\n";
+
+  // 筆圧，経過時間，変位X，変位Y，変位，速度X，速度Y，速度，加速度X，加速度Y，加速度，座標X，座標Y，処理時間，モード
+  var strInitial = "";
+  strInitial += "pressure0" + "," + "intervalTime" + "," + "gapX" + "," + "gapY" + "," + "gap" + "," + "velX" + "," + "velY" + "," + "vel" + "," + "accelerationX" + "," + "accelerationY" + "," + "acceleration" + "," + "posX" + "," + "posY" + "," + "msec" + "," + "Mode" + "\n";
+
+  // 速度X最小値，速度X最大値，速度X平均，速度X中央値，速度Y最小値，速度Y最大値，速度Y平均，速度Y中央値，速度最小値，速度最大値，速度平均，速度中央値，
+  // 加速度X最小値，加速度X最大値，加速度X平均，加速度X中央値，加速度Y最小値，加速度Y最大値，加速度Y平均，加速度Y中央値，加速度最小値，加速度最大値，加速度平均，加速度中央値，
+  // 筆圧最小値，筆圧最大値，筆圧平均，筆圧中央値，ドラッグ時間，外接矩形幅X，外接矩形幅Y，モード
+  var strFinal = "";
+  strFinal += "velX_min" + "," + "velX_max" + "," + "velX_mean" + "," + "velX_median"
+           + "," + "velY_min" + "," + "velY_max" + "," + "velY_mean" + "," + "velY_median" 
+           + "," + "vel_min" + "," + "vel_max" + "," + "vel_mean" + "," + "vel_median" 
+           + "," + "accelerationX_min" + "," + "accelerationX_max" + "," + "accelerationX_mean" + "," + "accelerationX_median" 
+           + "," + "accelerationY_min" + "," + "accelerationY_max" + "," + "accelerationY_mean" + "," + "accelerationY_median" 
+           + "," + "acceleration_min" + "," + "acceleration_max" + "," + "acceleration_mean" + "," + "acceleration_median" 
+           + "," + "pressure_min" + "," + "pressure_max" + "," + "pressure_mean" + "," + "pressure_median" 
+           + "," + "dragTime" + "," + "widthX" + "," + "widthY" + "," + "Mode" + "\n";
 
 
   let count = 0;
@@ -85,6 +105,22 @@ $(document).ready(function() {
   let currentY;
   let pressure;
   let pressure0;
+  let velX;
+  let velY;
+  let vel;
+  let accelerationX;
+  let accelerationY;
+  let acceleration;
+
+  let VelX = [];
+  let VelY = [];
+  let Vel = [];
+  let AccelerationX = [];
+  let AccelerationY = [];
+  let Acceleration = [];
+  let Pressure = [];
+  let PositionX = [];
+  let PositionY = [];
 
   // 一時的なキャンバスを作成
   const tempCanvas = document.createElement('canvas');
@@ -143,6 +179,16 @@ $(document).ready(function() {
     accelerationY = 0;
     acceleration = 0;
 
+    VelX = [];
+    VelY = [];
+    Vel = [];
+    AccelerationX = [];
+    AccelerationY = [];
+    Acceleration = [];
+    Pressure = [];
+    PositionX = [];
+    PositionY = [];
+
     //1個前の座標（50ミリ秒ごと） 
     positionPrevX = startX0;
     positionPrevY = startY0;
@@ -151,7 +197,7 @@ $(document).ready(function() {
     // console.log("start: (" + startX + ", " + startY + ")");
 
     
-    str0 += pressure0 + "," + (endTime-startTime);
+    strInitial += pressure0 + "," + (endTime-startTime);
     // console.log("圧力："+ pressure);
     speedCount();
   });
@@ -214,7 +260,7 @@ $(document).ready(function() {
     startTime = performance.now();
 
     // ドラッグ時間を出力
-    str0 += "," + (startTime - endTime) + "," + mode + "\n";
+    strInitial += "," + mode + "\n";
     
 
     event.preventDefault();
@@ -230,7 +276,22 @@ $(document).ready(function() {
     }
     isDrawing = false;
 
+    PositionX.push(currentX);
+    PositionY.push(currentY);
+    
+    // ドラッグ終了時の判別で使用するデータを出力
+    strFinal += ss.min(VelX) + "," + ss.max(VelX) + "," + ss.mean(VelX) + "," + ss.median(VelX) 
+               + "," + ss.min(VelY) + "," + ss.max(VelY) + "," + ss.mean(VelY) + "," + ss.median(VelY) 
+               + "," + ss.min(Vel) + "," + ss.max(Vel) + "," + ss.mean(Vel) + "," + ss.median(Vel) 
+               + "," + ss.min(AccelerationX) + "," + ss.max(AccelerationX) + "," + ss.mean(AccelerationX) + "," + ss.median(AccelerationX) 
+               + "," + ss.min(AccelerationY) + "," + ss.max(AccelerationY) + "," + ss.mean(AccelerationY) + "," + ss.median(AccelerationY) 
+               + "," + ss.min(Acceleration) + "," + ss.max(Acceleration) + "," + ss.mean(Acceleration) + "," + ss.median(Acceleration) 
+               + "," + ss.min(Pressure) + "," + ss.max(Pressure) + "," + ss.mean(Pressure) + "," + ss.median(Pressure) 
+               + "," + (startTime - endTime) 
+               + "," + (ss.max(PositionX) - ss.min(PositionX)) + "," + (ss.max(PositionY) - ss.min(PositionY)) 
+               + "," + mode + "\n";
 
+    // console.log(currentX + "\n" + currentY);
     // console.log("end-start: " + (currentX-startX0));
     if(mode==="page") {
       if (currentX - startX0 < -1) {
@@ -281,13 +342,33 @@ $(document).ready(function() {
 
       // console.log("print\n" + msec + "," + pressure + "," + gapX + ", " + gapY + "," + currentX + ", " + positionPrevX + "," + currentY + ", " + positionPrevY);
       if(count > 1) {
-        str += pressure + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
+        strMid += pressure + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
+        VelX.push(velX);
+        VelY.push(velY);
+        Vel.push(vel);
+        AccelerationX.push(accelerationX);
+        AccelerationY.push(accelerationY);
+        Acceleration.push(acceleration);
+        Pressure.push(pressure);
+        PositionX.push(currentX);
+        PositionY.push(currentY);
       }
       if(count === 1) {
-        str0 += "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime);
+        strInitial += "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime);
         // str += gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
-        str += pressure0 + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
+        strMid += pressure0 + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
         // str += gapX + "," + gapY + "," + gap + "," + (gapX - preGapX) + "," + (gapY - preGapY) + "," + (gap - preGap) + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
+
+        VelX.push(velX);
+        VelY.push(velY);
+        Vel.push(vel);
+        AccelerationX.push(accelerationX);
+        AccelerationY.push(accelerationY);
+        Acceleration.push(acceleration);
+        Pressure.push(pressure0);
+        PositionX.push(currentX);
+        PositionY.push(currentY);
+        // stroke.push(currentX, currentY, velX, velY, vel, accelerationX, accelerationY, acceleration, pressure)
       }
       // dpoint0 = point;
 
@@ -387,18 +468,26 @@ $(document).ready(function() {
   });
   function download() {
     // csvファイルへの書き出し
-    var blob = new Blob([str],{type:"text/csv"}); //配列に上記の文字列(str)を設定
-    var link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = "test.csv";
-    link.click();
-  
-    // 初速度、初筆圧など
-    var blob2 = new Blob([str0],{type:"text/csv"}); //配列に上記の文字列(str)を設定
+    // 初動判別用のデータファイル
+    var blob2 = new Blob([strInitial],{type:"text/csv"}); //配列に上記の文字列(strInitial)を設定
     var link2 = document.createElement('a');
     link2.href = URL.createObjectURL(blob2);
-    link2.download = "test0.csv";
+    link2.download = "Initial.csv";
     link2.click();
+    
+    // その都度判別用のデータファイル
+    var blob = new Blob([strMid],{type:"text/csv"}); //配列に上記の文字列(strMid)を設定
+    var link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = "Mid.csv";
+    link.click();
+  
+    // ドラッグ終了時判別用のデータファイル
+    var blob3 = new Blob([strFinal],{type:"text/csv"}); //配列に上記の文字列(strFinal)を設定
+    var link3 = document.createElement('a');
+    link3.href = URL.createObjectURL(blob3);
+    link3.download = "Final.csv";
+    link3.click();
   }
 
   $('#section-button').on('click', function() {
