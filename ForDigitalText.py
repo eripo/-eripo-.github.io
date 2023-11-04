@@ -25,15 +25,15 @@ from sklearn.metrics import accuracy_score
 
 
 # 学習用データ #
-df = pd.read_csv( 'Data/learn0_20230822_F_E_502.csv' )
+# df = pd.read_csv( 'Data/Initial (5).csv' )
+# df = pd.read_csv( 'Data/Mid (5).csv' )
+df = pd.read_csv( 'Data/Final (5).csv' )
 print(df)
 
 # 説明変数leran_data(特徴量3つ)と目的変数leran_label(判別結果)に分ける
 ## 説明変数 適宜不要な列を削除する。削除する列を配列で指定する。################################
 
 # learn用 ##############################
-# # 速度、速度/msec
-# learn_data = df.drop(['aX', 'aY', 'a', 'pos_x', 'pos_y', 'msec', 'aX/msec', 'aY/msec', 'a/msec', 'Mode'], axis=1)
 # # 速度
 # learn_data = df.drop(['aX', 'aY', 'a', 'pos_x', 'pos_y', 'msec', 'v_x/msec', 'v_y/msec', 'v/msec', 'aX/msec', 'aY/msec', 'a/msec', 'Mode'], axis=1)
 # # 速度/msec
@@ -46,12 +46,17 @@ print(df)
 # learn_data = df.drop(['v_x', 'v_y', 'v', 'aX', 'aY', 'a', 'pos_x', 'pos_y', 'msec', 'v_x/msec', 'v_y/msec', 'v/msec', 'Mode'], axis=1)
 
 # learn0用 #############################
+# # 全要素
+# learn_data = df.drop(['msec', 'Mode'], axis=1)
+# # 全要素（gapを除く）
+# learn_data = df.drop(['gapX', 'gapY', 'gap', 'msec', 'Mode'], axis=1)
+
 # # 筆圧、速度[px/ms]、加速度
 # learn_data = df.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'Mode'], axis=1)
 # # 速度[px/ms]、加速度
 # learn_data = df.drop(['pressure0', 'interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'Mode'], axis=1)
-# 筆圧、速度[px/ms]
-learn_data = df.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'aX', 'aY', 'a', 'Mode'], axis=1)
+# # 筆圧、速度[px/ms]
+# learn_data = df.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'aX', 'aY', 'a', 'Mode'], axis=1)
 # # 筆圧、加速度
 # learn_data = df.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'v_x', 'v_y', 'v', 'Mode'], axis=1)
 # # 筆圧
@@ -60,6 +65,10 @@ learn_data = df.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec
 # learn_data = df.drop(['pressure0', 'interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'aX', 'aY', 'a', 'Mode'], axis=1)
 # # 加速度
 # learn_data = df.drop(['pressure0', 'interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'v_x', 'v_y', 'v', 'Mode'], axis=1)
+
+# Final用 #############################
+# 全要素
+learn_data = df.drop(['Mode'], axis=1)
 ###########################################################################################
 learn_label = df['Mode']
 
@@ -71,7 +80,9 @@ print(learn_label)
 print("てすとてすと")
 
 # テストデータ
-df2 = pd.read_csv( 'Data/test0_20230822_F_E_487.csv' )
+# df2 = pd.read_csv( 'Data/Initial(1).csv' )
+# df2 = pd.read_csv( 'Data/Mid(1).csv' )
+df2 = pd.read_csv( 'Data/Final(1).csv' )
 print(df2)
 # 説明変数leran_data(特徴量3つ)と目的変数leran_label(判別結果)に分ける
 ## 説明変数 適宜不要な列を削除する。削除する列を配列で指定する。################################
@@ -81,12 +92,17 @@ print(df2)
 # test_data = df2.drop(['pos_x', 'pos_y', 'msec', 'Mode'], axis=1)
 
 # test0用 #############################
+# # 全要素
+# test_data = df2.drop(['msec', 'Mode'], axis=1)
+# # 全要素（gapを除く）
+# test_data = df2.drop(['gapX', 'gapY', 'gap', 'msec', 'Mode'], axis=1)
+
 # # 筆圧、速度[px/ms]、加速度
 # test_data = df2.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'Mode'], axis=1)
 # # 速度[px/ms]、加速度
 # test_data = df2.drop(['pressure0', 'interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'Mode'], axis=1)
-# 筆圧、速度[px/ms]
-test_data = df2.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'aX', 'aY', 'a', 'Mode'], axis=1)
+# # 筆圧、速度[px/ms]
+# test_data = df2.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'aX', 'aY', 'a', 'Mode'], axis=1)
 # # 筆圧、加速度
 # test_data = df2.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'v_x', 'v_y', 'v', 'Mode'], axis=1)
 # # 筆圧
@@ -95,6 +111,10 @@ test_data = df2.drop(['interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec
 # test_data = df2.drop(['pressure0', 'interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'aX', 'aY', 'a', 'Mode'], axis=1)
 # # 加速度
 # test_data = df2.drop(['pressure0', 'interval', 'gapX', 'gapY', 'gap', 'pos_x', 'pos_y', 'msec', 'v_x', 'v_y', 'v', 'Mode'], axis=1)
+
+# Final用 #############################
+# 全要素
+test_data = df2.drop(['Mode'], axis=1)
 ###########################################################################################
 test_label = df2['Mode']
 
