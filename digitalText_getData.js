@@ -491,7 +491,7 @@ $(document).ready(function() {
   }
 
   $('#section-button').on('click', function() {
-    str += "\n";
+    strMid += "\n";
   });
 
 
