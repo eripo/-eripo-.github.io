@@ -161,9 +161,12 @@ $(document).ready(function() {
       pressure0 = touch.force;
       pressure = pressure0;
       // console.log("Press: " + pressure0);
+
+      // const touch2 = event.touches[0];
+      // var touchArea = touch2.radiusX * touch2.radiusY * Math.PI;
+      // console.log("Touch Area: " + touchArea + " pixels squared\n" + touch2.radiusX + "\n" + touch2.radiusY);
     }
 
-    calculateTouchArea(event);
     
 
 
@@ -220,6 +223,10 @@ $(document).ready(function() {
       currentX = touch.clientX - elemGapX;
       currentY = touch.clientY - elemGapY;
       pressure = touch.force;
+
+      // const touch2 = event.touches[0];
+      // var touchArea = touch2.radiusX * touch2.radiusY * Math.PI;
+      // console.log("Touch Area: " + touchArea + " pixels squared\n" + touch2.radiusX + "\n" + touch2.radiusY);
     }
 
 
@@ -596,11 +603,4 @@ $(document).ready(function() {
     };
   }
 
-
-  function calculateTouchArea(event) {
-    event.preventDefault(); // デフォルトのタッチアクションを無効にする
-
-    var touchArea = event.width * event.height;
-    console.log("Touch Area: " + touchArea + " pixels squared\n" + event.width + "\n" + event.height);
-  }
 });
