@@ -165,6 +165,11 @@ $(document).ready(function() {
       // const touch2 = event.touches[0];
       // var touchArea = touch2.radiusX * touch2.radiusY * Math.PI;
       // console.log("Touch Area: " + touchArea + " pixels squared\n" + touch2.radiusX + "\n" + touch2.radiusY);
+      if (event.tiltY) {
+        console.log('Tilt along Y-axis: ' + event.tiltY);
+      } else {
+          console.log('Tilt along Y-axis not supported on this device.');
+      }
     }
 
     
@@ -334,10 +339,18 @@ $(document).ready(function() {
     if(count != 0){
       gapX = currentX - positionPrevX;
       gapY = currentY - positionPrevY;
-      // console.log("gapX,gapY: " + gapX + ", " + gapY + "," + currentX + previousX);
       // 普通の速さ
       gap = Math.sqrt(gapX**2 + gapY**2);
-      
+      console.log(window.devicePixelRatio);
+      console.log("gapX,gapY: " + gapX + ", " + gapY + ",\n" + currentX + "," + previousX);
+
+
+      gapRX = (currentX - positionPrevX) / window.devicePixelRatio;
+      gapRY = (currentY - positionPrevY) / window.devicePixelRatio;
+      gapR = Math.sqrt(gapRX**2 + gapRY**2);
+      console.log("gapRX,gapRY: " + gapRX + ", " + gapRY + ",\n" + currentX + "," + previousX);
+
+
       nowTime = performance.now();
       msec = nowTime - previousTime;
 
@@ -347,6 +360,8 @@ $(document).ready(function() {
       velX = gapX / msec;
       velY = gapY / msec;
       vel = gap / msec;
+
+      window.devicePixelRatio
 
       accelerationX = (velX - preVelX) / msec;
       accelerationY = (velY - preVelY) / msec;
