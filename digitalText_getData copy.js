@@ -1,5 +1,5 @@
 /***********************  
- * 最終更新日：2023/10/31
+ * 最終更新日：2023/11/08
  ***********************
  * ※変更不可
  ***********************
@@ -11,11 +11,11 @@
  * モード切替ボタンでモード変更。
  * 書き込みの座標ずれ無し。
  * データ取得機能
- * ・strMid その都度
+ * ・strMid その都度（変位，速度，加速度については，画面上での動きだけでなく現実の動きに合わせたものも取得）
  *    - 筆圧，変位X，変位Y，変位，速度X，速度Y，速度，加速度X，加速度Y，加速度，座標X，座標Y，処理時間，モード
- * ・strInitial 初動
+ * ・strInitial 初動（変位，速度，加速度については，画面上での動きだけでなく現実の動きに合わせたものも取得）
  *    - 筆圧，経過時間，変位X，変位Y，変位，速度X，速度Y，速度，加速度X，加速度Y，加速度，座標X，座標Y，処理時間，モード
-  * ・strFinal 終了時
+  * ・strFinal 終了時（速度，加速度，外接矩形幅については，画面上での動きだけでなく現実の動きに合わせたものも取得）
  *    - 速度X最小値，速度X最大値，速度X平均，速度X中央値，速度Y最小値，速度Y最大値，速度Y平均，速度Y中央値，速度最小値，速度最大値，速度平均，速度中央値，
  *      加速度X最小値，加速度X最大値，加速度X平均，加速度X中央値，加速度Y最小値，加速度Y最大値，加速度Y平均，加速度Y中央値，加速度最小値，加速度最大値，加速度平均，加速度中央値，
  *      筆圧最小値，筆圧最大値，筆圧平均，筆圧中央値，ドラッグ時間，外接矩形幅X，外接矩形幅Y，モード
@@ -33,7 +33,7 @@
  * positionPrevX: 前回座標
  * preVelX: 前回速度
  * 
- * ページめくり幅（currentX-startX0）：30
+ * ページめくり幅（currentX-startX0）：10
  * 書き込みは、previousXからcurrentXの線分を描いていくことで書いている 
  ***********************
  * 問題点・未実装
@@ -64,11 +64,11 @@ $(document).ready(function() {
 
   // 筆圧，変位X，変位Y，変位，速度X，速度Y，速度，加速度X，加速度Y，加速度，座標X，座標Y，処理時間，モード
   var strMid = "";
-  strMid += "pressure" + "," + "gapX" + "," + "gapY" + "," + "gap" + "," + "velX" + "," + "velY" + "," + "vel" + "," + "accelerationX" + "," + "accelerationY" + "," + "acceleration" + "," + "posX" + "," + "posY" + "," + "msec" + "," + "Mode" + "\n";
+  strMid += "pressure" + "," + "gapX" + "," + "gapY" + "," + "gap" + "," + "gapRX" + "," + "gapRY" + "," + "gapR" + "," + "velX" + "," + "velY" + "," + "vel" + "," + "velRX" + "," + "velRY" + "," + "velR" + "," + "accelerationX" + "," + "accelerationY" + "," + "acceleration" + "," + "accelerationRX" + "," + "accelerationRY" + "," + "accelerationR" + "," + "posX" + "," + "posY" + "," + "msec" + "," + "Mode" + "\n";
 
   // 筆圧，経過時間，変位X，変位Y，変位，速度X，速度Y，速度，加速度X，加速度Y，加速度，座標X，座標Y，処理時間，モード
   var strInitial = "";
-  strInitial += "pressure0" + "," + "intervalTime" + "," + "gapX" + "," + "gapY" + "," + "gap" + "," + "velX" + "," + "velY" + "," + "vel" + "," + "accelerationX" + "," + "accelerationY" + "," + "acceleration" + "," + "posX" + "," + "posY" + "," + "msec" + "," + "Mode" + "\n";
+  strInitial += "pressure0" + "," + "intervalTime" + "," + "gapX" + "," + "gapY" + "," + "gap" + "," + "gapRX" + "," + "gapRY" + "," + "gapR" + "," + "velX" + "," + "velY" + "," + "vel" + "," + "velRX" + "," + "velRY" + "," + "velR" + "," + "accelerationX" + "," + "accelerationY" + "," + "acceleration" + "," + "accelerationRX" + "," + "accelerationRY" + "," + "accelerationR" + "," + "posX" + "," + "posY" + "," + "msec" + "," + "Mode" + "\n";
 
   // 速度X最小値，速度X最大値，速度X平均，速度X中央値，速度Y最小値，速度Y最大値，速度Y平均，速度Y中央値，速度最小値，速度最大値，速度平均，速度中央値，
   // 加速度X最小値，加速度X最大値，加速度X平均，加速度X中央値，加速度Y最小値，加速度Y最大値，加速度Y平均，加速度Y中央値，加速度最小値，加速度最大値，加速度平均，加速度中央値，
@@ -77,11 +77,17 @@ $(document).ready(function() {
   strFinal += "velX_min" + "," + "velX_max" + "," + "velX_mean" + "," + "velX_median"
            + "," + "velY_min" + "," + "velY_max" + "," + "velY_mean" + "," + "velY_median" 
            + "," + "vel_min" + "," + "vel_max" + "," + "vel_mean" + "," + "vel_median" 
+           + "," + "velRX_min" + "," + "velRX_max" + "," + "velRX_mean" + "," + "velRX_median"
+           + "," + "velRY_min" + "," + "velRY_max" + "," + "velRY_mean" + "," + "velRY_median" 
+           + "," + "velR_min" + "," + "velR_max" + "," + "velR_mean" + "," + "velR_median" 
            + "," + "accelerationX_min" + "," + "accelerationX_max" + "," + "accelerationX_mean" + "," + "accelerationX_median" 
            + "," + "accelerationY_min" + "," + "accelerationY_max" + "," + "accelerationY_mean" + "," + "accelerationY_median" 
            + "," + "acceleration_min" + "," + "acceleration_max" + "," + "acceleration_mean" + "," + "acceleration_median" 
+           + "," + "accelerationRX_min" + "," + "accelerationRX_max" + "," + "accelerationRX_mean" + "," + "accelerationRX_median" 
+           + "," + "accelerationRY_min" + "," + "accelerationRY_max" + "," + "accelerationRY_mean" + "," + "accelerationRY_median" 
+           + "," + "accelerationR_min" + "," + "accelerationR_max" + "," + "accelerationR_mean" + "," + "accelerationR_median" 
            + "," + "pressure_min" + "," + "pressure_max" + "," + "pressure_mean" + "," + "pressure_median" 
-           + "," + "dragTime" + "," + "widthX" + "," + "widthY" + "," + "Mode" + "\n";
+           + "," + "dragTime" + "," + "widthX" + "," + "widthY" + "," + "widthRX" + "," + "widthRY" + "," + "Mode" + "\n";
 
 
   let count = 0;
@@ -91,6 +97,8 @@ $(document).ready(function() {
   let mode = "page";
   let startX0;
   let startY0;
+  let startPosX;
+  let startPosY;
   // let startX = 0;
   // let startY = 0;
   let startTime = 0;
@@ -99,28 +107,48 @@ $(document).ready(function() {
 
   let subPrevX;
   let subPrevY;
+  let subPrevPosX;
+  let subPrevPosY;
   let previousX;
   let previousY;
+  let prePosX;
+  let prePosY;
   let currentX;
   let currentY;
+  let curPosX;
+  let curPosY;
   let pressure;
   let pressure0;
   let velX;
   let velY;
   let vel;
+  let velRX;
+  let velRY;
+  let velR;
   let accelerationX;
   let accelerationY;
   let acceleration;
+  let accelerationRX;
+  let accelerationRY;
+  let accelerationR;
 
   let VelX = [];
   let VelY = [];
   let Vel = [];
+  let VelRX = [];
+  let VelRY = [];
+  let VelR = [];
   let AccelerationX = [];
   let AccelerationY = [];
   let Acceleration = [];
+  let AccelerationRX = [];
+  let AccelerationRY = [];
+  let AccelerationR = [];
   let Pressure = [];
   let PositionX = [];
   let PositionY = [];
+  let PositionRX = [];
+  let PositionRY = [];
 
   // 一時的なキャンバスを作成
   const tempCanvas = document.createElement('canvas');
@@ -146,30 +174,29 @@ $(document).ready(function() {
     event.preventDefault();
     isDrag = true;
 
+    // posX,posYは速度や加速度を求めるための座標．startX0やcurrentXなどelemGapを引いているものは，紙面上の座標を求めるためのもの．
+    
     if (event.type === 'mousedown') {
       startX0 = event.clientX - elemGapX;
       startY0 = event.clientY - elemGapY;
-      // startX = event.clientX - elemGapX;
-      // startY = event.clientY - elemGapY;
+      startPosX = event.screenX;
+      startPosY = event.screenY;
       pressure0 = 1;
     } else if (event.type === 'touchstart') {
       const touch = event.touches[0];
       startX0 = touch.clientX - elemGapX;
       startY0 = touch.clientY - elemGapY;
-      // startX = touch.clientX - elemGapX;
-      // startY = touch.clientY - elemGapY;
+      startPosX = touch.screenX;
+      startPosY = touch.screenY;
       pressure0 = touch.force;
       pressure = pressure0;
       // console.log("Press: " + pressure0);
 
+      // // 接触面積を求める（デバイス対応なし？）
       // const touch2 = event.touches[0];
       // var touchArea = touch2.radiusX * touch2.radiusY * Math.PI;
       // console.log("Touch Area: " + touchArea + " pixels squared\n" + touch2.radiusX + "\n" + touch2.radiusY);
-      if (event.tiltY) {
-        console.log('Tilt along Y-axis: ' + event.tiltY);
-      } else {
-          console.log('Tilt along Y-axis not supported on this device.');
-      }
+
     }
 
     
@@ -177,6 +204,7 @@ $(document).ready(function() {
 
     
     isDrawing = true;
+    // 紙面上
     gapX = startX0;
     gapY = startY0;
     subPrevX = startX0;
@@ -192,19 +220,48 @@ $(document).ready(function() {
     accelerationY = 0;
     acceleration = 0;
 
+    // リアル
+    gapRX = startPosX;
+    gapRY = startPosY;    
+    subPrevPosX = startPosX;
+    subPrevPosY = startPosY;
+    prePosX = startPosX;
+    prePosY = startPosY;
+    curPosX = startPosX;
+    curPosY = startPosY;
+    preVelRX = 0;
+    preVelRY = 0;
+    preVelR = 0;
+    accelerationRX = 0;
+    accelerationRY = 0;
+    accelerationR = 0;
+
+    
+
     VelX = [];
     VelY = [];
     Vel = [];
+    VelRX = [];
+    VelRY = [];
+    VelR = [];
     AccelerationX = [];
     AccelerationY = [];
     Acceleration = [];
+    AccelerationRX = [];
+    AccelerationRY = [];
+    AccelerationR = [];
     Pressure = [];
     PositionX = [];
     PositionY = [];
+    PositionRX = [];
+    PositionRY = [];
 
     //1個前の座標（50ミリ秒ごと） 
     positionPrevX = startX0;
     positionPrevY = startY0;
+    posPrevX = startPosX;
+    posPrevY = startPosY;
+
 
     // console.log("ドラッグ始点座標: (" + startX0 + ", " + startY0 + ")");
     // console.log("start: (" + startX + ", " + startY + ")");
@@ -222,11 +279,15 @@ $(document).ready(function() {
     if (event.type === 'mousemove') {
       currentX = event.clientX - elemGapX;
       currentY = event.clientY - elemGapY;
+      curPosX = event.screenX;
+      curPosY = event.screenY;
       pressure = 1;
     } else if (event.type === 'touchmove') {
       const touch = event.touches[0];
       currentX = touch.clientX - elemGapX;
       currentY = touch.clientY - elemGapY;
+      curPosX = touch.screenX;
+      curPosY = touch.screenY;
       pressure = touch.force;
 
       // const touch2 = event.touches[0];
@@ -241,6 +302,10 @@ $(document).ready(function() {
     previousY = subPrevY / scale;
     currentX = (currentX / scale);
     currentY = (currentY / scale);
+
+    // scaleは使ってないのでここでもとりあえずなしで．
+    prePosX = subPrevPosX;
+    prePosY = subPrevPosY;
 
     // // ドラッグ始点の座標
     // console.log("各座標\nstart0\nX座標："+ startX0 +"\nY座標："+ startY0);
@@ -269,6 +334,9 @@ $(document).ready(function() {
     subPrevX = currentX;
     subPrevY = currentY;
 
+    subPrevPosX = curPosX;
+    subPrevPosY = curPosY;
+
 
   });
 
@@ -286,26 +354,39 @@ $(document).ready(function() {
     if (event.type === 'mouseup') {
       currentX = event.clientX - elemGapX;
       currentY = event.clientY - elemGapY;
+      curPosX = event.screenX;
+      curPosY = event.screenY;
     } else if (event.type === 'touchend') {
       const touch = event.changedTouches[0];
       currentX = touch.clientX - elemGapX;
       currentY = touch.clientY - elemGapY;
+      curPosX = touch.screenX;
+      curPosY = touch.screenY;
     }
     isDrawing = false;
 
     PositionX.push(currentX);
     PositionY.push(currentY);
+    PositionRX.push(curPosX);
+    PositionRY.push(curPosY);
     
     // ドラッグ終了時の判別で使用するデータを出力
     strFinal += ss.min(VelX) + "," + ss.max(VelX) + "," + ss.mean(VelX) + "," + ss.median(VelX) 
                + "," + ss.min(VelY) + "," + ss.max(VelY) + "," + ss.mean(VelY) + "," + ss.median(VelY) 
                + "," + ss.min(Vel) + "," + ss.max(Vel) + "," + ss.mean(Vel) + "," + ss.median(Vel) 
+               + "," + ss.min(VelRX)+ "," + ss.max(VelRX) + "," + ss.mean(VelRX) + "," + ss.median(VelRX) 
+               + "," + ss.min(VelRY) + "," + ss.max(VelRY) + "," + ss.mean(VelRY) + "," + ss.median(VelRY) 
+               + "," + ss.min(VelR) + "," + ss.max(VelR) + "," + ss.mean(VelR) + "," + ss.median(VelR) 
                + "," + ss.min(AccelerationX) + "," + ss.max(AccelerationX) + "," + ss.mean(AccelerationX) + "," + ss.median(AccelerationX) 
                + "," + ss.min(AccelerationY) + "," + ss.max(AccelerationY) + "," + ss.mean(AccelerationY) + "," + ss.median(AccelerationY) 
                + "," + ss.min(Acceleration) + "," + ss.max(Acceleration) + "," + ss.mean(Acceleration) + "," + ss.median(Acceleration) 
+               + "," + ss.min(AccelerationRX) + "," + ss.max(AccelerationRX) + "," + ss.mean(AccelerationRX) + "," + ss.median(AccelerationRX) 
+               + "," + ss.min(AccelerationRY) + "," + ss.max(AccelerationRY) + "," + ss.mean(AccelerationRY) + "," + ss.median(AccelerationRY) 
+               + "," + ss.min(AccelerationR) + "," + ss.max(AccelerationR) + "," + ss.mean(AccelerationR) + "," + ss.median(AccelerationR) 
                + "," + ss.min(Pressure) + "," + ss.max(Pressure) + "," + ss.mean(Pressure) + "," + ss.median(Pressure) 
                + "," + (startTime - endTime) 
                + "," + (ss.max(PositionX) - ss.min(PositionX)) + "," + (ss.max(PositionY) - ss.min(PositionY)) 
+               + "," + (ss.max(PositionRX) - ss.min(PositionRX)) + "," + (ss.max(PositionRY) - ss.min(PositionRY)) 
                + "," + mode + "\n";
 
     // console.log(currentX + "\n" + currentY);
@@ -339,16 +420,13 @@ $(document).ready(function() {
     if(count != 0){
       gapX = currentX - positionPrevX;
       gapY = currentY - positionPrevY;
-      // 普通の速さ
       gap = Math.sqrt(gapX**2 + gapY**2);
-      console.log(window.devicePixelRatio);
-      console.log("gapX,gapY: " + gapX + ", " + gapY + ",\n" + currentX + "," + previousX);
+      console.log("gapX,gapY: " + gapX + ", " + gapY + ",\n" + currentX + "," + positionPrevX + ",\n" + currentY + "," + positionPrevY);
 
-
-      gapRX = (currentX - positionPrevX) / window.devicePixelRatio;
-      gapRY = (currentY - positionPrevY) / window.devicePixelRatio;
+      gapRX = (curPosX - posPrevX);
+      gapRY = (curPosY - posPrevY);
       gapR = Math.sqrt(gapRX**2 + gapRY**2);
-      console.log("gapRX,gapRY: " + gapRX + ", " + gapRY + ",\n" + currentX + "," + previousX);
+      console.log("gapRX,gapRY: " + gapRX + ", " + gapRY + ",\n" + curPosX + "," + posPrevX + ",\n" + curPosY + "," + posPrevY);
 
 
       nowTime = performance.now();
@@ -360,41 +438,64 @@ $(document).ready(function() {
       velX = gapX / msec;
       velY = gapY / msec;
       vel = gap / msec;
+      velRX = gapRX / msec;
+      velRY = gapRY / msec;
+      velR = gapR / msec;
 
-      window.devicePixelRatio
 
       accelerationX = (velX - preVelX) / msec;
       accelerationY = (velY - preVelY) / msec;
       acceleration = (vel - preVel) / msec;
+      accelerationRX = (velRX - preVelRX) / msec;
+      accelerationRY = (velRY - preVelRY) / msec;
+      accelerationR = (velR - preVelR) / msec;
+
+      // ここまで！！！
 
       // console.log("print\n" + msec + "," + pressure + "," + gapX + ", " + gapY + "," + currentX + ", " + positionPrevX + "," + currentY + ", " + positionPrevY);
       if(count > 1) {
-        strMid += pressure + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
+        strMid += pressure + "," + gapX + "," + gapY + "," + gap + "," + gapRX + "," + gapRY + "," + gapR + "," + velX + "," + velY + "," + vel + "," + velRX + "," + velRY + "," + velR + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + accelerationRX + "," + accelerationRY + "," + accelerationR + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
         VelX.push(velX);
         VelY.push(velY);
         Vel.push(vel);
+        VelRX.push(velRX);
+        VelRY.push(velRY);
+        VelR.push(velR);
         AccelerationX.push(accelerationX);
         AccelerationY.push(accelerationY);
         Acceleration.push(acceleration);
+        AccelerationRX.push(accelerationRX);
+        AccelerationRY.push(accelerationRY);
+        AccelerationR.push(accelerationR);
         Pressure.push(pressure);
         PositionX.push(currentX);
         PositionY.push(currentY);
+        PositionRX.push(curPosX);
+        PositionRY.push(curPosY);
       }
       if(count === 1) {
-        strInitial += "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime);
+        strInitial += "," + gapX + "," + gapY + "," + gap + "," + gapRX + "," + gapRY + "," + gapR + "," + velX + "," + velY + "," + vel + "," + velRX + "," + velRY + "," + velR + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + accelerationRX + "," + accelerationRY + "," + accelerationR + "," + currentX + "," + currentY + "," + (nowTime-endTime);
         // str += gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
-        strMid += pressure0 + "," + gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
+        strMid += pressure0 + "," + gapX + "," + gapY + "," + gap + "," + gapRX + "," + gapRY + "," + gapR + "," + velX + "," + velY + "," + vel + "," + velRX + "," + velRY + "," + velR + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + accelerationRX + "," + accelerationRY + "," + accelerationR + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
         // str += gapX + "," + gapY + "," + gap + "," + (gapX - preGapX) + "," + (gapY - preGapY) + "," + (gap - preGap) + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
 
         VelX.push(velX);
         VelY.push(velY);
         Vel.push(vel);
+        VelRX.push(velRX);
+        VelRY.push(velRY);
+        VelR.push(velR);
         AccelerationX.push(accelerationX);
         AccelerationY.push(accelerationY);
         Acceleration.push(acceleration);
+        AccelerationRX.push(accelerationRX);
+        AccelerationRY.push(accelerationRY);
+        AccelerationR.push(accelerationR);
         Pressure.push(pressure0);
         PositionX.push(currentX);
         PositionY.push(currentY);
+        PositionRX.push(curPosX);
+        PositionRY.push(curPosY);
         // stroke.push(currentX, currentY, velX, velY, vel, accelerationX, accelerationY, acceleration, pressure)
       }
       // dpoint0 = point;
@@ -409,14 +510,22 @@ $(document).ready(function() {
 
       positionPrevX = currentX;
       positionPrevY = currentY;
+      posPrevX = curPosX;
+      posPrevY = curPosY;
 
       preGapX = gapX;
       preGapY = gapY;
       preGap = gap;
+      preGapRX = gapRX;
+      preGapRY = gapRY;
+      preGapR = gapR;
 
       preVelX = velX;
       preVelY = velY;
       preVel = vel;
+      preVelRX = velRX;
+      preVelRY = velRY;
+      preVelR = velR;
 
     }
     
@@ -431,7 +540,7 @@ $(document).ready(function() {
     // console.log("時間2：" + now);
   
 
-    // 50ミリ秒後に再度関数を実行
+    // 10ミリ秒後に再度関数を実行
     setTimeout(speedCount, 10);
 
   }
