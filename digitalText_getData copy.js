@@ -1,5 +1,5 @@
 /***********************  
- * 最終更新日：2023/11/08
+ * 最終更新日：2023/11/10
  ***********************
  * ※変更不可
  ***********************
@@ -599,32 +599,65 @@ $(document).ready(function() {
 
 
   // csvファイルダウンロード用ボタン
-  $('#dl-button').on('click', function() {
-    download();
-  });
-  function download() {
+  // function download() {
+  //   // csvファイルへの書き出し
+  //   // 初動判別用のデータファイル
+  //   var blob2 = new Blob([strInitial],{type:"text/csv"}); //配列に上記の文字列(strInitial)を設定
+  //   var link2 = document.createElement('a');
+  //   link2.href = URL.createObjectURL(blob2);
+  //   link2.download = "ff_Initial.csv";
+  //   link2.click();
+    
+  //   // その都度判別用のデータファイル
+  //   var blob = new Blob([strMid],{type:"text/csv"}); //配列に上記の文字列(strMid)を設定
+  //   var link = document.createElement('a');
+  //   link.href = URL.createObjectURL(blob);
+  //   link.download = "ff_Mid.csv";
+  //   link.click();
+  
+  //   // ドラッグ終了時判別用のデータファイル
+  //   var blob3 = new Blob([strFinal],{type:"text/csv"}); //配列に上記の文字列(strFinal)を設定
+  //   var link3 = document.createElement('a');
+  //   link3.href = URL.createObjectURL(blob3);
+  //   link3.download = "ff_Final.csv";
+  //   link3.click();
+  // }
+  
+  $('#dl-ff').on('click', function() {    download("ff");  });
+  $('#dl-pf').on('click', function() {    download("pf");  });
+  $('#dl-fu').on('click', function() {    download("fu");  });
+  $('#dl-pu').on('click', function() {    download("pu");  });
+  $('#dl-fw').on('click', function() {    download("fw");  });
+  $('#dl-pw').on('click', function() {    download("pw");  });
+  $('#dl-fp').on('click', function() {    download("fp");  });
+  $('#dl-pp').on('click', function() {    download("pp");  });
+  $('#dl-fm').on('click', function() {    download("fm");  });
+  $('#dl-pm').on('click', function() {    download("pm");  });
+  function download(filename) {
     // csvファイルへの書き出し
     // 初動判別用のデータファイル
     var blob2 = new Blob([strInitial],{type:"text/csv"}); //配列に上記の文字列(strInitial)を設定
     var link2 = document.createElement('a');
     link2.href = URL.createObjectURL(blob2);
-    link2.download = "Initial.csv";
+    link2.download = filename +  "_Initial.csv";
     link2.click();
     
     // その都度判別用のデータファイル
     var blob = new Blob([strMid],{type:"text/csv"}); //配列に上記の文字列(strMid)を設定
     var link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = "Mid.csv";
+    link.download = filename +  "_Mid.csv";
     link.click();
   
     // ドラッグ終了時判別用のデータファイル
     var blob3 = new Blob([strFinal],{type:"text/csv"}); //配列に上記の文字列(strFinal)を設定
     var link3 = document.createElement('a');
     link3.href = URL.createObjectURL(blob3);
-    link3.download = "Final.csv";
+    link3.download = filename +  "_Final.csv";
     link3.click();
   }
+
+  
 
   $('#section-button').on('click', function() {
     strInitial += "\n";
