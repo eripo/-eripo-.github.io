@@ -171,13 +171,13 @@ $(document).ready(function() {
 
 
   $(canvas).on('mousedown touchstart', function(event) {
-    console.log("マウスダウン")
+    // console.log("マウスダウン")
     
     // 次回ドラッグ開始時（インターバル終了）
     endTime = performance.now();
     previousTime = endTime;
     nowTime = endTime;
-    console.log("intervalTime：" + (endTime-startTime));
+    // console.log("intervalTime：" + (endTime-startTime));
     // console.log("intervalTime：" + (endTime-startTime) + "\nstart：" + startTime + "\nend：" + endTime)
     // console.log("previousTime:\n" + previousTime);
 
@@ -209,7 +209,7 @@ $(document).ready(function() {
 
     }
 
-    console.log("endTime：" + endTime + "\nstartTime：" + startTime + "\npreviousTime：" + previousTime + "\nnowTime：" + nowTime);
+    // console.log("endTime：" + endTime + "\nstartTime：" + startTime + "\npreviousTime：" + previousTime + "\nnowTime：" + nowTime);
     
 
 
@@ -412,15 +412,12 @@ $(document).ready(function() {
       }
     }
 
-    
     count = 0;
   });
 
 
 
   function speedCount() {
-    
-    
     // 速度を計算する処理を記述
     // if (vel == false) { // pointに値が入ってなかったら、速さ(0,0)
     //   gapX = 0;
@@ -432,7 +429,7 @@ $(document).ready(function() {
     if(!isDrag) {
       return;
     }
-    console.log("count: " + count)
+    // console.log("count: " + count)
 
     if(count != 0){
       gapX = currentX - positionPrevX;
@@ -448,10 +445,10 @@ $(document).ready(function() {
 
       nowTime = performance.now();
       msec = nowTime - previousTime;
-      console.log("previousTime：" + previousTime + "\nnowTime：" + nowTime);
+      // console.log("previousTime：" + previousTime + "\nnowTime：" + nowTime);
 
       previousTime = nowTime;
-      console.log("msec: " + msec);
+      // console.log("msec: " + msec);
       // console.log("endTime：" + endTime + "\nstartTime：" + startTime + "\npreviousTime：" + previousTime + "\nnowTime：" + nowTime);
       
 
@@ -499,7 +496,7 @@ $(document).ready(function() {
         // str += gapX + "," + gapY + "," + gap + "," + (gapX - preGapX) + "," + (gapY - preGapY) + "," + (gap - preGap) + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
 
         // console.log("現： " + (nowTime-endTime));
-        console.log("msec: " + msec);
+        // console.log("msec: " + msec);
 
 
         VelX.push(velX);
