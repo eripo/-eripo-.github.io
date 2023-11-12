@@ -154,8 +154,6 @@ $(document).ready(function() {
   let PositionRX = [];
   let PositionRY = [];
 
-  var intervalId;
-
   // 一時的なキャンバスを作成
   const tempCanvas = document.createElement('canvas');
   const tempCtx = tempCanvas.getContext('2d');
@@ -281,7 +279,6 @@ $(document).ready(function() {
     strInitial += pressure0 + "," + (endTime-startTime);
     // console.log("圧力："+ pressure);
     speedCount();
-    intervalId = window.setInterval(speedCount, 10);
   });
 
 
@@ -362,7 +359,6 @@ $(document).ready(function() {
 
     event.preventDefault();
     isDrag = false;
-    clearInterval(intervalId);
 
     if (event.type === 'mouseup') {
       currentX = event.clientX - elemGapX;
@@ -412,15 +408,12 @@ $(document).ready(function() {
       }
     }
 
-    
     count = 0;
   });
 
 
 
   function speedCount() {
-    
-    
     // 速度を計算する処理を記述
     // if (vel == false) { // pointに値が入ってなかったら、速さ(0,0)
     //   gapX = 0;
@@ -432,7 +425,6 @@ $(document).ready(function() {
     if(!isDrag) {
       return;
     }
-    console.log("count: " + count)
 
     if(count != 0){
       gapX = currentX - positionPrevX;
@@ -470,6 +462,7 @@ $(document).ready(function() {
       accelerationRY = (velRY - preVelRY) / msec;
       accelerationR = (velR - preVelR) / msec;
 
+      // ここまで！！！
 
       // console.log("print\n" + msec + "," + pressure + "," + gapX + ", " + gapY + "," + currentX + ", " + positionPrevX + "," + currentY + ", " + positionPrevY);
       if(count > 1) {
@@ -498,8 +491,7 @@ $(document).ready(function() {
         strMid += pressure0 + "," + gapX + "," + gapY + "," + gap + "," + gapRX + "," + gapRY + "," + gapR + "," + velX + "," + velY + "," + vel + "," + velRX + "," + velRY + "," + velR + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + accelerationRX + "," + accelerationRY + "," + accelerationR + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
         // str += gapX + "," + gapY + "," + gap + "," + (gapX - preGapX) + "," + (gapY - preGapY) + "," + (gap - preGap) + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
 
-        // console.log("現： " + (nowTime-endTime));
-        console.log("msec: " + msec);
+        console.log("現： " + (nowTime-endTime));
 
 
         VelX.push(velX);
@@ -564,8 +556,7 @@ $(document).ready(function() {
   
 
     // 10ミリ秒後に再度関数を実行
-    // setTimeout(speedCount, 10);
-    // intervalId = window.setInterval(speedCount, 10);
+    setTimeout(speedCount, 10);
 
   }
   
