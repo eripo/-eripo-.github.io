@@ -64,7 +64,7 @@ $(document).ready(function() {
 
   // 筆圧，変位X，変位Y，変位，速度X，速度Y，速度，加速度X，加速度Y，加速度，座標X，座標Y，処理時間，モード
   var strMid = "";
-  strMid += "pressure" + "," + "gapX" + "," + "gapY" + "," + "gap" + "," + "gapRX" + "," + "gapRY" + "," + "gapR" + "," + "velX" + "," + "velY" + "," + "vel" + "," + "velRX" + "," + "velRY" + "," + "velR" + "," + "accelerationX" + "," + "accelerationY" + "," + "acceleration" + "," + "accelerationRX" + "," + "accelerationRY" + "," + "accelerationR" + "," + "posX" + "," + "posY" + "," + "msec" + "," + "nowTime" + "," + "count" + "," + "Mode" + "\n";
+  strMid += "pressure" + "," + "gapX" + "," + "gapY" + "," + "gap" + "," + "gapRX" + "," + "gapRY" + "," + "gapR" + "," + "velX" + "," + "velY" + "," + "vel" + "," + "velRX" + "," + "velRY" + "," + "velR" + "," + "accelerationX" + "," + "accelerationY" + "," + "acceleration" + "," + "accelerationRX" + "," + "accelerationRY" + "," + "accelerationR" + "," + "posX" + "," + "posY" + "," + "msec" + "," + "nowTime" + "," + "nowTime" + "," + "elapsed_time" + "," + "count" + "," + "Mode" + "\n";
 
   // 筆圧，経過時間，変位X，変位Y，変位，速度X，速度Y，速度，加速度X，加速度Y，加速度，座標X，座標Y，処理時間，モード
   var strInitial = "";
@@ -74,19 +74,19 @@ $(document).ready(function() {
   // 加速度X最小値，加速度X最大値，加速度X平均，加速度X中央値，加速度Y最小値，加速度Y最大値，加速度Y平均，加速度Y中央値，加速度最小値，加速度最大値，加速度平均，加速度中央値，
   // 筆圧最小値，筆圧最大値，筆圧平均，筆圧中央値，ドラッグ時間，外接矩形幅X，外接矩形幅Y，モード
   var strFinal = "";
-  strFinal += "velX_min" + "," + "velX_max" + "," + "velX_mean" + "," + "velX_median" + "," + "velX_last"
-           + "," + "velY_min" + "," + "velY_max" + "," + "velY_mean" + "," + "velY_median" + "," + "velY_last"
-           + "," + "vel_min" + "," + "vel_max" + "," + "vel_mean" + "," + "vel_median" + "," + "vel_last"
-           + "," + "velRX_min" + "," + "velRX_max" + "," + "velRX_mean" + "," + "velRX_median" + "," + "velRX_last"
-           + "," + "velRY_min" + "," + "velRY_max" + "," + "velRY_mean" + "," + "velRY_median" + "," + "velRY_last"
-           + "," + "velR_min" + "," + "velR_max" + "," + "velR_mean" + "," + "velR_median" + "," + "velR_last" 
-           + "," + "accelerationX_min" + "," + "accelerationX_max" + "," + "accelerationX_mean" + "," + "accelerationX_median" + "," + "accelerationX_last" 
-           + "," + "accelerationY_min" + "," + "accelerationY_max" + "," + "accelerationY_mean" + "," + "accelerationY_median" + "," + "accelerationY_last" 
-           + "," + "acceleration_min" + "," + "acceleration_max" + "," + "acceleration_mean" + "," + "acceleration_median" + "," + "acceleration_last" 
-           + "," + "accelerationRX_min" + "," + "accelerationRX_max" + "," + "accelerationRX_mean" + "," + "accelerationRX_median" + "," + "accelerationRX_last" 
-           + "," + "accelerationRY_min" + "," + "accelerationRY_max" + "," + "accelerationRY_mean" + "," + "accelerationRY_median" + "," + "accelerationRY_last" 
-           + "," + "accelerationR_min" + "," + "accelerationR_max" + "," + "accelerationR_mean" + "," + "accelerationR_median" + "," + "accelerationR_last" 
-           + "," + "pressure_min" + "," + "pressure_max" + "," + "pressure_mean" + "," + "pressure_median" + "," + "pressure_last" 
+  strFinal += "velX_min" + "," + "velX_max" + "," + "velX_mean" + "," + "velX_median" + "," + "velX_first" + "," + "velX_last"
+           + "," + "velY_min" + "," + "velY_max" + "," + "velY_mean" + "," + "velY_median" + "," + "velY_first" + "," + "velY_last"
+           + "," + "vel_min" + "," + "vel_max" + "," + "vel_mean" + "," + "vel_median" + "," + "vel_first" + "," + "vel_last"
+           + "," + "velRX_min" + "," + "velRX_max" + "," + "velRX_mean" + "," + "velRX_median" + "," + "velRX_first" + "," + "velRX_last"
+           + "," + "velRY_min" + "," + "velRY_max" + "," + "velRY_mean" + "," + "velRY_median" + "," + "velRY_first" + "," + "velRY_last"
+           + "," + "velR_min" + "," + "velR_max" + "," + "velR_mean" + "," + "velR_median" + "," + "velR_first" + "," + "velR_last" 
+           + "," + "accelerationX_min" + "," + "accelerationX_max" + "," + "accelerationX_mean" + "," + "accelerationX_median" + "," + "accelerationX_first" + "," + "accelerationX_last" + "," + "1/5_accelerationX_mean" + "," + "1/5_accelerationX_median" + "," + "2/5_accelerationX_mean" + "," + "2/5_accelerationX_median" + "," + "4/5_accelerationX_mean" + "," + "4/5_accelerationX_median"
+           + "," + "accelerationY_min" + "," + "accelerationY_max" + "," + "accelerationY_mean" + "," + "accelerationY_median" + "," + "accelerationY_first" + "," + "accelerationY_last" + "," + "1/5_accelerationY_mean" + "," + "1/5_accelerationY_median" + "," + "2/5_accelerationY_mean" + "," + "2/5_accelerationY_median" + "," + "4/5_accelerationY_mean" + "," + "4/5_accelerationY_median"
+           + "," + "acceleration_min" + "," + "acceleration_max" + "," + "acceleration_mean" + "," + "acceleration_median" + "," + "acceleration_first" + "," + "acceleration_last" + "," + "1/5_acceleration_mean" + "," + "1/5_acceleration_median" + "," + "2/5_acceleration_mean" + "," + "2/5_acceleration_median" + "," + "4/5_acceleration_mean" + "," + "4/5_acceleration_median"
+           + "," + "accelerationRX_min" + "," + "accelerationRX_max" + "," + "accelerationRX_mean" + "," + "accelerationRX_median" + "," + "accelerationRX_first" + "," + "accelerationRX_last" + "," + "1/5_accelerationRX_mean" + "," + "1/5_accelerationRX_median" + "," + "2/5_accelerationRX_mean" + "," + "2/5_accelerationRX_median" + "," + "4/5_accelerationRX_mean" + "," + "4/5_accelerationRX_median"
+           + "," + "accelerationRY_min" + "," + "accelerationRY_max" + "," + "accelerationRY_mean" + "," + "accelerationRY_median" + "," + "accelerationRY_first" + "," + "accelerationRY_last" + "," + "1/5_accelerationRY_mean" + "," + "1/5_accelerationRY_median" + "," + "2/5_accelerationRY_mean" + "," + "2/5_accelerationRY_median" + "," + "4/5_accelerationRY_mean" + "," + "4/5_accelerationRY_median"
+           + "," + "accelerationR_min" + "," + "accelerationR_max" + "," + "accelerationR_mean" + "," + "accelerationR_median" + "," + "accelerationR_first" + "," + "accelerationR_last" + "," + "1/5_accelerationR_mean" + "," + "1/5_accelerationR_median" + "," + "2/5_accelerationR_mean" + "," + "2/5_accelerationR_median" + "," + "4/5_accelerationR_mean" + "," + "4/5_accelerationR_median"
+           + "," + "pressure_min" + "," + "pressure_max" + "," + "pressure_mean" + "," + "pressure_median" + "," + "pressure_first"  + "," + "pressure_last" 
            + "," + "dragTime" + "," + "widthX" + "," + "widthY" + "," + "widthRX" + "," + "widthRY" + "," + "Mode" + "\n";
 
 
@@ -382,21 +382,39 @@ $(document).ready(function() {
     PositionY.push(currentY);
     PositionRX.push(curPosX);
     PositionRY.push(curPosY);
-    
+
     // ドラッグ終了時の判別で使用するデータを出力
-    strFinal += ss.min(VelX) + "," + ss.max(VelX) + "," + ss.mean(VelX) + "," + ss.median(VelX) + "," + VelX[VelX.length - 1]
-               + "," + ss.min(VelY) + "," + ss.max(VelY) + "," + ss.mean(VelY) + "," + ss.median(VelY) + "," + VelY[VelY.length - 1]
-               + "," + ss.min(Vel) + "," + ss.max(Vel) + "," + ss.mean(Vel) + "," + ss.median(Vel) + "," + Vel[Vel.length - 1]
-               + "," + ss.min(VelRX)+ "," + ss.max(VelRX) + "," + ss.mean(VelRX) + "," + ss.median(VelRX) + "," + VelRX[VelRX.length - 1]
-               + "," + ss.min(VelRY) + "," + ss.max(VelRY) + "," + ss.mean(VelRY) + "," + ss.median(VelRY) + "," + VelRY[VelRY.length - 1]
-               + "," + ss.min(VelR) + "," + ss.max(VelR) + "," + ss.mean(VelR) + "," + ss.median(VelR) + "," + VelR[VelR.length - 1]
-               + "," + ss.min(AccelerationX) + "," + ss.max(AccelerationX) + "," + ss.mean(AccelerationX) + "," + ss.median(AccelerationX) + "," + AccelerationX[AccelerationX.length - 1]
-               + "," + ss.min(AccelerationY) + "," + ss.max(AccelerationY) + "," + ss.mean(AccelerationY) + "," + ss.median(AccelerationY) + "," + AccelerationY[AccelerationY.length - 1]
-               + "," + ss.min(Acceleration) + "," + ss.max(Acceleration) + "," + ss.mean(Acceleration) + "," + ss.median(Acceleration) + "," + Acceleration[Acceleration.length - 1]
-               + "," + ss.min(AccelerationRX) + "," + ss.max(AccelerationRX) + "," + ss.mean(AccelerationRX) + "," + ss.median(AccelerationRX) + "," + AccelerationRX[AccelerationRX.length - 1]
-               + "," + ss.min(AccelerationRY) + "," + ss.max(AccelerationRY) + "," + ss.mean(AccelerationRY) + "," + ss.median(AccelerationRY) + "," + AccelerationRY[AccelerationRY.length - 1]
-               + "," + ss.min(AccelerationR) + "," + ss.max(AccelerationR) + "," + ss.mean(AccelerationR) + "," + ss.median(AccelerationR) + "," + AccelerationR[AccelerationR.length - 1]
-               + "," + ss.min(Pressure) + "," + ss.max(Pressure) + "," + ss.mean(Pressure) + "," + ss.median(Pressure) + "," + Pressure[Pressure.length - 1]
+    strFinal += ss.min(VelX) + "," + ss.max(VelX) + "," + ss.mean(VelX) + "," + ss.median(VelX) + "," + VelX[0] + "," + VelX[VelX.length - 1]
+               + "," + ss.min(VelY) + "," + ss.max(VelY) + "," + ss.mean(VelY) + "," + ss.median(VelY) + "," + VelY[0] + "," + VelY[VelY.length - 1]
+               + "," + ss.min(Vel) + "," + ss.max(Vel) + "," + ss.mean(Vel) + "," + ss.median(Vel) + "," + Vel[0] + "," + Vel[Vel.length - 1]
+               + "," + ss.min(VelRX)+ "," + ss.max(VelRX) + "," + ss.mean(VelRX) + "," + ss.median(VelRX) + "," + VelRX[0] + "," + VelRX[VelRX.length - 1]
+               + "," + ss.min(VelRY) + "," + ss.max(VelRY) + "," + ss.mean(VelRY) + "," + ss.median(VelRY) + "," + VelRY[0] + "," + VelRY[VelRY.length - 1]
+               + "," + ss.min(VelR) + "," + ss.max(VelR) + "," + ss.mean(VelR) + "," + ss.median(VelR) + "," + VelR[0] + "," + VelR[VelR.length - 1]
+               + "," + ss.min(AccelerationX) + "," + ss.max(AccelerationX) + "," + ss.mean(AccelerationX) + "," + ss.median(AccelerationX) + "," + AccelerationX[0] + "," + AccelerationX[AccelerationX.length - 1]
+               + "," + ss.mean(AccelerationX.slice( -Math.round(AccelerationX.length * 1/5) )) + "," + ss.median(AccelerationX.slice( -Math.round(AccelerationX.length * 1/5) ))
+               + "," + ss.mean(AccelerationX.slice( -Math.round(AccelerationX.length * 2/5) )) + "," + ss.median(AccelerationX.slice( -Math.round(AccelerationX.length * 2/5) ))
+               + "," + ss.mean(AccelerationX.slice( -Math.round(AccelerationX.length * 4/5) )) + "," + ss.median(AccelerationX.slice( -Math.round(AccelerationX.length * 4/5) ))
+               + "," + ss.min(AccelerationY) + "," + ss.max(AccelerationY) + "," + ss.mean(AccelerationY) + "," + ss.median(AccelerationY) + "," + AccelerationY[0] + "," + AccelerationY[AccelerationY.length - 1]
+               + "," + ss.mean(AccelerationY.slice( -Math.round(AccelerationY.length * 1/5) )) + "," + ss.median(AccelerationY.slice( -Math.round(AccelerationY.length * 1/5) ))
+               + "," + ss.mean(AccelerationY.slice( -Math.round(AccelerationY.length * 2/5) )) + "," + ss.median(AccelerationY.slice( -Math.round(AccelerationY.length * 2/5) ))
+               + "," + ss.mean(AccelerationY.slice( -Math.round(AccelerationY.length * 4/5) )) + "," + ss.median(AccelerationY.slice( -Math.round(AccelerationY.length * 4/5) ))
+               + "," + ss.min(Acceleration) + "," + ss.max(Acceleration) + "," + ss.mean(Acceleration) + "," + ss.median(Acceleration) + "," + Acceleration[0] + "," + Acceleration[Acceleration.length - 1]
+               + "," + ss.mean(Acceleration.slice( -Math.round(Acceleration.length * 1/5) )) + "," + ss.median(Acceleration.slice( -Math.round(Acceleration.length * 1/5) ))
+               + "," + ss.mean(Acceleration.slice( -Math.round(Acceleration.length * 2/5) )) + "," + ss.median(Acceleration.slice( -Math.round(Acceleration.length * 2/5) ))
+               + "," + ss.mean(Acceleration.slice( -Math.round(Acceleration.length * 4/5) )) + "," + ss.median(Acceleration.slice( -Math.round(Acceleration.length * 4/5) ))
+               + "," + ss.min(AccelerationRX) + "," + ss.max(AccelerationRX) + "," + ss.mean(AccelerationRX) + "," + ss.median(AccelerationRX) + "," + AccelerationRX[0] + "," + AccelerationRX[AccelerationRX.length - 1]
+               + "," + ss.mean(AccelerationRX.slice( -Math.round(AccelerationRX.length * 1/5) )) + "," + ss.median(AccelerationRX.slice( -Math.round(AccelerationRX.length * 1/5) ))
+               + "," + ss.mean(AccelerationRX.slice( -Math.round(AccelerationRX.length * 2/5) )) + "," + ss.median(AccelerationRX.slice( -Math.round(AccelerationRX.length * 2/5) ))
+               + "," + ss.mean(AccelerationRX.slice( -Math.round(AccelerationRX.length * 4/5) )) + "," + ss.median(AccelerationRX.slice( -Math.round(AccelerationRX.length * 4/5) ))
+               + "," + ss.min(AccelerationRY) + "," + ss.max(AccelerationRY) + "," + ss.mean(AccelerationRY) + "," + ss.median(AccelerationRY) + "," + AccelerationRY[0] + "," + AccelerationRY[AccelerationRY.length - 1]
+               + "," + ss.mean(AccelerationRY.slice( -Math.round(AccelerationRY.length * 1/5) )) + "," + ss.median(AccelerationRY.slice( -Math.round(AccelerationRY.length * 1/5) ))
+               + "," + ss.mean(AccelerationRY.slice( -Math.round(AccelerationRY.length * 2/5) )) + "," + ss.median(AccelerationRY.slice( -Math.round(AccelerationRY.length * 2/5) ))
+               + "," + ss.mean(AccelerationRY.slice( -Math.round(AccelerationRY.length * 4/5) )) + "," + ss.median(AccelerationRY.slice( -Math.round(AccelerationRY.length * 4/5) ))
+               + "," + ss.min(AccelerationR) + "," + ss.max(AccelerationR) + "," + ss.mean(AccelerationR) + "," + ss.median(AccelerationR) + "," + AccelerationR[0] + "," + AccelerationR[AccelerationR.length - 1]
+               + "," + ss.mean(AccelerationR.slice( -Math.round(AccelerationR.length * 1/5) )) + "," + ss.median(AccelerationR.slice( -Math.round(AccelerationR.length * 1/5) ))
+               + "," + ss.mean(AccelerationR.slice( -Math.round(AccelerationR.length * 2/5) )) + "," + ss.median(AccelerationR.slice( -Math.round(AccelerationR.length * 2/5) ))
+               + "," + ss.mean(AccelerationR.slice( -Math.round(AccelerationR.length * 4/5) )) + "," + ss.median(AccelerationR.slice( -Math.round(AccelerationR.length * 4/5) ))
+               + "," + ss.min(Pressure) + "," + ss.max(Pressure) + "," + ss.mean(Pressure) + "," + ss.median(Pressure) + "," + Pressure[0] + "," + Pressure[Pressure.length - 1]
                + "," + (startTime - endTime) 
                + "," + (ss.max(PositionX) - ss.min(PositionX)) + "," + (ss.max(PositionY) - ss.min(PositionY)) 
                + "," + (ss.max(PositionRX) - ss.min(PositionRX)) + "," + (ss.max(PositionRY) - ss.min(PositionRY)) 
@@ -470,7 +488,7 @@ $(document).ready(function() {
 
       // console.log("print\n" + msec + "," + pressure + "," + gapX + ", " + gapY + "," + currentX + ", " + positionPrevX + "," + currentY + ", " + positionPrevY);
       if(count > 1) {
-        strMid += pressure + "," + gapX + "," + gapY + "," + gap + "," + gapRX + "," + gapRY + "," + gapR + "," + velX + "," + velY + "," + vel + "," + velRX + "," + velRY + "," + velR + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + accelerationRX + "," + accelerationRY + "," + accelerationR + "," + currentX + "," + currentY + "," + msec + "," + nowTime + "," + count + "," + mode +"\n";
+        strMid += pressure + "," + gapX + "," + gapY + "," + gap + "," + gapRX + "," + gapRY + "," + gapR + "," + velX + "," + velY + "," + vel + "," + velRX + "," + velRY + "," + velR + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + accelerationRX + "," + accelerationRY + "," + accelerationR + "," + currentX + "," + currentY + "," + msec + "," + nowTime + "," + (nowTime-endTime) + "," + count + "," + mode +"\n";
         VelX.push(velX);
         VelY.push(velY);
         Vel.push(vel);
@@ -492,7 +510,7 @@ $(document).ready(function() {
       if(count === 1) {
         strInitial += "," + gapX + "," + gapY + "," + gap + "," + gapRX + "," + gapRY + "," + gapR + "," + velX + "," + velY + "," + vel + "," + velRX + "," + velRY + "," + velR + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + accelerationRX + "," + accelerationRY + "," + accelerationR + "," + currentX + "," + currentY + "," + (nowTime-endTime);
         // str += gapX + "," + gapY + "," + gap + "," + velX + "," + velY + "," + vel + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + currentX + "," + currentY + "," + msec + "," + mode +"\n";
-        strMid += pressure0 + "," + gapX + "," + gapY + "," + gap + "," + gapRX + "," + gapRY + "," + gapR + "," + velX + "," + velY + "," + vel + "," + velRX + "," + velRY + "," + velR + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + accelerationRX + "," + accelerationRY + "," + accelerationR + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + nowTime + "," + count + "," + mode +"\n";
+        strMid += pressure0 + "," + gapX + "," + gapY + "," + gap + "," + gapRX + "," + gapRY + "," + gapR + "," + velX + "," + velY + "," + vel + "," + velRX + "," + velRY + "," + velR + "," + accelerationX + "," + accelerationY + "," + acceleration + "," + accelerationRX + "," + accelerationRY + "," + accelerationR + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + nowTime + "," + (nowTime-endTime) + "," + count + "," + mode +"\n";
         // str += gapX + "," + gapY + "," + gap + "," + (gapX - preGapX) + "," + (gapY - preGapY) + "," + (gap - preGap) + "," + currentX + "," + currentY + "," + (nowTime-endTime) + "," + mode +"\n";
 
         // console.log("現： " + (nowTime-endTime));

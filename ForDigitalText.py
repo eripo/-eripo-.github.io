@@ -14,7 +14,7 @@ from sklearn.model_selection import train_test_split
 # import glob
 # import argparse
 import pandas as pd
-# import japanize_matplotlib
+import japanize_matplotlib
 import pickle
 
 
@@ -25,9 +25,9 @@ from sklearn.metrics import accuracy_score
 
 
 # 学習用データ #
-df = pd.read_csv( 'Data/ff_Initial.csv' )
+# df = pd.read_csv( 'Data/all_pm_Initial.csv' )
 # df = pd.read_csv( 'Data/Mid (5).csv' )
-# df = pd.read_csv( 'Data/Final (5).csv' )
+df = pd.read_csv( 'Data/all_fm_Final.csv' )
 print(df)
 df1 = df.dropna(how='any')
 print(df1)

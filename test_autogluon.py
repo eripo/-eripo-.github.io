@@ -3,12 +3,27 @@ import pandas as pd
 from sklearn.metrics import classification_report
 import seaborn as sns #視覚化ライブラリ
 import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+import japanize_matplotlib
 
+###########################################################################################
+# 学習用データとテストデータが分かれている場合 #############################
+# 1ファイルを8:2分割する場合 #############################
 # データの読み込み
-train_data = TabularDataset('Data/Mid (5).csv')  # トレーニングデータのパス
-test_data = TabularDataset('Data/Mid(1).csv')  # テストデータのパス
-df2 = pd.read_csv( 'Data/Final(1).csv' )
+# train_data = TabularDataset('Data/Mid (5).csv')  # トレーニングデータのパス
+# test_data = TabularDataset('Data/Mid(1).csv')  # テストデータのパス
+# df2 = pd.read_csv( 'Data/Final(1).csv' )
 # test_data = df2.drop(['Mode'], axis=1)
+
+# 1ファイルを8:2分割する場合 #############################
+# df = pd.read_csv( 'Data/all_fm_initial.csv' )
+df = pd.read_csv( 'Data/all_pm_Final.csv' )
+print(df)
+df1 = df.dropna(how='any')
+print(df1)
+train_data, test_data = train_test_split(df1, test_size=0.2, random_state=10)
+print('訓練データ数：{}, テストデータ数：{}'.format(len(train_data), len(test_data)))
+###########################################################################################
 
 
 # 分類モデルのトレーニング
