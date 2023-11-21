@@ -3,31 +3,19 @@
 # 機械学習し、正解率を求めるプログラム
 #############################################
 
-# k-近傍法
+# サポートベクターマシン（SVM）
+from sklearn.svm import LinearSVC
 
-import numpy as np
-# from keras.datasets import mnist
-# import time
-# import matplotlib.pyplot as plt
-# from PIL import Image
 from sklearn.model_selection import train_test_split
-# import glob
-# import argparse
 import pandas as pd
-import japanize_matplotlib
-import pickle
 
-
-import csv
-
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
 
 
 # 学習用データ #
+df = pd.read_csv( 'Data/all_fm_Initial.csv' )
 # df = pd.read_csv( 'Data/all_pm_Initial.csv' )
-# df = pd.read_csv( 'Data/Mid (5).csv' )
-df = pd.read_csv( 'Data/all_fm_Final.csv' )
+# df = pd.read_csv( 'Data/all_fm_Final_2.csv' )
+# df = pd.read_csv( 'Data/all_pm_Final_2.csv' )
 print(df)
 df1 = df.dropna(how='any')
 print(df1)
@@ -138,16 +126,15 @@ print(test_data)
 print(test_label)
 
 
- 
-# アルゴリズムを指定。K最近傍法を採用
-model = KNeighborsClassifier(n_neighbors=1)
-
-# 学習用のデータと結果を学習する,fit()
+# SVMインスタンス
+model = LinearSVC()
+#学習モデル構築。引数に訓練データの特徴量と、それに対応したラベル
 model.fit(learn_data, learn_label)
 
-# 学習モデルの保存
-with open('model.pickle', mode='wb') as f:
-    pickle.dump(model, f, protocol=2)
+
+# # 学習モデルの保存
+# with open('model.pickle', mode='wb') as f:
+#     pickle.dump(model, f, protocol=2)
 
 
 # テストデータによる予測,predict()
@@ -155,8 +142,11 @@ with open('model.pickle', mode='wb') as f:
 result_label = model.predict(test_data)
 
 
-# テスト結果を評価する,accuracy_score()
-print("学習用データ：", learn_data)
-print("予測対象：\n", test_data, ", \n予測結果→", result_label)
-print("正解率＝", accuracy_score(test_label, result_label))
+# # テスト結果を評価する,accuracy_score()
+# print("学習用データ：", learn_data)
+# print("予測対象：\n", test_data, ", \n予測結果→", result_label)
+# print("正解率＝", accuracy_score(test_label, result_label))
 
+# .scoreで正解率を算出。
+print("train score:",model.score(learn_data, learn_label))
+print("test score:",model.score(test_data, test_label))
