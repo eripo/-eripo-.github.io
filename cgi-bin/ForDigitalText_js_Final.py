@@ -93,6 +93,18 @@ learn_data, test_data, learn_label, test_label = train_test_split(X, y, test_siz
 
 ###########################################################################################
 
+# アンダーサンプリングする場合はこちらを有効に．#######################################################################
+from imblearn.under_sampling import RandomUnderSampler
+# アンダーサンプリングを実行
+rus = RandomUnderSampler(random_state=42)
+X_resampled, y_resampled = rus.fit_resample(learn_data, learn_label)
+
+# アンダーサンプリング後のクラスごとのサンプル数を確認
+print("クラスごとのサンプル数（アンダーサンプリング後）:", dict(zip(*np.unique(y_resampled, return_counts=True))))
+
+###################################################################################################################
+
+
 print(learn_data)
 print(learn_label)
 
@@ -105,8 +117,12 @@ print(test_label)
 # アルゴリズムを指定。K最近傍法を採用
 model = KNeighborsClassifier(n_neighbors=5)
 
-# 学習用のデータと結果を学習する,fit()
-model.fit(learn_data, learn_label)
+
+# 学習用のデータと結果を学習する．アンダーサンプリングしない場合はこちら
+# model.fit(learn_data, learn_label)
+# アンダーサンプリングする場合はこちら
+model.fit(X_resampled, y_resampled)
+
 
 # # 学習モデルの保存
 # tfjs.converters.save_keras_model(model, "./my_model")
@@ -121,7 +137,7 @@ result_label = model.predict(test_data)
 
 
 # テスト結果を評価する,accuracy_score()
-print("学習用データ：", learn_data)
+# print("学習用データ：", learn_data)
 print("予測対象：\n", test_data, ", \n予測結果→", result_label)
 print("正解率＝", accuracy_score(test_label, result_label))
 
