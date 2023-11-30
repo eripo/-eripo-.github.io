@@ -383,6 +383,57 @@ $(document).ready(function() {
     PositionRX.push(curPosX);
     PositionRY.push(curPosY);
 
+
+    $(function(){
+      console.log("11111111111111111111111111111111\n" + pressure)
+    
+      $.ajax({
+          url: 'cgi-bin/open_model_Initial.py',
+          type: 'get',
+          data: {
+              test1: ss.min(VelX), test2: ss.max(VelX), test3: ss.mean(VelX), test4: ss.median(VelX), test5: VelX[0], test6: VelX[VelX.length - 1], 
+              test7: ss.min(VelY), test8: ss.max(VelY), test9: ss.mean(VelY), test10: ss.median(VelY), test11: VelY[0], test12: VelY[VelY.length - 1], 
+              test13: ss.min(Vel), test14: ss.max(Vel), test15: ss.mean(Vel), test16: ss.median(Vel), test17: Vel[0], test18: Vel[Vel.length - 1], 
+              test19: ss.min(VelRX), test20: ss.max(VelRX), test21: ss.mean(VelRX), test22: ss.median(VelRX), test23: VelRX[0], test24: VelRX[VelRX.length - 1], 
+              test25: ss.min(VelRY), test26: ss.max(VelRY), test27: ss.mean(VelRY), test28: ss.median(VelRY), test29: VelRY[0], test30: VelRY[VelRY.length - 1], 
+              test31: ss.min(VelR), test32: ss.max(VelR), test33: ss.mean(VelR), test34: ss.median(VelR), test35: VelR[0], test36: VelR[VelR.length - 1], 
+              test37: ss.min(AccelerationX), test38: ss.max(AccelerationX), test39: ss.mean(AccelerationX), test40: ss.median(AccelerationX), test41: AccelerationX[0], test42: AccelerationX[AccelerationX.length - 1], 
+              test43: ss.mean(AccelerationX.slice( -Math.round(AccelerationX.length * 1/5) )), test44: ss.median(AccelerationX.slice( -Math.round(AccelerationX.length * 1/5) )), 
+              test45: ss.mean(AccelerationX.slice( -Math.round(AccelerationX.length * 2/5) )), test46: ss.median(AccelerationX.slice( -Math.round(AccelerationX.length * 2/5) )), 
+              test47: ss.mean(AccelerationX.slice( -Math.round(AccelerationX.length * 4/5) )), test48: ss.median(AccelerationX.slice( -Math.round(AccelerationX.length * 4/5) )), 
+              test49: ss.min(AccelerationY), test50: ss.max(AccelerationY), test51: ss.mean(AccelerationY), test52: ss.median(AccelerationY), test53: AccelerationY[0], test54: AccelerationY[AccelerationY.length - 1], 
+              test55: ss.mean(AccelerationY.slice( -Math.round(AccelerationY.length * 1/5) )), test56: ss.median(AccelerationY.slice( -Math.round(AccelerationY.length * 1/5) )), 
+              test57: ss.mean(AccelerationY.slice( -Math.round(AccelerationY.length * 2/5) )), test58: ss.median(AccelerationY.slice( -Math.round(AccelerationY.length * 2/5) )), 
+              test59: ss.mean(AccelerationY.slice( -Math.round(AccelerationY.length * 4/5) )), test60: ss.median(AccelerationY.slice( -Math.round(AccelerationY.length * 4/5) )), 
+              test61: ss.min(Acceleration), test62: ss.max(Acceleration), test63: ss.mean(Acceleration), test64: ss.median(Acceleration), test65: Acceleration[0], test66: Acceleration[Acceleration.length - 1], 
+              test67: ss.mean(Acceleration.slice( -Math.round(Acceleration.length * 1/5) )), test68: ss.median(Acceleration.slice( -Math.round(Acceleration.length * 1/5) )), 
+              test69: ss.mean(Acceleration.slice( -Math.round(Acceleration.length * 2/5) )), test70: ss.median(Acceleration.slice( -Math.round(Acceleration.length * 2/5) )), 
+              test71: ss.mean(Acceleration.slice( -Math.round(Acceleration.length * 4/5) )), test72: ss.median(Acceleration.slice( -Math.round(Acceleration.length * 4/5) )), 
+              test73: ss.min(AccelerationRX), test74: ss.max(AccelerationRX), test75: ss.mean(AccelerationRX), test76: ss.median(AccelerationRX), test77: AccelerationRX[0], test78: AccelerationRX[AccelerationRX.length - 1], 
+              test79: ss.mean(AccelerationRX.slice( -Math.round(AccelerationRX.length * 1/5) )), test80: ss.median(AccelerationRX.slice( -Math.round(AccelerationRX.length * 1/5) )), 
+              test81: ss.mean(AccelerationRX.slice( -Math.round(AccelerationRX.length * 2/5) )), test82: ss.median(AccelerationRX.slice( -Math.round(AccelerationRX.length * 2/5) )), 
+              test83: ss.mean(AccelerationRX.slice( -Math.round(AccelerationRX.length * 4/5) )), test84: ss.median(AccelerationRX.slice( -Math.round(AccelerationRX.length * 4/5) )), 
+              test85: ss.min(AccelerationRY), test86: ss.max(AccelerationRY), test87: ss.mean(AccelerationRY), test88: ss.median(AccelerationRY), test89: AccelerationRY[0], test90: AccelerationRY[AccelerationRY.length - 1], 
+              test91: ss.mean(AccelerationRY.slice( -Math.round(AccelerationRY.length * 1/5) )), test92: ss.median(AccelerationRY.slice( -Math.round(AccelerationRY.length * 1/5) )), 
+              test93: ss.mean(AccelerationRY.slice( -Math.round(AccelerationRY.length * 2/5) )), test94: ss.median(AccelerationRY.slice( -Math.round(AccelerationRY.length * 2/5) )), 
+              test95: ss.mean(AccelerationRY.slice( -Math.round(AccelerationRY.length * 4/5) )), test96: ss.median(AccelerationRY.slice( -Math.round(AccelerationRY.length * 4/5) )), 
+              test97: ss.min(AccelerationR), test98: ss.max(AccelerationR), test99: ss.mean(AccelerationR), test100: ss.median(AccelerationR), test101: AccelerationR[0], test102: AccelerationR[AccelerationR.length - 1], 
+              test103: ss.mean(AccelerationR.slice( -Math.round(AccelerationR.length * 1/5) )), test104: ss.median(AccelerationR.slice( -Math.round(AccelerationR.length * 1/5) )), 
+              test105: ss.mean(AccelerationR.slice( -Math.round(AccelerationR.length * 2/5) )), test106: ss.median(AccelerationR.slice( -Math.round(AccelerationR.length * 2/5) )), 
+              test107: ss.mean(AccelerationR.slice( -Math.round(AccelerationR.length * 4/5) )), test108: ss.median(AccelerationR.slice( -Math.round(AccelerationR.length * 4/5) )), 
+              test109: ss.min(Pressure), test110: ss.max(Pressure), test111: ss.mean(Pressure), test112: ss.median(Pressure), test113: Pressure[0], test114: Pressure[Pressure.length - 1], 
+              test115: startTime - endTime, 
+              test116: ss.max(PositionX) - ss.min(PositionX), test117: ss.max(PositionY) - ss.min(PositionY), 
+              test118: ss.max(PositionRX) - ss.min(PositionRX), test119: ss.max(PositionRY) - ss.min(PositionRY)
+          }
+      }).done(function(data){
+          console.log("result_Final" + data);
+      }).fail(function(){
+          console.log('failed');
+      });
+    });
+    
+
     // ドラッグ終了時の判別で使用するデータを出力
     strFinal += ss.min(VelX) + "," + ss.max(VelX) + "," + ss.mean(VelX) + "," + ss.median(VelX) + "," + VelX[0] + "," + VelX[VelX.length - 1]
                + "," + ss.min(VelY) + "," + ss.max(VelY) + "," + ss.mean(VelY) + "," + ss.median(VelY) + "," + VelY[0] + "," + VelY[VelY.length - 1]
@@ -512,7 +563,7 @@ $(document).ready(function() {
           console.log("11111111111111111111111111111111\n" + pressure)
         
           $.ajax({
-              url: 'cgi-bin/open_model.py',
+              url: 'cgi-bin/open_model_Initial.py',
               type: 'get',
               data: {
                 test1: pressure0,
@@ -527,7 +578,7 @@ $(document).ready(function() {
                 test23: (nowTime-endTime)
               }
           }).done(function(data){
-              console.log("result" + data);
+              console.log("result_Initial" + data);
           }).fail(function(){
               console.log('failed');
           });
