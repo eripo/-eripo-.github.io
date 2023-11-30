@@ -12,10 +12,10 @@ import pandas as pd
 
 
 # 学習用データ #
-df = pd.read_csv( 'Data/all_fm_Initial.csv' )
+# df = pd.read_csv( 'Data/all_fm_Initial.csv' )
 # df = pd.read_csv( 'Data/all_pm_Initial.csv' )
 # df = pd.read_csv( 'Data/all_fm_Final_2.csv' )
-# df = pd.read_csv( 'Data/all_pm_Final_2.csv' )
+df = pd.read_csv( 'Data/all_pm_Final_2.csv' )
 print(df)
 df1 = df.dropna(how='any')
 print(df1)
