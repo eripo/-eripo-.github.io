@@ -19,7 +19,7 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 import japanize_matplotlib
 import pickle
-import tensorflowjs as tfjs
+# import tensorflowjs as tfjs
 
 import csv
 
@@ -103,7 +103,7 @@ print(test_label)
 
  
 # アルゴリズムを指定。K最近傍法を採用
-model = KNeighborsClassifier(n_neighbors=1)
+model = KNeighborsClassifier(n_neighbors=5)
 
 # 学習用のデータと結果を学習する,fit()
 model.fit(learn_data, learn_label)
