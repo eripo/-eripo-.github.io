@@ -422,7 +422,7 @@ $(document).ready(function() {
               test105: ss.mean(AccelerationR.slice( -Math.round(AccelerationR.length * 2/5) )), test106: ss.median(AccelerationR.slice( -Math.round(AccelerationR.length * 2/5) )), 
               test107: ss.mean(AccelerationR.slice( -Math.round(AccelerationR.length * 4/5) )), test108: ss.median(AccelerationR.slice( -Math.round(AccelerationR.length * 4/5) )), 
               test109: ss.min(Pressure), test110: ss.max(Pressure), test111: ss.mean(Pressure), test112: ss.median(Pressure), test113: Pressure[0], test114: Pressure[Pressure.length - 1], 
-              test115: startTime - endTime, 
+              test115: (startTime - endTime), 
               test116: ss.max(PositionX) - ss.min(PositionX), test117: ss.max(PositionY) - ss.min(PositionY), 
               test118: ss.max(PositionRX) - ss.min(PositionRX), test119: ss.max(PositionRY) - ss.min(PositionRY)
           }

@@ -141,3 +141,9 @@ result_label = model.predict(test_data)
 print("予測対象：\n", test_data, ", \n予測結果→", result_label)
 print("正解率＝", accuracy_score(test_label, result_label))
 
+# 混同行列
+from sklearn.metrics import confusion_matrix
+tn, fp, fn, tp = confusion_matrix(test_label, result_label).ravel()
+print(tn, fp, fn, tp)
+print('[page]_precision : %.4f'%(tn / (tn + fn)))
+print('[page]_recall : %.4f'%(tn / (tn + fp)))
