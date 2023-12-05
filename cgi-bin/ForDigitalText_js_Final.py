@@ -30,10 +30,10 @@ from sklearn.metrics import accuracy_score
 # 学習用データ #
 # df = pd.read_csv( 'Data/all_fm_Initial.csv' )
 # df = pd.read_csv( 'Data/all_pm_Initial.csv' )
-# df = pd.read_csv( 'Data/all_fm_Final_2.csv' )
-# df = pd.read_csv( 'Data/all_pm_Final_2.csv' )
+# df = pd.read_csv( 'Data/all_fm_Final.csv' )
+# df = pd.read_csv( 'Data/all_pm_Final.csv' )
 # df = pd.read_csv( 'Data/all_mm_Initial.csv' )
-df = pd.read_csv( 'Data/all_mm_Final_2.csv' )
+df = pd.read_csv( 'Data/all_mm_Final.csv' )
 print("*******************")
 print(df)
 
