@@ -94,13 +94,13 @@ learn_data, test_data, learn_label, test_label = train_test_split(X, y, test_siz
 ###########################################################################################
 
 # アンダーサンプリングする場合はこちらを有効に．#######################################################################
-from imblearn.under_sampling import RandomUnderSampler
-# アンダーサンプリングを実行
-rus = RandomUnderSampler(random_state=42)
-X_resampled, y_resampled = rus.fit_resample(learn_data, learn_label)
+# from imblearn.under_sampling import RandomUnderSampler
+# # アンダーサンプリングを実行
+# rus = RandomUnderSampler(random_state=42)
+# X_resampled, y_resampled = rus.fit_resample(learn_data, learn_label)
 
-# アンダーサンプリング後のクラスごとのサンプル数を確認
-print("クラスごとのサンプル数（アンダーサンプリング後）:", dict(zip(*np.unique(y_resampled, return_counts=True))))
+# # アンダーサンプリング後のクラスごとのサンプル数を確認
+# print("クラスごとのサンプル数（アンダーサンプリング後）:", dict(zip(*np.unique(y_resampled, return_counts=True))))
 
 ###################################################################################################################
 
@@ -119,9 +119,9 @@ model = KNeighborsClassifier(n_neighbors=5)
 
 
 # 学習用のデータと結果を学習する．アンダーサンプリングしない場合はこちら
-# model.fit(learn_data, learn_label)
+model.fit(learn_data, learn_label)
 # アンダーサンプリングする場合はこちら
-model.fit(X_resampled, y_resampled)
+# model.fit(X_resampled, y_resampled)
 
 
 # # 学習モデルの保存

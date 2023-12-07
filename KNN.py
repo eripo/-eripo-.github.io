@@ -31,6 +31,11 @@ from sklearn.metrics import accuracy_score
 # df = pd.read_csv( 'Data/all_pm_Final.csv' )
 # df = pd.read_csv( 'Data/all_mm_Initial.csv' )
 df = pd.read_csv( 'Data/all_mm_Final.csv' )
+
+# df = pd.read_csv( 'Data/fm_Initial.csv' )
+# df = pd.read_csv( 'Data/fm_Final.csv' )
+# df = pd.read_csv( 'Data/pm_Initial.csv' )
+# df = pd.read_csv( 'Data/pm_Final.csv' )
 print("*******************")
 # print(df)
 
@@ -193,8 +198,8 @@ print("############################")
 
 ############################################################################################################################################################
 
-print(test_data)
-print(test_label)
+# print(test_data)
+# print(test_label)
 
  
 
@@ -218,60 +223,69 @@ print(test_label)
 
 
 # K近傍法 #####################################################################
-from sklearn.neighbors import KNeighborsClassifier
-#元のデータ用(kの指定なしはk=5)
-lr = KNeighborsClassifier()
-#正規化したデータ用
-lr_mm = KNeighborsClassifier()
-#標準化したデータ用
-lr_std = KNeighborsClassifier()
+# from sklearn.neighbors import KNeighborsClassifier
+# #元のデータ用(kの指定なしはk=5)
+# lr = KNeighborsClassifier()
+# #正規化したデータ用
+# lr_mm = KNeighborsClassifier()
+# #標準化したデータ用
+# lr_std = KNeighborsClassifier()
 
-### 全サンプル使う場合 ##################
-#元のデータの適用
-lr.fit(learn_data, learn_label)
-#正規化したデータの適用
-lr_mm.fit(train_mm, learn_label)
-#標準化したデータの適用
-lr_std.fit(train_std, learn_label)
-### アンダーサンプリングする場合 #########
+# ### 全サンプル使う場合 ##################
+# # #元のデータの適用
+# # lr.fit(learn_data, learn_label)
+# # #正規化したデータの適用
+# # lr_mm.fit(train_mm, learn_label)
+# # #標準化したデータの適用
+# # lr_std.fit(train_std, learn_label)
+# # train_class_counts = {label: sum(learn_label == label) for label in set(learn_label)}
+# # test_class_counts = {label: sum(test_label == label) for label in set(test_label)}
+# ### アンダーサンプリングする場合 #########
 # #元のデータの適用
 # lr.fit(X_resampled, y_resampled)
 # #正規化したデータの適用
 # lr_mm.fit(train_mm, y_resampled)
 # #標準化したデータの適用
 # lr_std.fit(train_std, y_resampled)
-########################################
+# train_class_counts = {label: sum(y_resampled == label) for label in set(y_resampled)}
+# test_class_counts = {label: sum(test_label == label) for label in set(test_label)}
+# ########################################
+
+# print('学習用データの各クラス数 : ')
+# print(train_class_counts)
+# print('テスト用データの各クラス数 : ')
+# print(test_class_counts)
 
 
-# テストデータによる予測.
-result_label_lr = lr.predict(test_data)
-result_label_lr_mm = lr_mm.predict(test_mm)
-result_label_lr_std = lr_std.predict(test_std)
+# # テストデータによる予測.
+# result_label_lr = lr.predict(test_data)
+# result_label_lr_mm = lr_mm.predict(test_mm)
+# result_label_lr_std = lr_std.predict(test_std)
 
-print('元のデータのスコア : %.4f'% lr.score(test_data, test_label))
-print('正規化したデータのスコア : %.4f'% lr_mm.score(test_mm, test_label))
-print('標準化したデータのスコア : %.4f'% lr_std.score(test_std, test_label))
+# print('元のデータのスコア : %.4f'% lr.score(test_data, test_label))
+# print('正規化したデータのスコア : %.4f'% lr_mm.score(test_mm, test_label))
+# print('標準化したデータのスコア : %.4f'% lr_std.score(test_std, test_label))
 
 
 
-# kの値ごとの正解率を求める ##################################################
-from sklearn import metrics
+# # kの値ごとの正解率を求める ##################################################
+# from sklearn import metrics
 
-### 全サンプル使用時はこちら ###############################################
-k_range = range(1, 50)
-accuracy = []
-for k in k_range:
-    knn = KNeighborsClassifier(n_neighbors=k) # インスタンス生成。
-    knn.fit(learn_data, learn_label)             # モデル作成実行（元データ）
-    Y_pred = knn.predict(test_data)               # 予測実行
-    # knn.fit(train_mm, learn_label)               # モデル作成実行(正規化) 
-    # Y_pred = knn.predict(test_mm)                 # 予測実行
-    # knn.fit(train_std, learn_label)                # モデル作成実行（標準化）
-    # Y_pred = knn.predict(test_std)                  # 予測実行
-    accuracy.append(metrics.accuracy_score(test_label, Y_pred)) # 精度格納
+# ### 全サンプル使用時はこちら ###############################################
+# k_range = range(1, 50)
+# accuracy = []
+# for k in k_range:
+#     knn = KNeighborsClassifier(n_neighbors=k) # インスタンス生成。
+#     knn.fit(learn_data, learn_label)             # モデル作成実行（元データ）
+#     Y_pred = knn.predict(test_data)               # 予測実行
+#     # knn.fit(train_mm, learn_label)               # モデル作成実行(正規化) 
+#     # Y_pred = knn.predict(test_mm)                 # 予測実行
+#     # knn.fit(train_std, learn_label)                # モデル作成実行（標準化）
+#     # Y_pred = knn.predict(test_std)                  # 予測実行
+#     accuracy.append(metrics.accuracy_score(test_label, Y_pred)) # 精度格納
 
-plt.plot(k_range, accuracy)
-plt.show()
+# plt.plot(k_range, accuracy)
+# plt.show()
 
 ### アンダーサンプリングする場合はこちら ####################################
 # k_range = range(1, 50)
@@ -305,19 +319,19 @@ plt.show()
 
 
 # ### 全サンプル使う場合 ##################
-# # #元のデータの適用
-# # lr.fit(learn_data, learn_label)
-# # #正規化したデータの適用
-# # lr_mm.fit(train_mm, learn_label)
-# # #標準化したデータの適用
-# # lr_std.fit(train_std, learn_label)
-# ### アンダーサンプリングする場合 #########
 # #元のデータの適用
-# lr.fit(X_resampled, y_resampled)
+# lr.fit(learn_data, learn_label)
 # #正規化したデータの適用
-# lr_mm.fit(train_mm, y_resampled)
+# lr_mm.fit(train_mm, learn_label)
 # #標準化したデータの適用
-# lr_std.fit(train_std, y_resampled)
+# lr_std.fit(train_std, learn_label)
+# ### アンダーサンプリングする場合 #########
+# # #元のデータの適用
+# # lr.fit(X_resampled, y_resampled)
+# # #正規化したデータの適用
+# # lr_mm.fit(train_mm, y_resampled)
+# # #標準化したデータの適用
+# # lr_std.fit(train_std, y_resampled)
 # ########################################
 
 
@@ -357,7 +371,7 @@ plt.show()
 # lr_mm.fit(train_mm, y_resampled)
 # #標準化したデータの適用
 # lr_std.fit(train_std, y_resampled)
-# ########################################
+# # ########################################
 
 
 # # テストデータによる予測.
@@ -373,40 +387,50 @@ plt.show()
 
 
 # 勾配ブースティング ###########################################################
-# from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 
-# #元のデータ用
-# lr = GradientBoostingClassifier()
-# #正規化したデータ用
-# lr_mm = GradientBoostingClassifier()
-# #標準化したデータ用
-# lr_std = GradientBoostingClassifier()
+#元のデータ用
+lr = GradientBoostingClassifier()
+#正規化したデータ用
+lr_mm = GradientBoostingClassifier()
+#標準化したデータ用
+lr_std = GradientBoostingClassifier()
 
-# ### 全サンプル使う場合 ##################
-# # #元のデータの適用
-# # lr.fit(learn_data, learn_label)
-# # #正規化したデータの適用
-# # lr_mm.fit(train_mm, learn_label)
-# # #標準化したデータの適用
-# # lr_std.fit(train_std, learn_label)
-# ### アンダーサンプリングする場合 #########
-# #元のデータの適用
+### 全サンプル使う場合 ##################
+#元のデータの適用
+lr.fit(learn_data, learn_label)
+#正規化したデータの適用
+lr_mm.fit(train_mm, learn_label)
+#標準化したデータの適用
+lr_std.fit(train_std, learn_label)
+train_class_counts = {label: sum(learn_label == label) for label in set(learn_label)}
+test_class_counts = {label: sum(test_label == label) for label in set(test_label)}
+### アンダーサンプリングする場合 #########
+#元のデータの適用
 # lr.fit(X_resampled, y_resampled)
 # #正規化したデータの適用
 # lr_mm.fit(train_mm, y_resampled)
 # #標準化したデータの適用
 # lr_std.fit(train_std, y_resampled)
-# ########################################
+# train_class_counts = {label: sum(y_resampled == label) for label in set(y_resampled)}
+# test_class_counts = {label: sum(test_label == label) for label in set(test_label)}
+########################################
 
 
-# # テストデータによる予測.
-# result_label_lr = lr.predict(test_data)
-# result_label_lr_mm = lr_mm.predict(test_mm)
-# result_label_lr_std = lr_std.predict(test_std)
+print('学習用データの各クラス数 : ')
+print(train_class_counts)
+print('テスト用データの各クラス数 : ')
+print(test_class_counts)
 
-# print('元のデータのスコア :',lr.score(test_data, test_label))
-# print('正規化したデータのスコア :',lr_mm.score(test_mm, test_label))
-# print('標準化したデータのスコア :',lr_std.score(test_std, test_label))
+
+# テストデータによる予測.
+result_label_lr = lr.predict(test_data)
+result_label_lr_mm = lr_mm.predict(test_mm)
+result_label_lr_std = lr_std.predict(test_std)
+
+print('元のデータのスコア :',lr.score(test_data, test_label))
+print('正規化したデータのスコア :',lr_mm.score(test_mm, test_label))
+print('標準化したデータのスコア :',lr_std.score(test_std, test_label))
 
 ##############################################################################
 
