@@ -50,13 +50,13 @@ with open('model_Initial.pickle', mode='rb') as f:
 
 
 # 適用時: スケーリングパラメータを読み込む
-with open('scaling_parameters.pkl', 'rb') as file:
+with open('scaling_parameters_Initial.pkl', 'rb') as file:
     scaling_params = pickle.load(file)
 
 mean_value = scaling_params['mean']
 std_deviation = scaling_params['std']
-print(mean_value)
-print(std_deviation)
+# print(mean_value)
+# print(std_deviation)
 
 
 # 評価データ ここにその都度入ってきたデータを入れる。

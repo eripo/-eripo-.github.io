@@ -265,7 +265,7 @@ with open('model_Final.pickle', mode='rb') as f:
 
 
 # 適用時: スケーリングパラメータを読み込む
-with open('scaling_parameters.pkl', 'rb') as file:
+with open('scaling_parameters_Final.pkl', 'rb') as file:
     scaling_params = pickle.load(file)
 
 mean_value = scaling_params['mean']

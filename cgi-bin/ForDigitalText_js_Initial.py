@@ -137,7 +137,7 @@ test_std = stdsc.transform(test_data)
 mean_value = stdsc.mean_
 std_deviation = stdsc.scale_
 # 平均と標準偏差の保存（標準化用）
-with open('scaling_parameters.pkl', 'wb') as file:
+with open('scaling_parameters_Initial.pkl', 'wb') as file:
     pickle.dump({'mean': mean_value, 'std': std_deviation}, file)
 
 data = [[0.946289063,	4486.9,	-20,	-2.399993896,	20.14348457,	-20,	-2.399993896,	20.14348457,	-1.45985401,	-0.175182036,	1.470327336,	-1.45985401,	-0.175182036,	1.470327336,	-0.106558686,	-0.01278701,	0.107323163,	-0.106558686,	-0.01278701,	0.107323163,	670.0375214,	336.2000122,	13.70000005]]
