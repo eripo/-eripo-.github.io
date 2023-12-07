@@ -385,10 +385,10 @@ $(document).ready(function() {
 
 
     $(function(){
-      console.log("11111111111111111111111111111111\n" + pressure)
+      console.log("FFFFF\n")
     
       $.ajax({
-          url: 'cgi-bin/open_model_Initial.py',
+          url: 'cgi-bin/open_model_Final.py',
           type: 'get',
           data: {
               test1: ss.min(VelX), test2: ss.max(VelX), test3: ss.mean(VelX), test4: ss.median(VelX), test5: VelX[0], test6: VelX[VelX.length - 1], 
@@ -560,7 +560,7 @@ $(document).ready(function() {
       }
       if(count === 1) {
         $(function(){
-          console.log("11111111111111111111111111111111\n" + pressure)
+          console.log("IIIII")
         
           $.ajax({
               url: 'cgi-bin/open_model_Initial.py',
