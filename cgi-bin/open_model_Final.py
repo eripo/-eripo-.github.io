@@ -12,6 +12,7 @@ storage = cgi.FieldStorage()
 print('Content-type: text/html\n')
 
 # Finalの場合 ####################################
+## 元データを使用する場合 #################
 test1 = float(storage.getvalue('test1'))
 test2 = float(storage.getvalue('test2'))
 test3 = float(storage.getvalue('test3'))
@@ -134,35 +135,173 @@ test119 = float(storage.getvalue('test119'))
 
 
 
+# test1 = stdsc.fit_transform( float(storage.getvalue('test1')) )
+# test2 = stdsc.fit_transform( float(storage.getvalue('test2')) )
+# test3 = stdsc.fit_transform( float(storage.getvalue('test3')) )
+# test4 = stdsc.fit_transform( float(storage.getvalue('test4')) )
+# test5 = stdsc.fit_transform( float(storage.getvalue('test5')) )
+# test6 = stdsc.fit_transform( float(storage.getvalue('test6')) )
+# test7 = stdsc.fit_transform( float(storage.getvalue('test7')) )
+# test8 = stdsc.fit_transform( float(storage.getvalue('test8')) )
+# test9 = stdsc.fit_transform( float(storage.getvalue('test9')) )
+# test10 = stdsc.fit_transform( float(storage.getvalue('test10')) )
+# test11 = stdsc.fit_transform( float(storage.getvalue('test11')) )
+# test12 = stdsc.fit_transform( float(storage.getvalue('test12')) )
+# test13 = stdsc.fit_transform( float(storage.getvalue('test13')) )
+# test14 = stdsc.fit_transform( float(storage.getvalue('test14')) )
+# test15 = stdsc.fit_transform( float(storage.getvalue('test15')) )
+# test16 = stdsc.fit_transform( float(storage.getvalue('test16')) )
+# test17 = stdsc.fit_transform( float(storage.getvalue('test17')) )
+# test18 = stdsc.fit_transform( float(storage.getvalue('test18')) )
+# test19 = stdsc.fit_transform( float(storage.getvalue('test19')) )
+# test20 = stdsc.fit_transform( float(storage.getvalue('test20')) )
+# test21 = stdsc.fit_transform( float(storage.getvalue('test21')) )
+# test22 = stdsc.fit_transform( float(storage.getvalue('test22')) )
+# test23 = stdsc.fit_transform( float(storage.getvalue('test23')) )
+# test24 = stdsc.fit_transform( float(storage.getvalue('test24')) )
+# test25 = stdsc.fit_transform( float(storage.getvalue('test25')) )
+# test26 = stdsc.fit_transform( float(storage.getvalue('test26')) )
+# test27 = stdsc.fit_transform( float(storage.getvalue('test27')) )
+# test28 = stdsc.fit_transform( float(storage.getvalue('test28')) )
+# test29 = stdsc.fit_transform( float(storage.getvalue('test29')) )
+# test30 = stdsc.fit_transform( float(storage.getvalue('test30')) )
+# test31 = stdsc.fit_transform( float(storage.getvalue('test31')) )
+# test32 = stdsc.fit_transform( float(storage.getvalue('test32')) )
+# test33 = stdsc.fit_transform( float(storage.getvalue('test33')) )
+# test34 = stdsc.fit_transform( float(storage.getvalue('test34')) )
+# test35 = stdsc.fit_transform( float(storage.getvalue('test35')) )
+# test36 = stdsc.fit_transform( float(storage.getvalue('test36')) )
+# test37 = stdsc.fit_transform( float(storage.getvalue('test37')) )
+# test38 = stdsc.fit_transform( float(storage.getvalue('test38')) )
+# test39 = stdsc.fit_transform( float(storage.getvalue('test39')) )
+# test40 = stdsc.fit_transform( float(storage.getvalue('test40')) )
+# test41 = stdsc.fit_transform( float(storage.getvalue('test41')) )
+# test42 = stdsc.fit_transform( float(storage.getvalue('test42')) )
+# test43 = stdsc.fit_transform( float(storage.getvalue('test43')) )
+# test44 = stdsc.fit_transform( float(storage.getvalue('test44')) )
+# test45 = stdsc.fit_transform( float(storage.getvalue('test45')) )
+# test46 = stdsc.fit_transform( float(storage.getvalue('test46')) )
+# test47 = stdsc.fit_transform( float(storage.getvalue('test47')) )
+# test48 = stdsc.fit_transform( float(storage.getvalue('test48')) )
+# test49 = stdsc.fit_transform( float(storage.getvalue('test49')) )
+# test50 = stdsc.fit_transform( float(storage.getvalue('test50')) )
+# test51 = stdsc.fit_transform( float(storage.getvalue('test51')) )
+# test52 = stdsc.fit_transform( float(storage.getvalue('test52')) )
+# test53 = stdsc.fit_transform( float(storage.getvalue('test53')) )
+# test54 = stdsc.fit_transform( float(storage.getvalue('test54')) )
+# test55 = stdsc.fit_transform( float(storage.getvalue('test55')) )
+# test56 = stdsc.fit_transform( float(storage.getvalue('test56')) )
+# test57 = stdsc.fit_transform( float(storage.getvalue('test57')) )
+# test58 = stdsc.fit_transform( float(storage.getvalue('test58')) )
+# test59 = stdsc.fit_transform( float(storage.getvalue('test59')) )
+# test60 = stdsc.fit_transform( float(storage.getvalue('test60')) )
+# test61 = stdsc.fit_transform( float(storage.getvalue('test61')) )
+# test62 = stdsc.fit_transform( float(storage.getvalue('test62')) )
+# test63 = stdsc.fit_transform( float(storage.getvalue('test63')) )
+# test64 = stdsc.fit_transform( float(storage.getvalue('test64')) )
+# test65 = stdsc.fit_transform( float(storage.getvalue('test65')) )
+# test66 = stdsc.fit_transform( float(storage.getvalue('test66')) )
+# test67 = stdsc.fit_transform( float(storage.getvalue('test67')) )
+# test68 = stdsc.fit_transform( float(storage.getvalue('test68')) )
+# test69 = stdsc.fit_transform( float(storage.getvalue('test69')) )
+# test70 = stdsc.fit_transform( float(storage.getvalue('test70')) )
+# test71 = stdsc.fit_transform( float(storage.getvalue('test71')) )
+# test72 = stdsc.fit_transform( float(storage.getvalue('test72')) )
+# test73 = stdsc.fit_transform( float(storage.getvalue('test73')) )
+# test74 = stdsc.fit_transform( float(storage.getvalue('test74')) )
+# test75 = stdsc.fit_transform( float(storage.getvalue('test75')) )
+# test76 = stdsc.fit_transform( float(storage.getvalue('test76')) )
+# test77 = stdsc.fit_transform( float(storage.getvalue('test77')) )
+# test78 = stdsc.fit_transform( float(storage.getvalue('test78')) )
+# test79 = stdsc.fit_transform( float(storage.getvalue('test79')) )
+# test80 = stdsc.fit_transform( float(storage.getvalue('test80')) )
+# test81 = stdsc.fit_transform( float(storage.getvalue('test81')) )
+# test82 = stdsc.fit_transform( float(storage.getvalue('test82')) )
+# test83 = stdsc.fit_transform( float(storage.getvalue('test83')) )
+# test84 = stdsc.fit_transform( float(storage.getvalue('test84')) )
+# test85 = stdsc.fit_transform( float(storage.getvalue('test85')) )
+# test86 = stdsc.fit_transform( float(storage.getvalue('test86')) )
+# test87 = stdsc.fit_transform( float(storage.getvalue('test87')) )
+# test88 = stdsc.fit_transform( float(storage.getvalue('test88')) )
+# test89 = stdsc.fit_transform( float(storage.getvalue('test89')) )
+# test90 = stdsc.fit_transform( float(storage.getvalue('test90')) )
+# test91 = stdsc.fit_transform( float(storage.getvalue('test91')) )
+# test92 = stdsc.fit_transform( float(storage.getvalue('test92')) )
+# test93 = stdsc.fit_transform( float(storage.getvalue('test93')) )
+# test94 = stdsc.fit_transform( float(storage.getvalue('test94')) )
+# test95 = stdsc.fit_transform( float(storage.getvalue('test95')) )
+# test96 = stdsc.fit_transform( float(storage.getvalue('test96')) )
+# test97 = stdsc.fit_transform( float(storage.getvalue('test97')) )
+# test98 = stdsc.fit_transform( float(storage.getvalue('test98')) )
+# test99 = stdsc.fit_transform( float(storage.getvalue('test99')) )
+# test100 = stdsc.fit_transform( float(storage.getvalue('test100')) )
+# test101 = stdsc.fit_transform( float(storage.getvalue('test101')) )
+# test102 = stdsc.fit_transform( float(storage.getvalue('test102')) )
+# test103 = stdsc.fit_transform( float(storage.getvalue('test103')) )
+# test104 = stdsc.fit_transform( float(storage.getvalue('test104')) )
+# test105 = stdsc.fit_transform( float(storage.getvalue('test105')) )
+# test106 = stdsc.fit_transform( float(storage.getvalue('test106')) )
+# test107 = stdsc.fit_transform( float(storage.getvalue('test107')) )
+# test108 = stdsc.fit_transform( float(storage.getvalue('test108')) )
+# test109 = stdsc.fit_transform( float(storage.getvalue('test109')) )
+# test110 = stdsc.fit_transform( float(storage.getvalue('test110')) )
+# test111 = stdsc.fit_transform( float(storage.getvalue('test111')) )
+# test112 = stdsc.fit_transform( float(storage.getvalue('test112')) )
+# test113 = stdsc.fit_transform( float(storage.getvalue('test113')) )
+# test114 = stdsc.fit_transform( float(storage.getvalue('test114')) )
+# test115 = stdsc.fit_transform( float(storage.getvalue('test115')) )
+# test116 = stdsc.fit_transform( float(storage.getvalue('test116')) )
+# test117 = stdsc.fit_transform( float(storage.getvalue('test117')) )
+# test118 = stdsc.fit_transform( float(storage.getvalue('test118')) )
+# test119 = stdsc.fit_transform( float(storage.getvalue('test119')) )
+
+
 import pickle
 
 # モデルのオープン
 with open('model_Final.pickle', mode='rb') as f:
     model = pickle.load(f)
 
-# 評価データ ここにその都度入ってきたデータを入れる。
-# data = [[0.979492, -6.687562, 1.180157, 6.790895]]
-data = [
-    [test1, test2, test3, test4, test5, test6, test7, test8, test9, test10,
-    test11, test12, test13, test14, test15, test16, test17, test18, test19, test20,
-    test21, test22, test23, test24, test25, test26, test27, test28, test29, test30,
-    test31, test32, test33, test34, test35, test36, test37, test38, test39, test40,
-    test41, test42, test43, test44, test45, test46, test47, test48, test49, test50,
-    test51, test52, test53, test54, test55, test56, test57, test58, test59, test60,
-    test61, test62, test63, test64, test65, test66, test67, test68, test69, test70,
-    test71, test72, test73, test74, test75, test76, test77, test78, test79, test80,
-    test81, test82, test83, test84, test85, test86, test87, test88, test89, test90,
-    test91, test92, test93, test94, test95, test96, test97, test98, test99, test100,
-    test101, test102, test103, test104, test105, test106, test107, test108, test109, test110,
-    test111, test112, test113, test114, test115, test116, test117, test118, test119]
-]
 
+# 適用時: スケーリングパラメータを読み込む
+with open('scaling_parameters.pkl', 'rb') as file:
+    scaling_params = pickle.load(file)
+
+mean_value = scaling_params['mean']
+std_deviation = scaling_params['std']
+print(mean_value)
+print(std_deviation)
+
+# 評価データ ここにその都度入ってきたデータを入れる。
+data = [[-4.990095372270605,-1.459854009517426,-3.3428852107990537,-3.1271893073769865,-1.459854009517426,-4.477063110065161,-0.17518203563000326,2.2752338424193397,1.0653248618568387,0.9495151572992044,-0.17518203563000326,2.2752338424193397,1.470327335905708,5.312244338480969,3.553004140544565,3.1978113336908427,1.470327335905708,5.022029781791084,-4.990095372270605,-1.459854009517426,-3.3428852107990537,-3.1271893073769865,-1.459854009517426,-4.477063110065161,-0.17518203563000326,2.2752338424193397,1.065324484164041,0.9495151572992044,-0.17518203563000326,2.2752338424193397,1.470327335905708,5.312244338480969,3.553004002262189,3.1978113336908427,1.470327335905708,5.022029781791084,-0.271296193731988,0.23516892120821922,-0.04090091401710831,-0.07739055333689987,-0.10655868645520525,-0.1832169114804144,0.025976004863902405,0.025976004863902405,0.022545302929651245,0.01568389906114892,-0.02539944281387477,-0.035422619407119105,-0.07009913031394144,0.11436787501525092,0.025840643957738874,0.012559818831040492,-0.012787009855494242,0.09864530685974561,0.014273088272902086,0.014273088272902086,0.012129574800533746,0.007842547855797067,0.033705845285186886,0.03134614993388339,-0.24371365026135056,0.2936190977241427,0.04739735468251794,0.08031737430792185,0.10732316283125116,0.20797824113222216,-0.0178677045645642,-0.0178677045645642,-0.01587354816435129,-0.011885235363925474,0.0340002776055559,0.04044775212818061,-0.271296193731988,0.23516892120821922,-0.04090091401710831,-0.07739055333689987,-0.10655868645520525,-0.1832169114804144,0.025976004863902405,0.025976004863902405,0.022545302929651245,0.01568389906114892,-0.02539944281387477,-0.035422619407119105,-0.0700988281597033,0.11436787501525092,0.02584064433169223,0.012559669249734836,-0.012787009855494242,0.09864530685974561,0.014273239350021158,0.014273239350021158,0.01212957579774269,0.007842248693185753,0.033705845783791356,0.03134600035257774,-0.24371353963545003,0.2936190977241427,0.04739735481943122,0.08031737430792185,0.10732316283125116,0.20797824113222216,-0.017867649251613937,-0.017867649251613937,-0.015873547799249224,-0.011885344894519798,0.03400027778810693,0.04044769736288344,0.15234375,0.9765625,0.8697509765625,0.9765625,0.9462890625,0.15234375,99.60000002384186,279.20001220703125,90.40005493164062,279.20001220703125,90.4000244140625]]
+# data = [
+#     [test1, test2, test3, test4, test5, test6, test7, test8, test9, test10,
+#     test11, test12, test13, test14, test15, test16, test17, test18, test19, test20,
+#     test21, test22, test23, test24, test25, test26, test27, test28, test29, test30,
+#     test31, test32, test33, test34, test35, test36, test37, test38, test39, test40,
+#     test41, test42, test43, test44, test45, test46, test47, test48, test49, test50,
+#     test51, test52, test53, test54, test55, test56, test57, test58, test59, test60,
+#     test61, test62, test63, test64, test65, test66, test67, test68, test69, test70,
+#     test71, test72, test73, test74, test75, test76, test77, test78, test79, test80,
+#     test81, test82, test83, test84, test85, test86, test87, test88, test89, test90,
+#     test91, test92, test93, test94, test95, test96, test97, test98, test99, test100,
+#     test101, test102, test103, test104, test105, test106, test107, test108, test109, test110,
+#     test111, test112, test113, test114, test115, test116, test117, test118, test119]
+# ]
+
+## データを標準化する処理 ##########
+from sklearn.preprocessing import StandardScaler,MinMaxScaler
+stdsc = StandardScaler()
+test_data = ( data - mean_value ) / std_deviation
+# test2_data = stdsc.transform(data)
 
 
 # モデルを用いた予測
-ans = model.predict(data)
+ans = model.predict(test_data)
 
  
 # # 予測結果を出力
 # print("予測対象：\n", data, ", \n予測結果→", ans)
+print(test_data)
+# print(test2_data)
 print(ans)
