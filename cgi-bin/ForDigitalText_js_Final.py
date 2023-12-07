@@ -156,12 +156,12 @@ print("############################")
 
 
 
-print(learn_data)
-print(learn_label)
+# print(learn_data)
+# print(learn_label)
 
-print("テストデータ***************")
-print(test_data)
-print(test_label)
+# print("テストデータ***************")
+# print(test_data)
+# print(test_label)
 
 
 
