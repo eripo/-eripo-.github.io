@@ -23,6 +23,13 @@ import csv
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import KFold
+from sklearn.pipeline import make_pipeline
+
+from sklearn.model_selection import cross_val_predict
+from sklearn.metrics import confusion_matrix, precision_score, recall_score
+
 
 # 学習用データ #
 # df = pd.read_csv( 'Data/all_fm_Initial.csv' )
@@ -87,8 +94,41 @@ print("*******************")
 ###########################################################################################
 
 # 8:2分割する場合 #############################
-# X = df1.drop(['gapRX','gapRY','gapR','velX','velY','vel','velRX','velRY','velR','Mode'], axis=1) //試しにやってみただけ．使いたいときが来るかもだから残しておく
-X = df1.drop(['Mode'], axis=1)
+## Initial向け ##
+# X = df1.drop(['msec','Mode'], axis=1)
+# X = df1.drop(['velY','velRY','accelerationY','accelerationRY','msec','Mode'], axis=1)
+# X = df1.drop(['gapX','gapY','gap','velX','velY','vel','velRX','velRY','velR','accelerationX','accelerationY','acceleration','accelerationR','msec','Mode'], axis=1)
+
+# X = df1.drop(['gapX','gapY','gap','velX','velY','vel','accelerationX','accelerationY','acceleration','Mode'], axis=1)
+# X = df1.drop(['gapRX','gapRY','gapR','velRX','velRY','velR','accelerationRX','accelerationRY','accelerationR','Mode'], axis=1)
+# X = df1.drop(['gapX','gapY','gap','velX','velY','vel','accelerationX','accelerationY','acceleration','accelerationR','Mode'], axis=1)
+
+# X = df1.drop(['gapX','gapY','gap','velX','velY','vel','velRX','velRY','velR','accelerationX','accelerationY','acceleration','accelerationR','Mode'], axis=1)
+# X = df1.drop(['gapX','gapY','gap','gapRX','gapRY','gapR','velX','velY','vel','accelerationX','accelerationY','acceleration','accelerationR','Mode'], axis=1)
+
+# X = df1.drop(['gapX','gapY','gap','gapRX','gapRY','gapR','velX','velY','vel','accelerationX','accelerationY','acceleration','accelerationRX','accelerationRY','accelerationR','Mode'], axis=1)
+# X = df1.drop(['gapX','gapY','gap','gapRX','gapRY','gapR','velX','velY','vel','velRX','velRY','velR','accelerationX','accelerationY','acceleration','accelerationR','Mode'], axis=1)
+
+# X = df1.drop(['gapX','gapY','gap','gapRX','gapRY','gapR','velX','velY','vel','velRX','velRY','velR','accelerationX','accelerationY','acceleration','accelerationRY','accelerationR','Mode'], axis=1)
+# X = df1.drop(['gapX','gapY','gap','gapRX','gapRY','gapR','velX','velY','vel','velRX','velRY','velR','accelerationX','accelerationY','acceleration','accelerationRX','accelerationR','Mode'], axis=1)
+
+# # 精度検証結果で使ってないやつ
+# X = df1.drop(['gapX','gapY','gap','velX','velY','vel','velRX','velRY','velR','accelerationX','accelerationY','acceleration','accelerationR','msec','Mode'], axis=1)
+# X = df1.drop(['gapX','gapY','gap','velX','velY','vel','velRX','velRY','velR','accelerationX','accelerationY','acceleration','accelerationRY','accelerationR','Mode'], axis=1)
+
+
+
+## Final向け ##
+# X = df1.drop(['Mode'], axis=1)
+# X = df1.drop(['velRX_min','velRX_max','velRX_mean','velRX_median','velRX_first','velRX_last','velRY_min','velRY_max','velRY_mean','velRY_median','velRY_first','velRY_last','velR_min','velR_max','velR_mean','velR_median','velR_first','velR_last','accelerationRX_min','accelerationRX_max','accelerationRX_mean','accelerationRX_median','accelerationRX_first','accelerationRX_last','1/5_accelerationRX_mean','1/5_accelerationRX_median','2/5_accelerationRX_mean','2/5_accelerationRX_median','4/5_accelerationRX_mean','4/5_accelerationRX_median','accelerationRY_min','accelerationRY_max','accelerationRY_mean','accelerationRY_median','accelerationRY_first','accelerationRY_last','1/5_accelerationRY_mean','1/5_accelerationRY_median','2/5_accelerationRY_mean','2/5_accelerationRY_median','4/5_accelerationRY_mean','4/5_accelerationRY_median','accelerationR_min','accelerationR_max','accelerationR_mean','accelerationR_median','accelerationR_first','accelerationR_last','1/5_accelerationR_mean','1/5_accelerationR_median','2/5_accelerationR_mean','2/5_accelerationR_median','4/5_accelerationR_mean','4/5_accelerationR_median','widthRX','widthRY','Mode'], axis=1)
+# X = df1.drop(['velX_min','velX_max','velX_mean','velX_median','velX_first','velX_last','velY_min','velY_max','velY_mean','velY_median','velY_first','velY_last','vel_min','vel_max','vel_mean','vel_median','vel_first','vel_last','accelerationX_min','accelerationX_max','accelerationX_mean','accelerationX_median','accelerationX_first','accelerationX_last','1/5_accelerationX_mean','1/5_accelerationX_median','2/5_accelerationX_mean','2/5_accelerationX_median','4/5_accelerationX_mean','4/5_accelerationX_median','accelerationY_min','accelerationY_max','accelerationY_mean','accelerationY_median','accelerationY_first','accelerationY_last','1/5_accelerationY_mean','1/5_accelerationY_median','2/5_accelerationY_mean','2/5_accelerationY_median','4/5_accelerationY_mean','4/5_accelerationY_median','acceleration_min','acceleration_max','acceleration_mean','acceleration_median','acceleration_first','acceleration_last','1/5_acceleration_mean','1/5_acceleration_median','2/5_acceleration_mean','2/5_acceleration_median','4/5_acceleration_mean','4/5_acceleration_median','widthX','widthY','Mode'], axis=1)
+# X = df1.drop(['velX_min','velX_max','velX_mean','velX_median','velX_first','velX_last','velY_min','velY_max','velY_mean','velY_median','velY_first','velY_last','vel_min','vel_max','vel_mean','vel_median','vel_first','vel_last','accelerationX_min','accelerationX_max','accelerationX_mean','accelerationX_median','accelerationX_first','accelerationX_last','1/5_accelerationX_mean','1/5_accelerationX_median','2/5_accelerationX_mean','2/5_accelerationX_median','4/5_accelerationX_mean','4/5_accelerationX_median','accelerationY_min','accelerationY_max','accelerationY_mean','accelerationY_median','accelerationY_first','accelerationY_last','1/5_accelerationY_mean','1/5_accelerationY_median','2/5_accelerationY_mean','2/5_accelerationY_median','4/5_accelerationY_mean','4/5_accelerationY_median','acceleration_min','acceleration_max','acceleration_mean','acceleration_median','acceleration_first','acceleration_last','1/5_acceleration_mean','1/5_acceleration_median','2/5_acceleration_mean','2/5_acceleration_median','4/5_acceleration_mean','4/5_acceleration_median','accelerationRY_first','widthX','widthY','Mode'], axis=1)
+X = df1.drop(['velX_min','velX_max','velX_mean','velX_median','velX_first','velX_last','velY_min','velY_max','velY_mean','velY_median','velY_first','velY_last','vel_min','vel_max','vel_mean','vel_median','vel_first','vel_last','accelerationX_min','accelerationX_max','accelerationX_mean','accelerationX_median','accelerationX_first','accelerationX_last','1/5_accelerationX_mean','1/5_accelerationX_median','2/5_accelerationX_mean','2/5_accelerationX_median','4/5_accelerationX_mean','4/5_accelerationX_median','accelerationY_min','accelerationY_max','accelerationY_mean','accelerationY_median','accelerationY_first','accelerationY_last','1/5_accelerationY_mean','1/5_accelerationY_median','2/5_accelerationY_mean','2/5_accelerationY_median','4/5_accelerationY_mean','4/5_accelerationY_median','acceleration_min','acceleration_max','acceleration_mean','acceleration_median','acceleration_first','acceleration_last','1/5_acceleration_mean','1/5_acceleration_median','2/5_acceleration_mean','2/5_acceleration_median','4/5_acceleration_mean','4/5_acceleration_median','velRY_first','widthX','widthY','Mode'], axis=1)
+# X = df1.drop(['gapX','gapY','gap','velX','velY','vel','velRX','velRY','velR','accelerationX','accelerationY','acceleration','accelerationR','Mode'], axis=1)
+# X = df1.drop(['gapX','gapY','gap','gapRX','gapRY','gapR','velRX','velRY','velR','accelerationX','accelerationY','acceleration','accelerationR','Mode'], axis=1)
+# X = df1.drop(['gapX','gapY','gap','gapRX','gapRY','gapR','velX','velY','vel','accelerationX','accelerationY','acceleration','accelerationR','Mode'], axis=1)
+
+
 y = df1['Mode']
 learn_data, test_data, learn_label, test_label = train_test_split(X, y, test_size=0.2, random_state=0)
 
@@ -219,6 +259,97 @@ print("############################")
 # print("学習用データ：", learn_data)
 # print("予測対象：\n", test_data, ", \n予測結果→", result_label)
 # print("正解率＝", accuracy_score(test_label, result_label))
+
+
+
+# 勾配ブースティング ###########################################################
+from sklearn.ensemble import GradientBoostingClassifier
+
+#元のデータ用
+lr = GradientBoostingClassifier()
+#正規化したデータ用
+lr_mm = GradientBoostingClassifier()
+#標準化したデータ用
+lr_std = GradientBoostingClassifier()
+
+### 全サンプル使う場合 ##################
+#元のデータの適用
+lr.fit(learn_data, learn_label)
+#正規化したデータの適用
+lr_mm.fit(train_mm, learn_label)
+#標準化したデータの適用
+lr_std.fit(train_std, learn_label)
+train_class_counts = {label: sum(learn_label == label) for label in set(learn_label)}
+test_class_counts = {label: sum(test_label == label) for label in set(test_label)}
+### アンダーサンプリングする場合 #########
+#元のデータの適用
+# lr.fit(X_resampled, y_resampled)
+# #正規化したデータの適用
+# lr_mm.fit(train_mm, y_resampled)
+# #標準化したデータの適用
+# lr_std.fit(train_std, y_resampled)
+# train_class_counts = {label: sum(y_resampled == label) for label in set(y_resampled)}
+# test_class_counts = {label: sum(test_label == label) for label in set(test_label)}
+########################################
+
+
+print('学習用データの各クラス数 : ')
+print(train_class_counts)
+print('テスト用データの各クラス数 : ')
+print(test_class_counts)
+
+
+# データを標準化するパイプラインを作成
+model = make_pipeline(StandardScaler(), GradientBoostingClassifier())
+# k-fold cross-validationを実行
+kfold = KFold(n_splits=2, shuffle=True, random_state=42)  # 5-fold cross-validationを行う例
+scores = cross_val_score(model, X, y, cv=kfold)
+# scores = cross_val_score(lr_std, train_std, learn_label, cv = 5)
+print('クロスバリデーションの結果 ： ')
+print(np.mean(scores))
+
+# クロスバリデーションの結果から予測結果を取得
+y_pred = cross_val_predict(model, X, y, cv=kfold)
+# 混同行列を計算
+conf_matrix = confusion_matrix(y, y_pred)
+
+# 適合率と再現率を計算
+precision = precision_score(y, y_pred, pos_label='pen')
+recall = recall_score(y, y_pred, pos_label='pen')
+
+
+# 混同行列
+cv_tn, cv_fp, cv_fn, cv_tp = confusion_matrix(y, y_pred).ravel()
+
+print('混同行列（標準化） : %d, %d, %d, %d'%(cv_tn, cv_fp, cv_fn, cv_tp));
+
+
+# 適合率（precision）・再現率（recall）の算出
+print('[pen]_lr_std_precision : %.4f'%(cv_tp / (cv_tp + cv_fp)))
+print('[pen]_lr_std_recall : %.4f'%(cv_tp / (cv_tp + cv_fn)))
+print('[page]_lr_precision : %.4f'%(cv_tn / (cv_tn + cv_fn)))
+print('[page]_lr_recall : %.4f'%(cv_tn / (cv_tn + cv_fp)))
+
+
+
+# クロスバリデーションの結果を表示
+print('混同行列：')
+print(conf_matrix)
+print('適合率:', precision)
+print('再現率:', recall)
+print('*******************************')
+
+
+# テストデータによる予測.
+result_label_lr = lr.predict(test_data)
+result_label_lr_mm = lr_mm.predict(test_mm)
+result_label_lr_std = lr_std.predict(test_std)
+
+print('元のデータのスコア :',lr.score(test_data, test_label))
+print('正規化したデータのスコア :',lr_mm.score(test_mm, test_label))
+print('標準化したデータのスコア :',lr_std.score(test_std, test_label))
+
+##############################################################################
 
 
 
@@ -386,54 +517,6 @@ print("############################")
 ##############################################################################
 
 
-# 勾配ブースティング ###########################################################
-from sklearn.ensemble import GradientBoostingClassifier
-
-#元のデータ用
-lr = GradientBoostingClassifier()
-#正規化したデータ用
-lr_mm = GradientBoostingClassifier()
-#標準化したデータ用
-lr_std = GradientBoostingClassifier()
-
-### 全サンプル使う場合 ##################
-#元のデータの適用
-lr.fit(learn_data, learn_label)
-#正規化したデータの適用
-lr_mm.fit(train_mm, learn_label)
-#標準化したデータの適用
-lr_std.fit(train_std, learn_label)
-train_class_counts = {label: sum(learn_label == label) for label in set(learn_label)}
-test_class_counts = {label: sum(test_label == label) for label in set(test_label)}
-### アンダーサンプリングする場合 #########
-#元のデータの適用
-# lr.fit(X_resampled, y_resampled)
-# #正規化したデータの適用
-# lr_mm.fit(train_mm, y_resampled)
-# #標準化したデータの適用
-# lr_std.fit(train_std, y_resampled)
-# train_class_counts = {label: sum(y_resampled == label) for label in set(y_resampled)}
-# test_class_counts = {label: sum(test_label == label) for label in set(test_label)}
-########################################
-
-
-print('学習用データの各クラス数 : ')
-print(train_class_counts)
-print('テスト用データの各クラス数 : ')
-print(test_class_counts)
-
-
-# テストデータによる予測.
-result_label_lr = lr.predict(test_data)
-result_label_lr_mm = lr_mm.predict(test_mm)
-result_label_lr_std = lr_std.predict(test_std)
-
-print('元のデータのスコア :',lr.score(test_data, test_label))
-print('正規化したデータのスコア :',lr_mm.score(test_mm, test_label))
-print('標準化したデータのスコア :',lr_std.score(test_std, test_label))
-
-##############################################################################
-
 
 # ロジスティック回帰 ###########################################################
 # from sklearn.linear_model import LogisticRegression
@@ -475,7 +558,6 @@ print('標準化したデータのスコア :',lr_std.score(test_std, test_label
 
 
 # 混同行列
-from sklearn.metrics import confusion_matrix
 lr_tn, lr_fp, lr_fn, lr_tp = confusion_matrix(test_label, result_label_lr).ravel()
 lr_mm_tn, lr_mm_fp, lr_mm_fn, lr_mm_tp = confusion_matrix(test_label, result_label_lr_mm).ravel()
 lr_std_tn, lr_std_fp, lr_std_fn, lr_std_tp = confusion_matrix(test_label, result_label_lr_std).ravel()

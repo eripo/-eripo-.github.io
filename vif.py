@@ -5,25 +5,66 @@ import matplotlib.pyplot as plt
 import numpy as np
  
 #データをインポート
-from sklearn.datasets import load_boston
+# from sklearn.datasets import load_boston
 
 import pandas as pd
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 
 # CSVファイルからデータを読み込む
-# df = pd.read_csv('Data/Initial (5).csv')
-# df = pd.read_csv('Data/Mid (5).csv')
-df = pd.read_csv('Data/Final (5).csv')
+# df = pd.read_csv( 'Data/all_fm_Initial.csv' )
+# df = pd.read_csv( 'Data/all_pm_Initial.csv' )
+# df = pd.read_csv( 'Data/all_fm_Final.csv' )
+# df = pd.read_csv( 'Data/all_pm_Final.csv' )
+df = pd.read_csv( 'Data/all_mm_Initial.csv' )
+# df = pd.read_csv( 'Data/all_mm_Final.csv' )
 
-df.dropna()
+df1 = df.dropna(how='any')
 
-# 要らない列を削除する
-# # Initial向け
-# df2 = df.drop(['gapX', 'gapY', 'gap', 'accelerationX', 'accelerationY', 'acceleration', 'msec', 'Mode'], axis=1)
-# # Mid向け
-# df2 = df.drop(['gapX', 'gapY', 'gap', 'msec', 'Mode'], axis=1)
-# Final向け
-df2 = df.drop(['accelerationX_min', 'accelerationX_max', 'accelerationX_mean', 'accelerationX_median', 'accelerationY_min', 'accelerationY_max', 'accelerationY_mean', 'accelerationY_median', 'acceleration_min', 'acceleration_max', 'acceleration_mean', 'acceleration_median', 'Mode'], axis=1)
+# mm_Initial向け
+# 全部（msec除く）
+# X1 = df1[['pressure0','intervalTime','gapX','gapY','gap','gapRX','gapRY','gapR','velX','velY','vel','velRX','velRY','velR','accelerationX','accelerationY','acceleration','accelerationRX','accelerationRY','accelerationR','posX','posY','Mode']]
+# 目的変数との相関絶対値0.05以上残し
+# X1 = df1[['pressure0','intervalTime','gapX','gapY','gap','gapRX','gapRY','gapR','velX','velY','vel','velRX','velRY','velR','accelerationX','acceleration','accelerationRX','accelerationR','posX','posY','Mode']]
+# VIF10未満(ここで5未満になったので5未満はなし．) *** 採用！！！！！ ***
+X1 = df1[['pressure0','intervalTime','gapX','gapY','gap','accelerationRX','posX','posY','Mode']]
+
+
+
+# mm_Final向け
+# 目的変数との相関0.3以上残し
+# X1 = df1[['velX_min','velX_mean','velX_median','vel_max','vel_mean','vel_median','vel_last','velRX_min','velRX_mean','velRX_median','velR_max','velR_mean','velR_median','velR_last','acceleration_median','accelerationR_median','widthX','widthRX','Mode']]
+# VIF10未満
+# X1 = df1[['vel_max','velRX_min','velRX_mean','velRX_median','velR_median','velR_last','accelerationR_median','widthRX','Mode']]
+# VIF5未満
+# X1 = df1[['velRX_min','velRX_median','velR_median','velR_last','accelerationR_median','widthRX','Mode']]
+
+# 目的変数との相関係数絶対値0.1以上残し
+# X1 = df1[['velX_min','velX_max','velX_mean','velX_median','velX_first','velX_last','velY_max','velY_mean','velY_last','vel_max','vel_mean','vel_median','vel_first','vel_last','velRX_min','velRX_max','velRX_mean','velRX_median','velRX_first','velRX_last','velRY_max','velRY_last','velR_max','velR_mean','velR_median','velR_first','velR_last','accelerationX_min','accelerationX_max','accelerationX_first','accelerationY_min','accelerationY_max','acceleration_min','acceleration_max','acceleration_median','acceleration_first','2/5_acceleration_mean','accelerationRX_min','accelerationRX_max','accelerationRX_first','accelerationR_min','accelerationR_max','accelerationR_median','accelerationR_first','dragTime','widthX','widthY','widthRX','Mode']]
+# VIF10未満 *** 採用！！！！！ ***
+# X1 = df1[['velX_min','velX_max','velX_first','velX_last','velY_mean','vel_median','velRX_median','velRY_max','velRY_last','velR_last','accelerationY_min','accelerationY_max','acceleration_max','2/5_acceleration_mean','accelerationRX_min','accelerationRX_max','accelerationR_median','accelerationR_first','dragTime','widthY','widthRX','Mode']]
+# VIF5未満
+# X1 = df1[['velX_max','velX_last','velY_mean','vel_median','velRX_median','velRY_last','velR_last','accelerationY_min','accelerationY_max','acceleration_max','2/5_acceleration_mean','accelerationRX_min','accelerationRX_max','accelerationR_median','accelerationR_first','dragTime','widthY','widthRX','Mode']]
+# VIF10未満かつ特徴量15個以下になるまで目的変数との相関が小さいものから削除
+# X1 = df1[['velX_min','velX_max','velX_first','velX_last','vel_median','velRX_median','velRY_last','velR_last','accelerationY_max','acceleration_max','accelerationRX_min','accelerationRX_max','accelerationR_median','accelerationR_first','widthRX','Mode']]
+# VIF10未満かつ特徴量10個以下になるまで目的変数との相関が小さいものから削除
+# X1 = df1[['velX_min','velX_max','vel_median','velRX_median','velRY_last','velR_last','acceleration_max','accelerationRX_max','accelerationR_median','widthRX','Mode']]
+
+# 全部
+# X1 = df1[['velX_min','velX_max','velX_mean','velX_median','velX_first','velX_last','velY_min','velY_max','velY_mean','velY_median','velY_first','velY_last','vel_min','vel_max','vel_mean','vel_median','vel_first','vel_last','velRX_min','velRX_max','velRX_mean','velRX_median','velRX_first','velRX_last','velRY_min','velRY_max','velRY_mean','velRY_median','velRY_first','velRY_last','velR_min','velR_max','velR_mean','velR_median','velR_first','velR_last','accelerationX_min','accelerationX_max','accelerationX_mean','accelerationX_median','accelerationX_first','accelerationX_last','1/5_accelerationX_mean','1/5_accelerationX_median','2/5_accelerationX_mean','2/5_accelerationX_median','4/5_accelerationX_mean','4/5_accelerationX_median','accelerationY_min','accelerationY_max','accelerationY_mean','accelerationY_median','accelerationY_first','accelerationY_last','1/5_accelerationY_mean','1/5_accelerationY_median','2/5_accelerationY_mean','2/5_accelerationY_median','4/5_accelerationY_mean','4/5_accelerationY_median','acceleration_min','acceleration_max','acceleration_mean','acceleration_median','acceleration_first','acceleration_last','1/5_acceleration_mean','1/5_acceleration_median','2/5_acceleration_mean','2/5_acceleration_median','4/5_acceleration_mean','4/5_acceleration_median','accelerationRX_min','accelerationRX_max','accelerationRX_mean','accelerationRX_median','accelerationRX_first','accelerationRX_last','1/5_accelerationRX_mean','1/5_accelerationRX_median','2/5_accelerationRX_mean','2/5_accelerationRX_median','4/5_accelerationRX_mean','4/5_accelerationRX_median','accelerationRY_min','accelerationRY_max','accelerationRY_mean','accelerationRY_median','accelerationRY_first','accelerationRY_last','1/5_accelerationRY_mean','1/5_accelerationRY_median','2/5_accelerationRY_mean','2/5_accelerationRY_median','4/5_accelerationRY_mean','4/5_accelerationRY_median','accelerationR_min','accelerationR_max','accelerationR_mean','accelerationR_median','accelerationR_first','accelerationR_last','1/5_accelerationR_mean','1/5_accelerationR_median','2/5_accelerationR_mean','2/5_accelerationR_median','4/5_accelerationR_mean','4/5_accelerationR_median','pressure_min','pressure_max','pressure_mean','pressure_median','pressure_first','pressure_last','dragTime','widthX','widthY','widthRX','widthRY','Mode']]
+# widthX削除前
+# X1 = df1[['velX_max','velX_first','velY_min','velY_max','velY_median','velY_first','velY_last','vel_median','vel_first','velRX_min','velRX_max','velRX_mean','velRX_median','velRX_last','velRY_min','velRY_max','velRY_mean','velRY_median','velRY_last','velR_min','velR_max','velR_mean','velR_last','accelerationX_max','accelerationX_mean','accelerationX_last','1/5_accelerationX_median','accelerationY_min','accelerationY_max','accelerationY_median','accelerationY_last','1/5_accelerationY_mean','1/5_accelerationY_median','2/5_accelerationY_mean','2/5_accelerationY_median','4/5_accelerationY_mean','acceleration_mean','acceleration_last','1/5_acceleration_mean','accelerationRX_min','accelerationRX_max','accelerationRX_median','accelerationRX_last','1/5_accelerationRX_mean','1/5_accelerationRX_median','2/5_accelerationRX_mean','2/5_accelerationRX_median','4/5_accelerationRX_mean','4/5_accelerationRX_median','accelerationRY_min','accelerationRY_max','accelerationRY_mean','accelerationRY_median','accelerationRY_first','accelerationRY_last','1/5_accelerationRY_mean','1/5_accelerationRY_median','2/5_accelerationRY_mean','2/5_accelerationRY_median','4/5_accelerationRY_median','accelerationR_min','accelerationR_max','accelerationR_median','accelerationR_first','accelerationR_last','1/5_accelerationR_mean','1/5_accelerationR_median','2/5_accelerationR_mean','2/5_accelerationR_median','4/5_accelerationR_mean','4/5_accelerationR_median','pressure_max','pressure_first','pressure_last','dragTime','widthX','widthY','widthRX','widthRY','Mode']]
+# VIF10未満
+# X1 = df1[['velX_max','velX_first','velY_min','velY_max','velY_median','velY_first','vel_median','velRX_min','velRX_median','velRX_last','velRY_mean','velRY_last','velR_min','velR_last','accelerationX_mean','accelerationY_median','acceleration_mean','1/5_acceleration_mean','accelerationRX_min','accelerationRX_max','accelerationRX_median','accelerationRX_last','1/5_accelerationRX_mean','1/5_accelerationRX_median','2/5_accelerationRX_median','4/5_accelerationRX_median','accelerationRY_min','accelerationRY_max','accelerationRY_first','accelerationRY_last','1/5_accelerationRY_mean','1/5_accelerationRY_median','2/5_accelerationRY_mean','2/5_accelerationRY_median','4/5_accelerationRY_median','accelerationR_max','accelerationR_median','accelerationR_last','1/5_accelerationR_median','2/5_accelerationR_median','4/5_accelerationR_median','pressure_last','dragTime','widthRX','widthRY','Mode']]
+# VIF5未満
+# X1 = df1[['velX_max','velX_first','velY_min','velY_max','velY_median','velY_first','velRX_median','velRX_last','velRY_last','velR_min','velR_last','accelerationX_mean','accelerationY_median','acceleration_mean','1/5_acceleration_mean','accelerationRX_median','accelerationRX_last','1/5_accelerationRX_mean','1/5_accelerationRX_median','2/5_accelerationRX_median','4/5_accelerationRX_median','accelerationRY_min','accelerationRY_max','1/5_accelerationRY_median','2/5_accelerationRY_mean','2/5_accelerationRY_median','4/5_accelerationRY_median','accelerationR_max','accelerationR_median','accelerationR_last','1/5_accelerationR_median','2/5_accelerationR_median','pressure_last','dragTime','widthRX','Mode']]
+
+
+df2 = X1.drop(['Mode'],axis=1)
+
+
+
+
+
 
 cols = df2.select_dtypes(include=[np.number]).columns
 print(cols[0:])
@@ -42,7 +83,13 @@ vif["features"] = vif_data.columns
 
 # VIFの値を出力する
 print(vif)
+# 最大のVIFを持つ行を取得
+max_vif_row = vif.loc[vif["VIF Factor"].idxmax()]
 
+# 結果を出力
+# print("最大のVIFを持つ行:")
+print(max_vif_row)
+# print(max(vif["VIF Factor"]))
 
 
 
