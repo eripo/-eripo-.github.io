@@ -13,9 +13,9 @@ import seaborn as sns
 # df = pd.read_csv( 'Data/all_fm_Initial.csv' )
 # df = pd.read_csv( 'Data/all_pm_Initial.csv' )
 # df = pd.read_csv( 'Data/all_fm_Final.csv' )
-df = pd.read_csv( 'Data/all_pm_Final.csv' )
+# df = pd.read_csv( 'Data/all_pm_Final.csv' )
 # df = pd.read_csv( 'Data/all_mm_Initial.csv' )
-# df = pd.read_csv( 'Data/all_mm_Final.csv' )
+df = pd.read_csv( 'Data/all_mm_Final.csv' )
 # df = pd.read_csv( 'Data/all_mm_Final.csv' , dtype={'1/5_accelerationR_median': float} )
 
 
@@ -70,13 +70,13 @@ correlation_matrix = df_standardized.corr()
 # 相関係数のヒートマップを表示
 print(correlation_matrix)
 # CSVファイルに出力
-# correlation_matrix.to_csv('correlation_matrix_Initial.csv', index=False)
-correlation_matrix.to_csv('correlation_matrix_pm_Final.csv', index=False)
+correlation_matrix.to_csv('correlation_matrix_mm_Final.csv', index=False)
+# correlation_matrix.to_csv('correlation_matrix_pm_Final.csv', index=False)
 print('####################')
 
 plt.figure(figsize=(10, 8))
 sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", fmt=".2f", linewidths=0.5)
-plt.show()
+# plt.show()
 
 
 
