@@ -3,7 +3,7 @@
 
 
 ######################################################
-# 保存したモデルを使用し、判定結果を出力するプログラム
+# 保存した初動判別モデルを使用し、判定結果を出力するプログラム
 ######################################################
 import cgi
 import numpy as np
@@ -14,47 +14,40 @@ print('Content-type: text/html\n')
 
 # Initialの場合 ####################################
 ## 元データを使用する場合 #################
-test1 = float(storage.getvalue('test1'))
-test2 = float(storage.getvalue('test2'))
-test3 = float(storage.getvalue('test3'))
-test4 = float(storage.getvalue('test4'))
-test5 = float(storage.getvalue('test5'))
-test6 = float(storage.getvalue('test6'))
-test7 = float(storage.getvalue('test7'))
-test8 = float(storage.getvalue('test8'))
-test9 = float(storage.getvalue('test9'))
-test10 = float(storage.getvalue('test10'))
-test11 = float(storage.getvalue('test11'))
-test12 = float(storage.getvalue('test12'))
-test13 = float(storage.getvalue('test13'))
-test14 = float(storage.getvalue('test14'))
-test15 = float(storage.getvalue('test15'))
-test16 = float(storage.getvalue('test16'))
-test17 = float(storage.getvalue('test17'))
-test18 = float(storage.getvalue('test18'))
-test19 = float(storage.getvalue('test19'))
-test20 = float(storage.getvalue('test20'))
-test21 = float(storage.getvalue('test21'))
-test22 = float(storage.getvalue('test22'))
-test23 = float(storage.getvalue('test23'))
-
-
-
+pressure0 = float(storage.getvalue('pressure0'))
+intervalTime = float(storage.getvalue('intervalTime'))
+gapX = float(storage.getvalue('gapX'))
+gapY = float(storage.getvalue('gapY'))
+gap = float(storage.getvalue('gap'))
+gapRY = float(storage.getvalue('gapRY'))
+gapR = float(storage.getvalue('gapR'))
+velRX = float(storage.getvalue('velRX'))
+accelerationR = float(storage.getvalue('accelerationR'))
+posX = float(storage.getvalue('posX'))
+posY = float(storage.getvalue('posY'))
 
 
 import pickle
 
 # モデルのオープン
-with open('model_Initial.pickle', mode='rb') as f:
-    model = pickle.load(f)
+with open('model_f_Initial.pickle', mode='rb') as f1:
+    model_f = pickle.load(f1)
 
+with open('model_p_Initial.pickle', mode='rb') as f2:
+    model_p = pickle.load(f2)
+
+with open('model_m_Initial.pickle', mode='rb') as f3:
+    model_m = pickle.load(f3)
+    
+    
+    
 
 # 適用時: スケーリングパラメータを読み込む
-with open('scaling_parameters_Initial.pkl', 'rb') as file:
-    scaling_params = pickle.load(file)
+# with open('scaling_parameters_Initial.pkl', 'rb') as file:
+#     scaling_params = pickle.load(file)
 
-mean_value = scaling_params['mean']
-std_deviation = scaling_params['std']
+# mean_value = scaling_params['mean']
+# std_deviation = scaling_params['std']
 # print(mean_value)
 # print(std_deviation)
 
@@ -66,21 +59,28 @@ std_deviation = scaling_params['std']
 #         [0.25390625,138,-0.79998779296875,-0.800048828125,1.1313967457453629,-0.79998779296875,-0.800048828125,1.1313967457453629,-0.06779557594927924,-0.06780074842016878,0.09588108053536687,-0.06779557594927924,-0.06780074842016878,0.09588108053536687,-0.00574538781552887,-0.005745826160521282,0.00812551533244251,-0.00574538781552887,-0.005745826160521282,0.00812551533244251,550.8375091552734,437.8000183105469,11.799999952316284],
 #         [0.2158203125,111.10000002384186,-0.79998779296875,0,0.79998779296875,-0.79998779296875,0,0.79998779296875,-0.07079538020748113,0,0.07079538020748113,-0.07079538020748113,0,0.07079538020748113,-0.00626507792090472,0,0.00626507792090472,-0.00626507792090472,0,0.00626507792090472,566.0375213623047,477.8000183105469,11.299999952316284]
 #         ]
-data = np.array( [[test1, test2, test3, test4, test5, test6, test7, test8, test9, test10, test11, test12, test13, test14, test15, test16, test17, test18, test19, test20, test21, test22, test23]] )
+# data = np.array( [[test1, test2, test3, test4, test5, test6, test7, test8, test9, test10, test11, test12, test13, test14, test15, test16, test17, test18, test19, test20, test21, test22, test23]] )
 
 ## データを標準化する処理 ##########
-from sklearn.preprocessing import StandardScaler,MinMaxScaler
-stdsc = StandardScaler()
-test_data = ( data - mean_value ) / std_deviation
+# from sklearn.preprocessing import StandardScaler,MinMaxScaler
+# stdsc = StandardScaler()
+# test_data = ( data - mean_value ) / std_deviation
 # test2_data = stdsc.transform(data)
 
-
-# モデルを用いた予測
-ans = model.predict(test_data)
-
- 
 # # 予測結果を出力
 # print("予測対象：\n", data, ", \n予測結果→", ans)
 # print(test_data)
 # print(test2_data)
-print(ans)
+
+
+data_f = np.array( [[intervalTime, gapY, gapR, velRX, accelerationR, posX, posY]] )
+ans_f = model_f.predict(data_f)
+print(ans_f)
+ 
+data_p = np.array( [[pressure0, intervalTime, gapX, gap, gapRY, posX, posY]] )
+ans_p = model_p.predict(data_p)
+print(ans_p)
+
+data_m = np.array( [[intervalTime, gapX, gap, gapRY, accelerationR, posX, posY]] )
+ans_m = model_m.predict(data_m)
+print(ans_m)
