@@ -154,6 +154,10 @@ $(document).ready(function() {
   let PositionRX = [];
   let PositionRY = [];
 
+  let res1;
+  let res2;
+  let res3;
+
   var intervalId;
 
   // 一時的なキャンバスを作成
@@ -384,13 +388,14 @@ $(document).ready(function() {
     PositionRY.push(curPosY);
 
 
+    
     $(function(){
       console.log("FFFFF\n")
     
       $.ajax({
           url: 'cgi-bin/open_model_Final.py',
           type: 'get',
-          // dataType: 'json',
+          dataType: 'json',
           // url: 'cgi-bin/open_model_Final.py',
           // type: 'post',
           data: {
@@ -435,21 +440,49 @@ $(document).ready(function() {
               // test118: ss.max(PositionRX) - ss.min(PositionRX), test119: ss.max(PositionRY) - ss.min(PositionRY)
           }
       }).done(function(data){
-          console.log(typeof data)
-          console.log("result_Final" + data);
-          // if(data.ans_f === 'page') {
+          console.log(typeof data);
+          console.log(data)
+          const ans_f = data.ans_f;
+          const ans_p = data.ans_p;
+          const ans_m = data.ans_m;
+          console.log(ans_f)
+          // let data_json = JSON.parse(data)
+          // console.log(data_json.ans_f)
+          // console.log(data["ans_f"]);
+          // console.log("result_Final" + data);
+          // if(data[0] === 'page') {
           //   console.log("ページめくり")
-          // } else if(data.ans_f === 'pen') {
+          // } else if(data[0] === 'pen') {
           //   console.log("書き込み")
           // }
-          console.log(data[0])
-          console.log(data[1])
-          console.log(data[2])
-          if(data[0] === 'page') {
+          if(ans_f[0] === 'page') {
             console.log("ページめくり")
-          } else if(data.data[0] === 'pen') {
+            res1 = "ページめくり"
+          } else if(ans_f[0] === 'pen') {
             console.log("書き込み")
+            res1 = "書き込み"
           }
+          if(ans_p[0] === 'page') {
+            console.log("ページめくり")
+            res2 = "ページめくり"
+          } else if(ans_p[0] === 'pen') {
+            console.log("書き込み")
+            res2 = "書き込み"
+          }
+          if(ans_m[0] === 'page') {
+            console.log("ページめくり")
+            res3 = "ページめくり"
+          } else if(ans_m[0] === 'pen') {
+            console.log("書き込み")
+            res3 = "書き込み"
+          }
+          // テキストを変更
+          $('#JudgeText_Ff').text(res1);
+          $('#JudgeText_Fp').text(res2);
+          $('#JudgeText_Fm').text(res3);
+          // updateText();
+          // // ページが読み込まれたときに初回のテキスト更新を実行
+          // window.onload = updateText;
       }).fail(function(){
           console.log('failed');
       });
@@ -781,7 +814,7 @@ $(document).ready(function() {
   });
 
 
-  
+   
   // 拡大・縮小
   $('#zoomIn').on('click', function() {
     if (scale < 2) {

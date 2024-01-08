@@ -60,14 +60,13 @@ print(df1)
 
 # 特徴量選択
 ## fm_Initial向け ##
-# X1 = df1[['intervalTime', 'gapY', 'gapR', 'velRX', 'accelerationR', 'posX','posY','Mode']]
+X1 = df1[['intervalTime', 'gapY', 'gapR', 'velRX', 'accelerationR', 'posX','posY','Mode']]
 
 ## pm_Initial向け ##
 # X1 = df1[['pressure0', 'intervalTime', 'gapX', 'gap', 'gapRY', 'posX', 'posY','Mode']]
 
 ## mm_Initial向け ##
 # X1 = df1[['intervalTime', 'gapX', 'gap', 'gapRY', 'accelerationR', 'posX','posY','Mode']]
-X1 = df1[['gapX', 'gap', 'gapRY', 'accelerationR', 'posX','posY','Mode']]
 
 ## fm_Final向け ##
 # X1 = df1[['velRX_min', 'velRX_mean', 'velR_mean', 'velR_median', 'velR_last','accelerationX_max', 'acceleration_max', 'widthRX','Mode']]
