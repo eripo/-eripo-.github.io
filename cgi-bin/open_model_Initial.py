@@ -15,6 +15,7 @@ print('Content-type: text/html\n')
 # Initialの場合 ####################################
 ## 元データを使用する場合 #################
 pressure0 = float(storage.getvalue('pressure0'))
+print(pressure0)
 intervalTime = float(storage.getvalue('intervalTime'))
 gapX = float(storage.getvalue('gapX'))
 gapY = float(storage.getvalue('gapY'))

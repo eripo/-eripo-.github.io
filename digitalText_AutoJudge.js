@@ -392,7 +392,7 @@ $(document).ready(function() {
           type: 'get',
           data: {
               // 最低限ver
-              vel_max: ss.max(Vel), vel_median: ss.median(Vel), velRX_min: ss.min(VelRX), velRX_mean: ss.mean(VelRX), velRX_median: ss.median(VelRX), velRX_last: VelRX[velRX.length - 1], velRY_last: VelRY[velRY.length - 1], velR_mean: ss.mean(VelR), velR_median: ss.median(VelR), velR_last: VelR[VelR.length - 1], accelerationX_max: ss.max(AccelerationX), acceleration_max: ss.max(Acceleration), acceleration_mean: ss.mean(Acceleration), accelerationRX_max: ss.max(AccelerationRX), accelerationR_min: ss.min(AccelerationR), accelerationR_median: ss.median(AccelerationR), accelerationR_first: AccelerationR[0], widthRX: ss.max(PositionRX) - ss.min(PositionRX)
+              vel_max: ss.max(Vel), vel_median: ss.median(Vel), velRX_min: ss.min(VelRX), velRX_mean: ss.mean(VelRX), velRX_median: ss.median(VelRX), velRX_last: VelRX[VelRX.length - 1], velRY_last: VelRY[VelRY.length - 1], velR_mean: ss.mean(VelR), velR_median: ss.median(VelR), velR_last: VelR[VelR.length - 1], accelerationX_max: ss.max(AccelerationX), acceleration_max: ss.max(Acceleration), acceleration_mean: ss.mean(Acceleration), accelerationRX_max: ss.max(AccelerationRX), accelerationR_min: ss.min(AccelerationR), accelerationR_median: ss.median(AccelerationR), accelerationR_first: AccelerationR[0], widthRX: ss.max(PositionRX) - ss.min(PositionRX)
 
 
               // 全データ送りたいとき用
@@ -572,7 +572,7 @@ $(document).ready(function() {
               type: 'get',
               data: {
                 // 最低限ver
-                pressure0: pressure0, intervalTime: (endTime-startTime), gapX: gapX, gapY: gapY, gap: gap, gapRY: gapRY, gapR: gapR, velRX: velRX, accelerationR: accelerationR, posX: posX, posY: posY
+                pressure0: pressure0, intervalTime: (endTime-startTime), gapX: gapX, gapY: gapY, gap: gap, gapRY: gapRY, gapR: gapR, velRX: velRX, accelerationR: accelerationR, posX: currentX, posY: currentY
 
                 // test1: pressure0,
                 // test2: (endTime-startTime),
