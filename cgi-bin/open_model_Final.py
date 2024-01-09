@@ -53,21 +53,15 @@ with open('model_m_Final.pickle', mode='rb') as f3:
 
 data_f = np.array( [[velRX_min, velRX_mean, velR_mean, velR_median, velR_last, accelerationX_max, acceleration_max, widthRX]] )
 ans_f = model_f.predict(data_f)
-# print(ans_f)
 
- 
 data_p = np.array( [[vel_median, velRX_mean, velRX_median, velRX_last, velRY_last, velR_last, acceleration_max, acceleration_mean, accelerationRX_max, accelerationR_min, accelerationR_median, accelerationR_first, widthRX]] )
 ans_p = model_p.predict(data_p)
-# print(ans_p)
 
 data_m = np.array( [[vel_max, velRX_min, velRX_mean, velRX_median, velR_median, velR_last, accelerationR_median, widthRX]] )
 ans_m = model_m.predict(data_m)
-# print(ans_m)
 
-# result_data = [ans_f, ans_p, ans_m]
-# print(result_data)
 result_data = {
-    'ans_f': ans_f.tolist(), 'ans_p': ans_p.tolist(), 'ans_m': ans_m.tolist()
+    'ans_Ff': ans_f.tolist(), 'ans_Fp': ans_p.tolist(), 'ans_Fm': ans_m.tolist()
 }
 
 json_str = json.dumps(result_data)

@@ -90,6 +90,12 @@ $(document).ready(function() {
            + "," + "dragTime" + "," + "widthX" + "," + "widthY" + "," + "widthRX" + "," + "widthRY" + "," + "Mode" + "\n";
 
 
+  var strInitialModel = "";
+  strInitialModel += "real_Mode" + ","	+ "f_Initial_result" + ","	+ "p_Initial_result" + "," + "mix_Initial_result" + "," + "count" + "," + "\n";
+
+  var strFinalModel = "";
+  strFinalModel += "real_Mode" + ","	+ "f_Final_result" + ","	+ "p_Final_result" + ","	+ "mix_Final_result" + "," + "count" + "," + "\n";;
+
   let count = 0;
   let isDrawing = false;
   var isDrag = false;
@@ -157,6 +163,11 @@ $(document).ready(function() {
   let res1;
   let res2;
   let res3;
+  let res4;
+  let res5;
+  let res6;
+  dragCountI = 1;
+  dragCountF = 1;
 
   var intervalId;
 
@@ -396,8 +407,6 @@ $(document).ready(function() {
           url: 'cgi-bin/open_model_Final.py',
           type: 'get',
           dataType: 'json',
-          // url: 'cgi-bin/open_model_Final.py',
-          // type: 'post',
           data: {
               // 最低限ver
               vel_max: ss.max(Vel), vel_median: ss.median(Vel), velRX_min: ss.min(VelRX), velRX_mean: ss.mean(VelRX), velRX_median: ss.median(VelRX), velRX_last: VelRX[VelRX.length - 1], velRY_last: VelRY[VelRY.length - 1], velR_mean: ss.mean(VelR), velR_median: ss.median(VelR), velR_last: VelR[VelR.length - 1], accelerationX_max: ss.max(AccelerationX), acceleration_max: ss.max(Acceleration), acceleration_mean: ss.mean(Acceleration), accelerationRX_max: ss.max(AccelerationRX), accelerationR_min: ss.min(AccelerationR), accelerationR_median: ss.median(AccelerationR), accelerationR_first: AccelerationR[0], widthRX: ss.max(PositionRX) - ss.min(PositionRX)
@@ -439,50 +448,47 @@ $(document).ready(function() {
               // test116: ss.max(PositionX) - ss.min(PositionX), test117: ss.max(PositionY) - ss.min(PositionY), 
               // test118: ss.max(PositionRX) - ss.min(PositionRX), test119: ss.max(PositionRY) - ss.min(PositionRY)
           }
-      }).done(function(data){
-          console.log(typeof data);
-          console.log(data)
-          const ans_f = data.ans_f;
-          const ans_p = data.ans_p;
-          const ans_m = data.ans_m;
-          console.log(ans_f)
-          // let data_json = JSON.parse(data)
-          // console.log(data_json.ans_f)
-          // console.log(data["ans_f"]);
-          // console.log("result_Final" + data);
-          // if(data[0] === 'page') {
-          //   console.log("ページめくり")
-          // } else if(data[0] === 'pen') {
-          //   console.log("書き込み")
-          // }
-          if(ans_f[0] === 'page') {
-            console.log("ページめくり")
-            res1 = "ページめくり"
-          } else if(ans_f[0] === 'pen') {
-            console.log("書き込み")
-            res1 = "書き込み"
-          }
-          if(ans_p[0] === 'page') {
-            console.log("ページめくり")
-            res2 = "ページめくり"
-          } else if(ans_p[0] === 'pen') {
-            console.log("書き込み")
-            res2 = "書き込み"
-          }
-          if(ans_m[0] === 'page') {
-            console.log("ページめくり")
-            res3 = "ページめくり"
-          } else if(ans_m[0] === 'pen') {
-            console.log("書き込み")
-            res3 = "書き込み"
-          }
-          // テキストを変更
-          $('#JudgeText_Ff').text(res1);
-          $('#JudgeText_Fp').text(res2);
-          $('#JudgeText_Fm').text(res3);
-          // updateText();
-          // // ページが読み込まれたときに初回のテキスト更新を実行
-          // window.onload = updateText;
+      }).done(function(dataF){
+        console.log(dataF)
+        const ans_Ff = dataF.ans_Ff;
+        const ans_Fp = dataF.ans_Fp;
+        const ans_Fm = dataF.ans_Fm;
+        if(ans_Ff[0] === 'page') {
+          console.log("ページめくり")
+          res1 = "ページめくり"
+          $('#JudgeText_Ff').css('color', 'blue');
+        } else if(ans_Ff[0] === 'pen') {
+          console.log("書き込み")
+          res1 = "書き込み"
+          $('#JudgeText_Ff').css('color', 'red');
+        }
+        if(ans_Fp[0] === 'page') {
+          console.log("ページめくり")
+          res2 = "ページめくり"
+          $('#JudgeText_Fp').css('color', 'blue');
+        } else if(ans_Fp[0] === 'pen') {
+          console.log("書き込み")
+          res2 = "書き込み"
+          $('#JudgeText_Fp').css('color', 'red');
+        }
+        if(ans_Fm[0] === 'page') {
+          console.log("ページめくり")
+          res3 = "ページめくり"
+          $('#JudgeText_Fm').css('color', 'blue');
+        } else if(ans_Fm[0] === 'pen') {
+          console.log("書き込み")
+          res3 = "書き込み"
+          $('#JudgeText_Fm').css('color', 'red');
+        }
+        strFinalModel += mode + "," + ans_Ff[0] + "," + ans_Fp[0] + "," + ans_Fm[0] + "," + dragCountF + "\n"
+        console.log("strFinalModel: " + strFinalModel)
+        // テキストを変更
+        $('#Judge_CountF').text(dragCountF);
+        $('#JudgeText_Ff').text(res1);
+        $('#JudgeText_Fp').text(res2);
+        $('#JudgeText_Fm').text(res3);
+        console.log(dragCountF)
+        dragCountF++;
       }).fail(function(){
           console.log('failed');
       });
@@ -620,6 +626,7 @@ $(document).ready(function() {
           $.ajax({
               url: 'cgi-bin/open_model_Initial.py',
               type: 'get',
+              dataType: 'json',
               data: {
                 // 最低限ver
                 pressure0: pressure0, intervalTime: (endTime-startTime), gapX: gapX, gapY: gapY, gap: gap, gapRY: gapRY, gapR: gapR, velRX: velRX, accelerationR: accelerationR, posX: currentX, posY: currentY
@@ -635,8 +642,47 @@ $(document).ready(function() {
                 // test21: currentX, test22: currentY, 
                 // test23: (nowTime-endTime)
               }
-          }).done(function(data){
-              console.log("result_Initial" + data);
+          }).done(function(dataI){
+            console.log(dataI)
+            const ans_If = dataI.ans_If;
+            const ans_Ip = dataI.ans_Ip;
+            const ans_Im = dataI.ans_Im;              
+            if(ans_If[0] === 'page') {
+              console.log("ページめくり")
+              res4 = "ページめくり"
+              $('#JudgeText_If').css('color', 'blue');
+            } else if(ans_If[0] === 'pen') {
+              console.log("書き込み")
+              res4 = "書き込み"
+              $('#JudgeText_If').css('color', 'red');
+            }
+            if(ans_Ip[0] === 'page') {
+              console.log("ページめくり")
+              res5 = "ページめくり"
+              $('#JudgeText_Ip').css('color', 'blue');
+            } else if(ans_Ip[0] === 'pen') {
+              console.log("書き込み")
+              res5 = "書き込み"
+              $('#JudgeText_Ip').css('color', 'red');
+            }
+            if(ans_Im[0] === 'page') {
+              console.log("ページめくり")
+              res6 = "ページめくり"
+              $('#JudgeText_Im').css('color', 'blue');
+            } else if(ans_Im[0] === 'pen') {
+              console.log("書き込み")
+              res6 = "書き込み"
+              $('#JudgeText_Im').css('color', 'red');
+            }
+            strInitialModel += mode + "," + ans_If[0] + "," + ans_Ip[0] + "," + ans_Im[0] + "," + dragCountI + "\n"
+            console.log("strInitialModel: " + strInitialModel)
+            // テキストを変更
+            $('#Judge_CountI').text(dragCountI);
+            $('#JudgeText_If').text(res4);
+            $('#JudgeText_Ip').text(res5);
+            $('#JudgeText_Im').text(res6);
+            console.log(dragCountI)
+            dragCountI++;
           }).fail(function(){
               console.log('failed');
           });
@@ -771,38 +817,24 @@ $(document).ready(function() {
 
 
   // csvファイルダウンロード用ボタン  
-  $('#dl-ff').on('click', function() {    download("ff");  });
-  $('#dl-pf').on('click', function() {    download("pf");  });
-  $('#dl-fu').on('click', function() {    download("fu");  });
-  $('#dl-pu').on('click', function() {    download("pu");  });
-  $('#dl-fw').on('click', function() {    download("fw");  });
-  $('#dl-pw').on('click', function() {    download("pw");  });
-  $('#dl-fp').on('click', function() {    download("fp");  });
-  $('#dl-pp').on('click', function() {    download("pp");  });
-  $('#dl-fm').on('click', function() {    download("fm");  });
-  $('#dl-pm').on('click', function() {    download("pm");  });
-  function download(filename) {
+  $('#dl-Ini').on('click', function() {    downloadI("Ini");  });
+  $('#dl-Fin').on('click', function() {    downloadF("Fin");  });
+  function downloadI(filename) {
     // csvファイルへの書き出し
     // 初動判別用のデータファイル
-    var blob2 = new Blob([strInitial],{type:"text/csv"}); //配列に上記の文字列(strInitial)を設定
+    var blob2 = new Blob([strInitialModel],{type:"text/csv"}); //配列に上記の文字列(strInitial)を設定
     var link2 = document.createElement('a');
     link2.href = URL.createObjectURL(blob2);
-    link2.download = filename +  "_Initial.csv";
+    link2.download = filename +  "_Model_res.csv";
     link2.click();
-    
-    // その都度判別用のデータファイル
-    var blob = new Blob([strMid],{type:"text/csv"}); //配列に上記の文字列(strMid)を設定
+  }
+  function downloadF(filename) {  
+    // ドラッグ終了時判別用のデータファイル
+    var blob = new Blob([strFinalModel],{type:"text/csv"}); //配列に上記の文字列(strFinal)を設定
     var link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = filename +  "_Mid.csv";
+    link.download = filename +  "_Model_res.csv";
     link.click();
-  
-    // ドラッグ終了時判別用のデータファイル
-    var blob3 = new Blob([strFinal],{type:"text/csv"}); //配列に上記の文字列(strFinal)を設定
-    var link3 = document.createElement('a');
-    link3.href = URL.createObjectURL(blob3);
-    link3.download = filename +  "_Final.csv";
-    link3.click();
   }
 
   
