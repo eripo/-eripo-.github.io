@@ -37,12 +37,12 @@ from sklearn.metrics import confusion_matrix, precision_score, recall_score
 
 
 # 学習用データ #
-# df = pd.read_csv( 'Data/all_fm_Initial.csv' )
+df = pd.read_csv( 'Data/all_fm_Initial.csv' )
 # df = pd.read_csv( 'Data/all_pm_Initial.csv' )
 # df = pd.read_csv( 'Data/all_fm_Final.csv' )
 # df = pd.read_csv( 'Data/all_pm_Final.csv' )
 # df = pd.read_csv( 'Data/all_mm_Initial.csv' )
-df = pd.read_csv( 'Data/all_mm_Final.csv' )
+# df = pd.read_csv( 'Data/all_mm_Final.csv' )
 print("*******************")
 # print(df)
 
@@ -54,7 +54,7 @@ print("*******************")
 
 # 特徴量選択
 ## fm_Initial向け ##
-# X1 = df1[['intervalTime', 'gapY', 'gapR', 'velRX', 'accelerationR', 'posX','posY','Mode']]
+X1 = df1[['intervalTime', 'gapY', 'gapR', 'velRX', 'accelerationR', 'posX','posY','Mode']]
 
 ## pm_Initial向け ##
 # X1 = df1[['pressure0', 'intervalTime', 'gapX', 'gap', 'gapRY', 'posX', 'posY','Mode']]
@@ -70,13 +70,16 @@ print("*******************")
 # X1 = df1[['vel_median', 'velRX_mean', 'velRX_median', 'velRX_last', 'velRY_last','velR_last', 'acceleration_max', 'acceleration_mean','accelerationRX_max', 'accelerationR_min', 'accelerationR_median','accelerationR_first', 'widthRX','Mode']]
 
 ## mm_Final向け ##
-X1 = df1[['vel_max', 'velRX_min', 'velRX_mean', 'velRX_median', 'velR_median','velR_last', 'accelerationR_median', 'widthRX','Mode']]
+# X1 = df1[['vel_max', 'velRX_min', 'velRX_mean', 'velRX_median', 'velR_median','velR_last', 'accelerationR_median', 'widthRX','Mode']]
 
 
 # print(X1);
 X = X1.drop(['Mode'],axis=1)
 y = df1['Mode']
 
+# max_mcc = -1;
+# max_undersample_ratio = 0.05;
+# for undersample_ratio in [0.1, 0.05, 0.5]:
 for i in range(5):
     # 勾配ブースティング（標準化＆クロスバリデーション） ###########################################################
     from sklearn.ensemble import GradientBoostingClassifier
@@ -87,7 +90,8 @@ for i in range(5):
 
     # データを標準化するパイプラインを作成
     # model = make_pipeline(StandardScaler(), GradientBoostingClassifier()) //標準化する場合
-    model = make_pipeline(GradientBoostingClassifier())
+    # model = make_pipeline(GradientBoostingClassifier())
+    model = GradientBoostingClassifier()
     # k-fold cross-validationを実行
     kfold = KFold(n_splits=5, shuffle=True, random_state=42)  # 5-fold cross-validationを行う例
     
@@ -105,6 +109,9 @@ for i in range(5):
 
 
         # アンダーサンプリング
+        # アンダーサンプリングの割合を設定
+        # undersample_ratio = 0.5  # 3:1の割合を表す
+        # rus = RandomUnderSampler(sampling_strategy=undersample_ratio, random_state=42)
         rus = RandomUnderSampler(random_state=42)
         X_resampled, y_resampled = rus.fit_resample(X_train, y_train)
 
@@ -112,22 +119,23 @@ for i in range(5):
         # print(X_train)
         # print(X_test)
         # print(y_train)
-        print(y_test)
+        # print(y_test)
         # print("後後後後後後後後後後後後後後後後後後後後後後")
         # print(X_resampled)
-        print(y_resampled)
+        # print(y_resampled)
         
         # 各ラベルのデータ数をカウント＆出力
         from collections import Counter
         counter = Counter(y_resampled)
         for label, count in counter.items():
-            # print(f'Label {label}: {count} samples')
+            print(f'Label {label}: {count} samples')
             pass
         
         num_data += count;
         # print("########################################")
         # モデルを学習
         model.fit(X_resampled, y_resampled)
+        feature_importances = model.feature_importances_
 
         # テストデータに対して予測
         y_pred = model.predict(X_test)
@@ -138,6 +146,7 @@ for i in range(5):
 
     print("########################################")
     print(num_data/5)
+    print(feature_importances)
 
     # 混同行列を合算して平均を取得
     # print("混同行列")
@@ -172,7 +181,18 @@ for i in range(5):
     print('[pen]_lr_std_recall : %.4f'%(av_tp / (av_tp + av_fn)))
     print('[page]_lr_precision : %.4f'%(av_tn / (av_tn + av_fn)))
     print('[page]_lr_recall : %.4f'%(av_tn / (av_tn + av_fp)))
-    print('MCC : %.4f'%( ((av_tp*av_tn)-(av_fp*av_fn)) / math.sqrt((av_tp+av_fp)*(av_tp+av_fn)*(av_tn+av_fp)*(av_tn+av_fn)) ))
+    mcc = ((av_tp*av_tn)-(av_fp*av_fn)) / math.sqrt((av_tp+av_fp)*(av_tp+av_fn)*(av_tn+av_fp)*(av_tn+av_fn))
+    print('MCC : %.4f'%( mcc ))
+    # print(undersample_ratio)
+
+    # if(max_mcc < mcc):
+    #     max_mcc = mcc
+    #     max_undersample_ratio = undersample_ratio
+    
 
     # print(df1)
+    
+    print("*******************************")
+    # print(max_undersample_ratio)
+    # print(max_mcc)
     ##############################################################################
