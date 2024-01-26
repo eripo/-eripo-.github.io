@@ -1,5 +1,5 @@
 /***********************  
- * 最終更新日：2024/1/11
+ * 最終更新日：2024/1/26
  ***********************
  * ※変更不可
  ***********************
@@ -386,22 +386,8 @@ $(document).ready(function() {
 
           }
       }).done(function(dataF){
-        const ans_Fm = dataF.ans_Fm;
-        if(ans_Fm[0] === 'page') {
-          console.log("ページめくり")
-          res3 = "ページめくり"
-          $('#JudgeText_Fm').css('color', 'blue');
-        } else if(ans_Fm[0] === 'pen') {
-          console.log("書き込み")
-          res3 = "書き込み"
-          $('#JudgeText_Fm').css('color', 'red');
-        }
-        strFinalModel += mode + "," + ans_Fm[0] + "," + dragCountF + "\n"
-        console.log("strFinalModel: " + strFinalModel)
-        // テキストを変更
-        $('#Judge_CountF').text(dragCountF);
-        $('#JudgeText_Fm').text(res3);
-        dragCountF++;
+        printResultF(dataF);
+                
       }).fail(function(){
           console.log('failed');
       });
@@ -528,24 +514,8 @@ $(document).ready(function() {
 
               }
           }).done(function(dataI){
-            console.log(dataI)
-            const ans_Im = dataI.ans_Im;
-            if(ans_Im[0] === 'page') {
-              console.log("ページめくり")
-              res6 = "ページめくり"
-              $('#JudgeText_Im').css('color', 'blue');
-            } else if(ans_Im[0] === 'pen') {
-              console.log("書き込み")
-              res6 = "書き込み"
-              $('#JudgeText_Im').css('color', 'red');
-            }
-            strInitialModel += mode + "," +  ans_Im[0] + "," + dragCountI + "\n"
-            console.log("strInitialModel: " + strInitialModel)
-            // テキストを変更
-            $('#Judge_CountI').text(dragCountI);
-            $('#JudgeText_Im').text(res6);
-            console.log(dragCountI)
-            dragCountI++;
+            printResultI(dataI);
+                        
           }).fail(function(){
               console.log('failed');
           });
@@ -598,6 +568,46 @@ $(document).ready(function() {
   }
   
 
+
+  function printResultI(dataI) {
+    console.log(dataI)
+    const ans_Im = dataI.ans_Im;
+    if(ans_Im[0] === 'page') {
+      console.log("ページめくり")
+      res6 = "ページめくり"
+      $('#JudgeText_Im').css('color', 'blue');
+    } else if(ans_Im[0] === 'pen') {
+      console.log("書き込み")
+      res6 = "書き込み"
+      $('#JudgeText_Im').css('color', 'red');
+    }
+    strInitialModel += mode + "," +  ans_Im[0] + "," + dragCountI + "\n"
+    console.log("strInitialModel: " + strInitialModel)
+    // テキストを変更
+    $('#Judge_CountI').text(dragCountI);
+    $('#JudgeText_Im').text(res6);
+    console.log(dragCountI)
+    dragCountI++;
+  }
+
+  function printResultF(dataF) {
+    const ans_Fm = dataF.ans_Fm;
+    if(ans_Fm[0] === 'page') {
+      console.log("ページめくり")
+      res3 = "ページめくり"
+      $('#JudgeText_Fm').css('color', 'blue');
+    } else if(ans_Fm[0] === 'pen') {
+      console.log("書き込み")
+      res3 = "書き込み"
+      $('#JudgeText_Fm').css('color', 'red');
+    }
+    strFinalModel += mode + "," + ans_Fm[0] + "," + dragCountF + "\n"
+    console.log("strFinalModel: " + strFinalModel)
+    // テキストを変更
+    $('#Judge_CountF').text(dragCountF);
+    $('#JudgeText_Fm').text(res3);
+    dragCountF++;
+  }
 
 
   // ページ切替用ボタン
