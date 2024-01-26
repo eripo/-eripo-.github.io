@@ -34,28 +34,30 @@ posY = float(storage.getvalue('posY'))
 import pickle
 
 # モデルのオープン
-with open('model_f_Initial.pickle', mode='rb') as f1:
-    model_f = pickle.load(f1)
+# with open('model_f_Initial.pickle', mode='rb') as f1:
+#     model_f = pickle.load(f1)
 
-with open('model_p_Initial.pickle', mode='rb') as f2:
-    model_p = pickle.load(f2)
+# with open('model_p_Initial.pickle', mode='rb') as f2:
+#     model_p = pickle.load(f2)
 
 with open('model_m_Initial.pickle', mode='rb') as f3:
     model_m = pickle.load(f3)
 
 
-data_f = np.array( [[intervalTime, gapY, gapR, velRX, accelerationR, posX, posY]] )
-ans_f = model_f.predict(data_f)
+# data_f = np.array( [[intervalTime, gapY, gapR, velRX, accelerationR, posX, posY]] )
+# ans_f = model_f.predict(data_f)
  
-data_p = np.array( [[pressure0, intervalTime, gapX, gap, gapRY, posX, posY]] )
-ans_p = model_p.predict(data_p)
+# data_p = np.array( [[pressure0, intervalTime, gapX, gap, gapRY, posX, posY]] )
+# ans_p = model_p.predict(data_p)
 
 data_m = np.array( [[intervalTime, gapX, gap, gapRY, accelerationR, posX, posY]] )
 ans_m = model_m.predict(data_m)
 
 
 result_data = {
-    'ans_If': ans_f.tolist(), 'ans_Ip': ans_p.tolist(), 'ans_Im': ans_m.tolist()
+    # 'ans_If': ans_f.tolist(), 
+    # 'ans_Ip': ans_p.tolist(), 
+    'ans_Im': ans_m.tolist()
 }
 
 json_str = json.dumps(result_data)
